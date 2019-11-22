@@ -1,0 +1,236 @@
+{
+	"pages": [
+		{
+			"path": "pages/gemmologist2/gemmologist2",
+			"style": {
+				"navigationBarTitleText": "鉴定师端"
+			}
+		},
+		{
+			"path": "pages/index/index",
+            "style": {
+				"navigationBarTitleText": "BAN鉴定服务"
+            }
+        },
+		{
+			"path": "pages/Identificationdetails2/Identificationdetails2",
+			"style": {
+				"navigationBarTitleText": "鉴定贴详情"
+			}
+		},
+        {
+            "path": "pages/zy-publicationappraisal/zy-publicationappraisal",
+            "style": {
+                "navigationBarTitleText": "发布鉴定"
+            }
+        },
+        {
+            "path": "pages/team/team",
+            "style": {
+                "navigationBarTitleText": "团队"
+            }
+        },
+        {
+            "path": "pages/selectappraiser/selectappraiser",
+            "style": {
+                "navigationBarTitleText": "选择鉴定师"
+            }
+        },
+        {
+            "path": "pages/equipmentappraisal2/equipmentappraisal2",
+            "style": {
+                "navigationBarTitleText": "装备鉴定"
+            }
+        },
+        {
+            "path": "pages/login/login",
+            "style": {
+                "navigationBarTitleText": "登录"
+            }
+        },
+        {
+            "path": "pages/gemmologist/gemmologist",
+            "style": {
+                "navigationBarTitleText": "我的鉴定",
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/helpspeed/helpspeed",
+            "style": {
+                "navigationBarTitleText": "帮他加速"
+            }
+        },
+        {
+            "path": "pages/getspeedpack/getspeedpack",
+            "style": {
+                "navigationBarTitleText": "获得加速包"
+            }
+        },
+        {
+            "path": "pages/queuingidentification/queuingidentification",
+            "style": {
+                "navigationBarTitleText": "排队鉴定中"
+            }
+        },
+        {
+            "path": "pages/means3/means3",
+            "style": {
+                "navigationBarTitleText": "鉴定记录"
+            }
+        },
+        {
+            "path": "pages/releasedsuccessfully/releasedsuccessfully",
+            "style": {
+                "navigationBarTitleText": "提交成功"
+            }
+        },
+        {
+            "path": "pages/publicationappraisal/publicationappraisal",
+            "style": {
+                "navigationBarTitleText": "发布鉴定"
+            }
+        },
+        {
+            "path": "pages/faultrecord/faultrecord",
+            "style": {
+                "navigationBarTitleText": "失误记录"
+            }
+        },
+        {
+            "path": "pages/cashwithdrawal/cashwithdrawal",
+            "style": {
+                "navigationBarTitleText": "提现管理"
+            }
+        },
+        {
+            "path": "pages/examinationresults/examinationresults",
+            "style": {
+                "navigationBarTitleText": "考试结果",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/equipmentappraisal/equipmentappraisal",
+            "style": {
+                "navigationBarTitleText": "装备鉴定"
+            }
+        },
+        {
+            "path": "pages/equipmentappraisal3/equipmentappraisal3",
+            "style": {
+                "navigationBarTitleText": "装备鉴定"
+            }
+        },
+        {
+            "path": "pages/identificationarea/identificationarea",
+            "style": {
+                "navigationBarTitleText": "鉴定区"
+            }
+        },
+        {
+            "path": "pages/discussionarea/discussionarea",
+            "style": {
+                "navigationBarTitleText": "讨论区"
+            }
+        },
+        {
+            "path": "pages/residentassessment/residentassessment",
+            "style": {
+                "navigationBarTitleText": "入驻考核"
+            }
+        },
+        {
+            "path": "pages/realpersonauthentication/realpersonauthentication",
+            "style": {
+                "navigationBarTitleText": "实人认证"
+            }
+        },
+        {
+            "path": "pages/picturerequest/picturerequest",
+            "style": {
+                "navigationBarTitleText": "图片要求"
+            }
+        },
+        {
+            "path": "pages/professionalidentificationagreement/professionalidentificationagreement",
+            "style": {
+                "navigationBarTitleText": "专业鉴定协议"
+            }
+        },
+        {
+            "path": "pages/freeauthenticationagreement/freeauthenticationagreement",
+            "style": {
+                "navigationBarTitleText": "免费鉴定协议"
+            }
+        },
+        {
+            "path": "pages/pendingPlot/pendingPlot",
+            "style": {
+                "navigationBarTitleText": "待补图"
+            }
+        },
+        {
+            "path": "pages/Identificationdetails/Identificationdetails",
+            "style": {
+                "navigationBarTitleText": "鉴定贴详情"
+            }
+        },
+        {
+            "path": "pages/means/means",
+            "style": {
+                "navigationBarTitleText": "学习资料"
+            }
+        },
+        {
+            "path": "pages/means2/means2",
+            "style": {
+                "navigationBarTitleText": "鉴定记录"
+            }
+        },
+        {
+            "path": "pages/means4/means4",
+            "style": {
+                "navigationBarTitleText": "鉴定记录"
+            }
+        },
+        {
+            "path": "pages/equipment/equipment",
+            "style": {
+                "navigationBarTitleText": "装备鉴定"
+            }
+        },
+        {
+            "path": "pages/examination/examination",
+            "style": {
+                "navigationBarTitleText": "鉴定考试",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/statement/statement",
+            "style": {
+                "navigationBarTitleText": "考核声明"
+            }
+        },
+        {
+            "path": "pages/assessment/assessment",
+            "style": {
+                "navigationBarTitleText": "我的鉴定品牌"
+            }
+        },
+        {
+            "path": "pages/questions/questions",
+            "style": {
+                "navigationBarTitleText": "鉴定流程及常见问题"
+            }
+        }
+    ],
+    "globalStyle": {
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "鉴定",
+        "navigationBarBackgroundColor": "#F8F8F8",
+        "backgroundColor": "#F8F8F8"
+    }
+}
