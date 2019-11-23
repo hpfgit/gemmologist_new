@@ -4,12 +4,11 @@
       <view class="inner">
         <navigator class="box" url="/pages/means4/means4?type=work_order">
           <view class="title">
-            待鉴定
+            超过1小时未鉴定
           </view>
           <view class="info">
             <image
-              :src="qiniuUrl+'/组24@2x.png'"
-              mode=""
+              src="../../static/images/组24@2x.png"
             ></image>
             <text class="number">233</text>
             <text class="text"></text>
@@ -18,11 +17,37 @@
         </navigator>
         <navigator class="box" url="/pages/means4/means4?type=all">
           <view class="title">
-            待回复
+            超过6小时未鉴定
           </view>
           <view class="info">
             <image
-              :src="qiniuUrl+'/组25@2x.png'"
+              src="../../static/images/组24拷贝@2x.png"
+            ></image>
+            <text class="number">233</text>
+            <text class="text"></text>
+            <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
+          </view>
+        </navigator>
+        <navigator class="box" url="/pages/means4/means4?type=work_order">
+          <view class="title">
+            问题商品
+          </view>
+          <view class="info">
+            <image
+              src="../../static/images/组242@2x.png"
+            ></image>
+            <text class="number">233</text>
+            <text class="text"></text>
+            <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
+          </view>
+        </navigator>
+        <navigator class="box" url="/pages/means4/means4?type=all">
+          <view class="title">
+            全部鉴定
+          </view>
+          <view class="info">
+            <image
+              :src="qiniuUrl+'/组24@2x.png'"
               mode=""
             ></image>
             <text class="number">233</text>
@@ -132,16 +157,17 @@ export default {
 
 <style lang="scss">
   .jd {
-    background-image: url('http://static-stg.tosneaker.com/image/appraisal/bg@2x.png');
     background-size: cover;
     padding: 40rpx 0;
 
     navigator {
       box-sizing: border-box;
     }
+
     .inner {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
       width: 690rpx;
       margin: 0 auto;
     }

@@ -1,5 +1,25 @@
 {
-	"pages": [
+    "pages": [
+        {
+            "path": "pages/gemmologist/gemmologist",
+            "style": {
+                "navigationBarTitleText": "我的鉴定",
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/Identificationdetails3/Identificationdetails3",
+            "style": {
+                "navigationBarTitleText": "鉴定贴详情"
+            }
+        },
+        {
+            "path":"pages/moderator/moderator",
+            "style":{
+                "navigationBarTitleText":"版主端"
+            }
+        },
 		{
 			"path": "pages/gemmologist2/gemmologist2",
 			"style": {
@@ -46,14 +66,6 @@
             "path": "pages/login/login",
             "style": {
                 "navigationBarTitleText": "登录"
-            }
-        },
-        {
-            "path": "pages/gemmologist/gemmologist",
-            "style": {
-                "navigationBarTitleText": "我的鉴定",
-                "navigationStyle": "custom",
-                "enablePullDownRefresh": true
             }
         },
         {

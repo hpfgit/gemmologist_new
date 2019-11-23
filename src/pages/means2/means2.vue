@@ -70,7 +70,7 @@ export default {
     gotoDetails(id) {
       uni.navigateTo({
         url:
-          "../Identificationdetails2/Identificationdetails2?id=" +
+          "../Identificationdetails3/Identificationdetails3?id=" +
           id +
           "&type=" +
 		  this.type +
