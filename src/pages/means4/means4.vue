@@ -18,12 +18,9 @@
           </view>
           <view class="center">
             <view class="info">{{ item.appr_sn }}</view>
-            <view class="status true" v-if="item.final_result === 1"
-              ><text>鉴定为真</text></view
-            >
-            <view class="status false" v-if="item.final_result === 0"
-              ><text>鉴定为假</text></view
-            >
+            <view class="status" :class="{true: item.final_result === 1, false: item.final_result === 0, unable: item.final_result === 2}">
+              <text>{{item.status}}</text>
+            </view>
           </view>
         </view>
       </view>
@@ -173,6 +170,10 @@ export default {
         &.false {
           background-color: #dd3133;
           border: solid 2rpx #dd3133;
+        }
+        &.unable {
+          background-color: #7c8cb5;
+          border: solid 2rpx #7c8cb5;
         }
         background-blend-mode: normal, normal;
         border-radius: 14rpx 14rpx 14rpx 0rpx;

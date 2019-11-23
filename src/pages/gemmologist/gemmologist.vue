@@ -367,7 +367,7 @@ export default {
     }
 
     &:nth-of-type(6) {
-      margin-bottom: 100rpx;
+      margin-bottom: 60rpx;
 
       .cont {
         align-items: center;

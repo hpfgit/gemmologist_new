@@ -76,7 +76,7 @@
     </view>
     <view class="content">
       <view class="title">
-        Air Jordan
+        {{data.brand_name}}
       </view>
       <view class="beizhu">
         {{ data.description ? data.description : '暂无备注' }}

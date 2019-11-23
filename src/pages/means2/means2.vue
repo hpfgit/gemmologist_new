@@ -18,7 +18,9 @@
           </view>
           <view class="center">
             <view class="info">{{ item.appr_sn }}</view>
-            <view class="status true"><text>{{item.status}}</text></view>
+            <view class="status" :class="{true: item.final_result === 1, false: item.final_result === 0, unable: item.final_result === 2}">
+              <text>{{item.status}}</text>
+            </view>
           </view>
         </view>
       </view>
@@ -73,10 +75,10 @@ export default {
           "../Identificationdetails3/Identificationdetails3?id=" +
           id +
           "&type=" +
-		  this.type +
-		  "&mold=" +
-      this.mold +
-      "&isJD=true"
+          this.type +
+          "&mold=" +
+          this.mold +
+          "&isJD=true"
       });
     }
   }
@@ -163,6 +165,10 @@ export default {
         &.false {
           background-color: #dd3133;
           border: solid 2rpx #dd3133;
+        }
+        &.unable {
+          background-color: #7c8cb5;
+          border: solid 2rpx #7c8cb5;
         }
         background-blend-mode: normal, normal;
         border-radius: 14rpx 14rpx 14rpx 0rpx;
