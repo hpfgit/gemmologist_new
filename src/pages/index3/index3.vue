@@ -78,12 +78,10 @@
             </view>
             <view class="selector-end">
                 <view class="left" @tap="goToData(0)">
-                    <image src="../../static/images/组67@2x.png"></image>
-                    <view>鉴定师端</view>
+                    <image src="../../static/images/鉴定师端拷贝@2x.png"></image>
                 </view>
                 <view class="right" @tap="goToData(1)">
-                    <image src="../../static/images/组67拷贝@2x.png"></image>
-                    <view>版主端</view>
+                    <image src="../../static/images/版主端拷贝@2x.png"></image>
                 </view>
             </view>
             <view class="login">
@@ -582,7 +580,7 @@ export default {
 }
 
 .selector-end {
-    width: 470rpx;
+    width: 610rpx;
     margin: 46rpx auto 0;
     display: flex;
     justify-content: space-between;
@@ -593,8 +591,8 @@ export default {
     }
 
     image {
-        width: 102rpx;
-        height: 102rpx;
+        width: 294rpx;
+        height: 86rpx;
     }
 }
 

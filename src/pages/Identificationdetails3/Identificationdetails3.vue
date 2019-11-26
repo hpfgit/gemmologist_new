@@ -64,17 +64,17 @@
         </view>
         <view class="bottom">
           <view class="left">
-            <image class="head-img" src="../../static/images/图层968@2x.png"></image>
+            <image class="head-img" :src="avatar_img"></image>
             <view class="right2">
-              <view class="nickname">昵称昵称昵称昵称</view>
+              <view class="nickname">{{appraiser.name}}</view>
               <view class="right">
                 <image class="level-img" src="../../static/images/矢量智能对象拷贝2@2x.png"></image>
-                <view class="level-name">鉴定顾问</view>
+                <view class="level-name">{{user_info.level}}</view>
               </view>
             </view>
           </view>
           <view class="right">
-            <view class="text">原因：有则显示原因原因</view>
+            <view class="text">{{appraiser.result_reason}}</view>
           </view>
         </view>
       </view>
@@ -83,7 +83,7 @@
           <image src="../../static/images/gh_b0f97c897085_344(1)@2x.png"></image>
           <view class="desc">
             <view>识别二维码或微信搜索小程序: BAN鉴定服务</view>
-            <view>输入<text class="number">40182172</text>查询此鉴定贴</view>
+            <view>输入<text class="number">{{data.post_id}}</text>查询此鉴定贴</view>
           </view>
         </view>
         <view class="right-text">
@@ -112,7 +112,7 @@
     </view>
     <view class="content">
       <view class="title">
-        Air Jordan
+        {{data.brand_name}}
       </view>
       <view class="beizhu">
         {{ data.description ? data.description : '暂无备注' }}
@@ -130,11 +130,11 @@
       <view class="info_new">
         <view class="bottom">
           <view class="left">
-            <image class="head-img" src="../../static/images/图层968@2x.png"></image>
+            <image class="head-img" :src="avatar_img"></image>
             <view class="right2">
-              <view class="nickname">昵称昵称昵称昵称</view>
+              <view class="nickname">{{me.name}}</view>
               <view class="right">
-                <view class="level-name">2019-11-24 12:17:20 发布</view>
+                <view class="level-name">{{appraiser.created_at}} 发布</view>
               </view>
             </view>
           </view>
@@ -200,8 +200,7 @@
           v-show="checks[3].checked"
           :class="{ active: bzFw }"
           @tap="bz_fw"
-          >不在鉴定范围</view
-        >
+          >不在鉴定范围</view>
         <input
           type="text"
           :class="{ bz_fw: checks[3].checked }"
@@ -289,6 +288,7 @@ export default {
       is_start: false,
       result: "",
       avatar: "",
+      avatar_img: "",
       type: "",
       markPlace: "可添加备注以便以后查看（仅鉴定师可见）",
       bzFw: false,
@@ -297,7 +297,8 @@ export default {
       isJD: '',
       isOpen: false,
       appraisers: [],
-      isHandOver: false
+      isHandOver: false,
+      me: {}
     };
   },
   onLoad(options) {
@@ -324,9 +325,12 @@ export default {
       this.data = data;
       this.hint_bottom = hint_bottom;
       this.hint_top = hint_top;
-      this.appraiser = appraiser;
+      this.appraiser = appraiser[0];
       this.operation_name = operation_name;
-      this.avatar = config[NODE_ENV].imgUrl + user_info.avatar;
+      this.avatar = "https://stg.tosneaker.com/" + user_info.avatar;
+      console.log(uni.getStorageSync('user_info'));
+      this.avatar_img = "https://stg.tosneaker.com/" + appraiser.avatar;
+      this.me = uni.getStorageSync('user_info');
       this.JDstatus = data.result;
       appraiserList({
           brand_id: data.brand_id
@@ -1044,23 +1048,27 @@ export default {
   display: flex;
   flex-wrap: wrap;
   text-align: center;
-  margin-bottom: 40rpx;
+  justify-content: space-between;
 
   .img-box {
     font-size: 22rpx;
     color: #ffffff;
-    width: 25%;
+    width: 314rpx;
+    height: 314rpx;
+    background-color: #ffffff;
+    border-radius: 16rpx;
     display: inline-block;
+    margin-bottom: 40rpx;
 
     .img {
       position: relative;
-      height: 150rpx;
-      width: 150rpx;
+      width: 314rpx;
+	    height: 314rpx;
       display: inline-block;
 
       image {
-        width: 150rpx;
-        height: 150rpx;
+        width: 314rpx;
+	      height: 314rpx;
         background-color: #f3f0ef;
         border-radius: 8rpx;
         position: absolute;
@@ -1087,11 +1095,9 @@ export default {
 }
 
 .content {
-  padding-left: 28rpx;
-  padding-right: 28rpx;
   padding-bottom: 60rpx;
   overflow: hidden;
-  width: 670rpx;
+  width: 690rpx;
   margin: 52rpx auto 0;
 	background-color: #ffffff;
 	border-radius: 8rpx;
