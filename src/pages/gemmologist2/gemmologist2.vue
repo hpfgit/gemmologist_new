@@ -33,7 +33,7 @@
       </view>
     </view>
     <view class="modal">
-      <view class="box">
+      <view class="box" @tap="goTo(0)">
         <view class="left">
           <image src="../../static/images/全部鉴定@2x.png"></image>
           <view class="text">全部鉴定</view>
@@ -41,7 +41,7 @@
         <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
         <view class="line"></view>
       </view>
-      <view class="box">
+      <view class="box" @tap="goTo(1)">
         <view class="left">
           <image src="../../static/images/全部鉴定@2x.png"></image>
           <view class="text">失误记录</view>
@@ -114,6 +114,17 @@ export default {
       uni.navigateTo({
         url: "/pages/faultrecord/faultrecord"
       });
+    },
+    goTo(index) {
+      if (index) {
+        uni.navigateTo({
+          url: '/pages/means2/means2'
+        });
+      } else {
+        uni.navigateTo({
+          url: '/pages/means2/means2'
+        });
+      }
     },
     getData() {
       uni.showLoading();
