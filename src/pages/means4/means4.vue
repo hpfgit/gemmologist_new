@@ -18,7 +18,7 @@
           </view>
           <view class="center">
             <view class="info">{{ item.appr_sn }}</view>
-            <view class="status" :class="{true: item.final_result === 1, false: item.final_result === 0, unable: item.final_result === 2}">
+            <view class="status" :class="{true: item.final_result === 10, false: item.final_result === 0, unable: item.final_result === 2}">
               <text>{{item.status}}</text>
             </view>
           </view>
@@ -80,7 +80,7 @@ export default {
           this.type +
           "&mold=" +
           this.mold +
-          "&isJD=false"
+          "&isJD=true"
       });
     }
   }
@@ -153,13 +153,7 @@ export default {
       }
       .status {
         &.true {
-          background-image: linear-gradient(
-              135deg,
-              rgba(28, 211, 249, 0.5) 0%,
-              rgba(61, 180, 247, 0.5) 39%,
-              rgba(94, 149, 244, 0.5) 100%
-            ),
-            linear-gradient(#5e95f4, #5e95f4);
+          background-color: #5e95f4;
           border: solid 2rpx #50b8f7;
         }
         &.false {
