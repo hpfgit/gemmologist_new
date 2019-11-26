@@ -363,7 +363,7 @@ export default {
       price = this.price === '请输入保价金额，默认1000元...' ? 1000 : this.price
     }
     console.log(is_specialty, price);
-    cost({appr_cost: 5, appr_goods_scale: 0.02, price}).then(result => {
+    cost({appr_cost: 5, appr_goods_scale: 0.03, price}).then(result => {
       const {cost} = result.data;
       this.cost = cost;
       uni.hideLoading();
@@ -631,7 +631,7 @@ export default {
       } else {
         this.insuredPriceNumber = number;
         this.bjPrice = number;
-        let price = number * 0.02;
+        let price = number * 0.03;
         if (price <= 1) {
           price = 1;
         } else {

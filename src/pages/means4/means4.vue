@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { work_order, all } from "../../api/means2";
+import { work_order, all, newAppraiseDetails } from "../../api/means2";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
@@ -54,27 +54,22 @@ export default {
   onLoad(options) {
     uni.showLoading();
     const { type } = options;
-    if (type === 'work_order') {
-      work_order({
-        page: 1
-      }).then(result => {
-        const { data } = result.data;
-        this.lists = data;
-        uni.hideLoading();
-      });
-    } else if (type === 'all') {
-      all({
-        page: 1
-      }).then(result => {
-        const { data } = result.data;
-        this.lists = data;
-        uni.hideLoading();
-      })
-    }
+    newAppraiseDetails({
+      page: 1,
+      type
+    }).then(result => {
+      const { data } = result.data;
+      this.lists = data;
+      uni.hideLoading();
+    });
   },
   methods: {
     getPath(path) {
-      return config[NODE_ENV].imgUrl + path;
+      if (/avatar_/ig.test(path)) {
+        return "https://stg.tosneaker.com/" + path;
+      } else {
+        return config[NODE_ENV].imgUrl + path;
+      }
     },
     gotoDetails(id) {
       uni.navigateTo({

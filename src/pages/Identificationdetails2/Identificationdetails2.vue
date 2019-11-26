@@ -260,7 +260,9 @@ export default {
       this.hint_top = hint_top;
       this.appraiser = appraiser;
       this.operation_name = operation_name;
-      this.avatar = config[NODE_ENV].imgUrl + user_info.avatar;
+      if (/avatar_/ig.test(user_info.avatar)) {
+        this.avatar = "https://stg.tosneaker.com/" + user_info.avatar;
+      }
       this.JDstatus = data.result;
       appraiserList({
           brand_id: data.brand_id
