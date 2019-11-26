@@ -118,11 +118,11 @@ export default {
     goTo(index) {
       if (index) {
         uni.navigateTo({
-          url: '/pages/means2/means2'
+          url: '/pages/means2/means2?type=all'
         });
       } else {
         uni.navigateTo({
-          url: '/pages/means2/means2'
+          url: '/pages/means2/means2?type=all'
         });
       }
     },

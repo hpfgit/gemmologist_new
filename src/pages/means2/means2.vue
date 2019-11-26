@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { appraise } from "../../api/means2";
+import { appraise, newAppraiseDetails } from "../../api/means2";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
@@ -53,10 +53,10 @@ export default {
   },
   onLoad(options) {
     uni.showLoading();
-    const { type, mold } = options;
+    const { type } = options;
 	  this.type = type;
-	  this.mold = mold;
-    appraise({
+	  // this.mold = mold;
+    newAppraiseDetails({
       type,
       page: 1
     }).then(result => {
