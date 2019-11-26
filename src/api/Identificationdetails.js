@@ -2,7 +2,7 @@ import request from "../utils/request";
 
 export function appraise(params) {
     const {id} = params;
-    return request('PUT', `/api/appraisal/post/${id}/appraise`, params);
+    return request('PUT', `/api/appraisal/post/${id}/new-appraise`, params);
 }
 
 export function post(params) {

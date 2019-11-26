@@ -56,8 +56,10 @@
       </view>
       <view class="info_new">
         <view class="top">
-          <view class="title">鉴定为真</view>
-          <image class="yinz" src="../../static/images/为真拷贝2@2x.png"></image>
+          <view class="title">{{data.result}}</view>
+          <image v-show="data.final_result === 1" class="yinz" src="../../static/images/为真拷贝2@2x.png"></image>
+          <image v-show="data.final_result === 0" class="yinz" src="../../static/images/为假@2x.png"></image>
+          <image v-show="data.final_result === 2" class="yinz" src="../../static/images/无法鉴定拷贝@2x.png"></image>
           <view class="cont"><image src="../../static/images/鉴定2@2x.png"></image>鉴定合作鉴定师</view>
         </view>
         <view class="bottom">
