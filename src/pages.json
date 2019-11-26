@@ -1,17 +1,35 @@
 {
     "pages": [
         {
-            "path": "pages/gemmologist/gemmologist",
+            "path": "pages/index3/index3",
             "style": {
-                "navigationBarTitleText": "我的鉴定",
-                "navigationStyle": "custom",
-                "enablePullDownRefresh": true
+                "navigationBarTitleText": "BAN鉴定服务"
+            }
+        },
+        {
+            "path": "pages/index/index",
+            "style": {
+                "navigationBarTitleText": "BAN鉴定服务"
             }
         },
         {
             "path": "pages/Identificationdetails3/Identificationdetails3",
             "style": {
                 "navigationBarTitleText": "鉴定贴详情"
+            }
+        },
+        {
+            "path": "pages/index2/index2",
+            "style": {
+                "navigationBarTitleText": "BAN鉴定服务"
+            }
+        },
+        {
+            "path": "pages/gemmologist/gemmologist",
+            "style": {
+                "navigationBarTitleText": "我的鉴定",
+                "navigationStyle": "custom",
+                "enablePullDownRefresh": true
             }
         },
         {
@@ -26,12 +44,6 @@
 				"navigationBarTitleText": "鉴定师端"
 			}
 		},
-		{
-			"path": "pages/index/index",
-            "style": {
-				"navigationBarTitleText": "BAN鉴定服务"
-            }
-        },
 		{
 			"path": "pages/Identificationdetails2/Identificationdetails2",
 			"style": {

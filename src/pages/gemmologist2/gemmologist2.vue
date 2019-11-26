@@ -11,7 +11,7 @@
               :src="qiniuUrl+'/组24@2x.png'"
               mode=""
             ></image>
-            <text class="number">233</text>
+            <text class="number">{{djd}}</text>
             <text class="text"></text>
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
@@ -25,7 +25,7 @@
               :src="qiniuUrl+'/组25@2x.png'"
               mode=""
             ></image>
-            <text class="number">233</text>
+            <text class="number">{{dhf}}</text>
             <text class="text"></text>
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { appraise } from "../../api/gemmologist";
+import { appraise,newAppraise } from "../../api/gemmologist";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
@@ -91,7 +91,11 @@ export default {
       major3: {},
       work_order: 0,
       all: 0,
-      qiniuUrl: config[NODE_ENV].qiniuUrl
+      qiniuUrl: config[NODE_ENV].qiniuUrl,
+      all: 0,
+      dhf: 0,
+      djd: 0,
+      jdz: 0
     };
   },
   onReady() {
@@ -113,15 +117,13 @@ export default {
     },
     getData() {
       uni.showLoading();
-      appraise().then(result => {
+      newAppraise().then(result => {
         const { data } = result.data;
-        const { all, mf, work_order, zy, zy1, zy2 } = data;
-        this.freeAdmission = mf;
-        this.major = zy;
-        this.major2 = zy1;
-        this.major3 = zy2;
-        this.work_order = work_order;
+        const { all,dhf,djd,jdz } = data;
         this.all = all;
+        this.dhf = dhf;
+        this.djd = djd;
+        this.jdz = jdz;
         uni.hideLoading();
         uni.stopPullDownRefresh();
       });

@@ -35,5 +35,5 @@ export function appraiserDetail(params) {
 }
 
 export function placeOrder(params) {
-    return request('GET', '/api/appraisal/place-order', params);
+    return request('POST', '/api/appraisal/place-order', params);
 }

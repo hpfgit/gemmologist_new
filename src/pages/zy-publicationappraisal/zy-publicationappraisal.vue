@@ -74,7 +74,7 @@
             <text>
               <text class="icon">￥</text>
               {{cost}}
-              <text class="bj-price">(当前保价￥{{bjPrice}})</text>
+              <text class="bj-price" v-show="is_specialty === '2'">(当前保价￥{{bjPrice}})</text>
             </text>
           </view>
           <view @tap="isAgreeFn">

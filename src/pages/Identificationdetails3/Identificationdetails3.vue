@@ -57,9 +57,8 @@
       <view class="info_new">
         <view class="top">
           <view class="title">鉴定为真</view>
-          <image class="yinz" src="../../static/images/印章拷贝@2x.png"></image>
-          <view class="text">鉴定帖ID : 12345678ab9</view>
-          <view class="cont">原因: 有则显示因原因原因原因原因</view>
+          <image class="yinz" src="../../static/images/为真拷贝2@2x.png"></image>
+          <view class="cont"><image src="../../static/images/鉴定2@2x.png"></image>鉴定合作鉴定师</view>
         </view>
         <view class="bottom">
           <view class="left">
@@ -67,15 +66,26 @@
             <view class="right2">
               <view class="nickname">昵称昵称昵称昵称</view>
               <view class="right">
-                <image class="level-img" src="../../static/images/矢量智能对象@2x.png"></image>
+                <image class="level-img" src="../../static/images/矢量智能对象拷贝2@2x.png"></image>
                 <view class="level-name">鉴定顾问</view>
               </view>
             </view>
           </view>
           <view class="right">
-            <view class="text">查看详情</view>
-            <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
+            <view class="text">原因：有则显示原因原因</view>
           </view>
+        </view>
+      </view>
+      <view class="ewm">
+        <view class="left">
+          <image src="../../static/images/gh_b0f97c897085_344(1)@2x.png"></image>
+          <view class="desc">
+            <view>识别二维码或微信搜索小程序: BAN鉴定服务</view>
+            <view>输入<text class="number">40182172</text>查询此鉴定贴</view>
+          </view>
+        </view>
+        <view class="right-text">
+          <text class="copy-id">复制ID</text>
         </view>
       </view>
     </div>
@@ -115,12 +125,38 @@
           </view>
         </view>
       </view>
+      <view class="info_new">
+        <view class="bottom">
+          <view class="left">
+            <image class="head-img" src="../../static/images/图层968@2x.png"></image>
+            <view class="right2">
+              <view class="nickname">昵称昵称昵称昵称</view>
+              <view class="right">
+                <view class="level-name">2019-11-24 12:17:20 发布</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
       <view class="work-order">
         <view class="title2">工单记录</view>
         <div class="conte">鉴定结论得出后30天内可提交工单，超出时间后无法创建</div>
       </view>
       <view v-if="isJD === 'false'" class="gdjl">
         <image src="../../static/images/Workorderrecord@2x.png"></image>
+      </view>
+    </view>
+    <view class="fixed-bottom">
+      <image src="../../static/images/鉴定2@2x.png"></image>
+      <view class="text">BAN永远不会涉及销售</view>
+      <view class="text2">只为提供最公正的鉴定结果</view>
+      <view class="text3">
+        <view class="left">
+          <view class="cir"></view>已鉴定19088次
+        </view>
+        <view class="right">
+          <view class="cir"></view>假货市场占有率18.14%
+        </view>
       </view>
     </view>
     <view class="btns">
@@ -477,6 +513,10 @@ export default {
 </script>
 
 <style lang="scss">
+.container {
+  background-color: #fff;
+}
+
 .handover {
   position: fixed;
   left: 0;
@@ -542,6 +582,7 @@ export default {
         bottom: 0;
       }
     }
+
     .icon {
       width: 32rpx;
       height: 30rpx;
@@ -558,7 +599,7 @@ export default {
 
     .nickname {
       font-size: 24rpx;
-      color: #666;
+      color: #000000;
       margin-top: 5rpx;
       text-align: center;
     }
@@ -604,10 +645,6 @@ export default {
   }
 }
 
-.info-container {
-  background-color: #323795;
-}
-
 .info {
   width: 690rpx;
   height: 90rpx;
@@ -644,26 +681,20 @@ export default {
 }
 
 .info_new {
-  padding: 26rpx 36rpx;
+  padding: 26rpx 0 0 0;
   
   .top {
-    width: 680rpx;
-	  height: 218rpx;
-    background-color: #ffffff;
-    box-shadow: 0rpx 0rpx 20rpx 0rpx 
-      rgba(0, 0, 0, 0.04);
-    border-radius: 8rpx;
     position: relative;
 
     .title, .text, .cont {
       text-align: center;
-      color: #000000;
+      color: #2c2c2c;
     }
 
     .title {
-      font-size: 40rpx;
+      font-size: 58rpx;
+      font-weight: bold;
       padding-top: 30rpx;
-      padding-bottom: 20rpx;
     }
 
     .text {
@@ -671,33 +702,34 @@ export default {
     }
 
     .cont {
-      padding-top: 16rpx;
+      font-size: 22rpx;
+      padding-top: 12rpx;
       color: #666666;
+
+      image {
+        width: 32rpx;
+        height: 32rpx;
+        border-radius: 8rpx;
+        margin-right: 10rpx;
+      }
     }
 
     .yinz {
       position: absolute;
       right: 0;
       top: 0;
-      width: 125rpx;
-      height: 128rpx;
+      width: 193rpx;
+      height: 137rpx;
     }
   }
 
   .bottom {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding-left: 28rpx;
-    padding-right: 38rpx;
-    padding-top: 14rpx;
-    padding-bottom: 14rpx;
-    width: 680rpx;
-    margin: 10rpx auto 0;
-    background-color: #ffffff;
-    box-shadow: 0rpx 0rpx 20rpx 0rpx 
-      rgba(0, 0, 0, 0.04);
-    border-radius: 8rpx 49rpx 51rpx 54rpx;
+    width: 670rpx;
+    margin: 0 auto;
+    padding-top: 46rpx;
+    overflow: hidden;
 
     .left {
       display: flex;
@@ -711,15 +743,18 @@ export default {
       }
     }
 
-    .right {
-      display: flex;
-      align-items: center;
+    .right2 {
+      .right {
+        display: flex;
+        align-items: center;
+        margin-top: 4rpx;
+      }
     }
 
     .level-img {
       width: 28rpx;
       height: 28rpx;
-      margin-right: 5rpx;
+      margin-right: 8rpx;
     }
 
     .level-name {
@@ -733,9 +768,106 @@ export default {
     }
 
     .text {
-      color: #898989;
+      color: #000000;
       font-size: 24rpx;
-      margin-right: 8rpx;
+    }
+  }
+}
+
+.ewm {
+  width: 670rpx;
+  margin: 20rpx auto 0;
+	background-color: #f4f3f9;
+	border-radius: 10rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+
+  .left {
+    display: flex;
+    align-items: center;
+  }
+
+  .desc {
+    view {
+      font-size: 20rpx;
+      color: #666666;
+
+      .number {
+        font-size: 20rpx;
+        color: #000000;
+      }
+    }
+  }
+  
+  image {
+    width: 104rpx;
+    height: 104rpx;
+    margin: 5px;
+    margin-right: 28rpx;
+  }
+
+  .right-text {
+    width: 46rpx;
+    height: 124rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e9e8f3;
+    border-radius: 0rpx 10rpx 10rpx 0rpx;
+
+    .copy-id {
+      font-size: 20rpx;
+      width: 20rpx;
+      color: #898989;
+    }
+  }
+}
+
+.fixed-bottom {
+  background-image: url('../../static/images/BAN@2x.png');
+  background-size: cover;
+  text-align: center;
+  overflow: hidden;
+
+  image {
+    width: 90rpx;
+    height: 90rpx;
+    margin-top: 72rpx;
+    margin-bottom: 28rpx;
+  }
+
+  .text {
+    font-size: 36rpx;
+    font-weight: bold;
+    margin-bottom: 12rpx;
+  }
+
+  .text, .text2 {
+    text-align: center;
+    color: #000000;
+  }
+
+  .text3 {
+    display: flex;
+    justify-content: space-between;
+    width: 460rpx;
+    margin: 40rpx auto 60rpx;
+    text-align: center;
+
+    .cir {
+      width: 10rpx;
+      height: 10rpx;
+      background-color: #cdcdcd;
+      border-radius: 3rpx;
+      margin-right: 12rpx;
+    }
+    .right,.left {
+      display: flex;
+      align-items: center;
+      color: #666666;
+      font-size: 22rpx;
     }
   }
 }
@@ -745,12 +877,11 @@ export default {
   margin: 0 auto;
   padding-left: 10rpx;
   padding-right: 10rpx;
-  border-top: 1rpx solid #f1f1f1;
 
   .title2 {
     font-size: 34rpx;
     color: #000;
-    padding-top: 40rpx;
+    padding-top: 60rpx;
   }
 
   .conte {
@@ -776,10 +907,6 @@ export default {
 
   .price {
     margin-left: 10rpx;
-  }
-
-  image {
-    margin-left: 28rpx;
   }
 
   .bjd-img {
@@ -962,27 +1089,25 @@ export default {
   padding-right: 28rpx;
   padding-bottom: 60rpx;
   overflow: hidden;
-  width: 690rpx;
-  margin: 22rpx auto 40rpx;
+  width: 670rpx;
+  margin: 52rpx auto 0;
 	background-color: #ffffff;
-	box-shadow: 0rpx 0rpx 20rpx 0rpx 
-		rgba(0, 0, 0, 0.04);
 	border-radius: 8rpx;
 
   .title {
     font-size: 40rpx;
-    margin-top: 32rpx;
   }
 
   .beizhu {
     font-size: 26rpx;
     margin-top: 22rpx;
     margin-bottom: 36rpx;
+    color: #898989;
   }
 }
 
 .btns {
-  width: 680rpx;
+  width: 670rpx;
   margin: 0 auto;
   position: fixed;
   left: 0;

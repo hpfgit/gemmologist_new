@@ -20,7 +20,7 @@
         </view>
       </view>
     </view>
-    <view class="brands" v-show="type === 'qx'">
+    <view class="brands" v-show="type === 'shoes'">
       <view class="tabs">
         <view class="active"><text>运动品牌</text></view>
       </view>
@@ -34,7 +34,7 @@
         </view>
       </view>
     </view>
-    <view class="brands clothing" v-show="type === 'fz'">
+    <view class="brands clothing" v-show="type === 'clothing'">
       <view class="tabs">
         <view @tap="tabs(0)" :class="{active: tabIndex === 0}"><text>运动品牌</text></view>
         <view @tap="tabs(1)" :class="{active: tabIndex === 1}"><text>潮流品牌</text></view>

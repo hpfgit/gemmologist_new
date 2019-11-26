@@ -183,7 +183,7 @@
 </template>
 
 <script>
-import { appraise } from "../../api/gemmologist";
+import { appraise,newAppraise } from "../../api/gemmologist";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
@@ -218,7 +218,7 @@ export default {
     },
     getData() {
       uni.showLoading();
-      appraise().then(result => {
+      newAppraise().then(result => {
         const { data } = result.data;
         const { all, mf, work_order, zy, zy1, zy2 } = data;
         this.freeAdmission = mf;

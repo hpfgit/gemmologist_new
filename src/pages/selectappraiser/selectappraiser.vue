@@ -26,13 +26,13 @@
             </view>
         </view>
         <view  class="btns">
-            <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo">
+            <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo(1)">
                 <view class="inner">
                     <view class="text">专业鉴定</view>
                     <view class="text2">请选择 {{checkedNumber}}/1 名鉴定师</view>
                 </view>
             </view>
-            <view class="btn" :class="{active: checkedNumber === 2}"  @tap="goTo">
+            <view class="btn" :class="{active: checkedNumber === 2}"  @tap="goTo(2)">
                 <view class="inner">
                     <view class="text">保价鉴定</view>
                     <view class="text2">请选择 {{checkedNumber}}/2 名鉴定师</view>
@@ -134,12 +134,13 @@ export default {
             }
             this.appraisers[index].checked = !this.appraisers[index].checked;
         },
-        goTo() {
+        goTo(index) {
             let appraiser_id = '';
             this.checkedArr.forEach(item => {
                 appraiser_id += item.id + ',';
             });
             appraiser_id = appraiser_id.substring(0, appraiser_id.length - 1);
+            if (index !== this.checkedNumber) return;
             if (this.checkedNumber === 1) {
                 uni.navigateTo({
                     url: '/pages/zy-publicationappraisal/zy-publicationappraisal?is_specialty=1&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
