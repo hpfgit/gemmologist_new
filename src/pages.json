@@ -1,6 +1,12 @@
 {
     "pages": [
         {
+            "path": "pages/login/login",
+            "style": {
+                "navigationBarTitleText": "登录"
+            }
+        },
+        {
             "path": "pages/index3/index3",
             "style": {
                 "navigationBarTitleText": "BAN鉴定服务"
@@ -59,7 +65,7 @@
         {
             "path": "pages/team/team",
             "style": {
-                "navigationBarTitleText": "团队"
+                "navigationBarTitleText": "鉴定团队"
             }
         },
         {
@@ -72,12 +78,6 @@
             "path": "pages/equipmentappraisal2/equipmentappraisal2",
             "style": {
                 "navigationBarTitleText": "装备鉴定"
-            }
-        },
-        {
-            "path": "pages/login/login",
-            "style": {
-                "navigationBarTitleText": "登录"
             }
         },
         {

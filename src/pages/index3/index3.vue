@@ -1,91 +1,93 @@
 <template>
     <scroll-view>
         <view class="container">
-            <view class="navs">
-                <view class="nav">
-                    <image src="../../static/images/考核@2x.png"></image>
-                    <view class="text">鉴定师考核模式</view>
-                </view>
-                <view class="nav">
-                    <image src="../../static/images/极速@2x.png"></image>
-                    <view class="text">鉴定师考核模式</view>
-                </view>
-                <view class="nav">
-                    <image src="../../static/images/￥@2x.png"></image>
-                    <view class="text">鉴定师考核模式</view>
-                </view>
-            </view>
-            <view class="infos">
-                <view class="left">
-                    <image src="../../static/images/鉴定2@2x.png"></image>
-                    <view class="user-info">
-                        <view class="username">BAN鉴定服务</view>
-                        <view class="userinfo">只为提供最公正的鉴定结果</view>
+            <view class="bg">
+                <view class="navs">
+                    <view class="nav" @tap="goNav(0)">
+                        <image src="../../static/images/考核@2x.png"></image>
+                        <view class="text">鉴定师考核模式</view>
+                    </view>
+                    <view class="nav" @tap="goNav(1)">
+                        <image src="../../static/images/极速@2x.png"></image>
+                        <view class="text">极速鉴定声明</view>
+                    </view>
+                    <view class="nav" @tap="goNav(2)">
+                        <image src="../../static/images/￥@2x.png"></image>
+                        <view class="text">保价鉴定声明</view>
                     </view>
                 </view>
-                <view class="right">
-                    <div class="text">鉴定团队</div>
-                    <image src="../../static/images/矩形1187拷贝@2x.png"></image>
-                </view>
-            </view>
-            <view class="box">
-                <view class="data-display">
-                    <view class="data-display-two" @tap="goToQuestion">
-                        <view>鉴定流程及常见问题</view>
-                        <image
-                            class="icon"
-                            src="../../static/images/-@2x.png"
-                        ></image>
-                    </view>
-                    <view @tap="goToRZ">
-                        <view class="data-display-one">
-                            <text class="text">
-                                已鉴定
-                                <text class="number">{{ count }}</text>
-                                次
-                            </text>
-                        </view>
-                        <view class="data-display-one">
-                            <text class="text">
-                                假货市场占有率
-                                <text class="number">{{ fail }}</text>
-                                %
-                            </text>
+                <view class="infos">
+                    <view class="left">
+                        <image src="../../static/images/鉴定2@2x.png"></image>
+                        <view class="user-info">
+                            <view class="username">BAN鉴定服务</view>
+                            <view class="userinfo">只为提供最公正的鉴定结果</view>
                         </view>
                     </view>
-                </view>
-                <view class="zm">
-                    <view class="gn">
-                        <view class="js" @tap="goTo(1)">
-                            极速鉴定
-                        </view>
-                        <view class="bj" @tap="goTo(2)">
-                            保价鉴定
-                        </view>
-                    </view>
-                    <view class="search">
-                        <input
-                            type="text"
-                            :value="jdID"
-                            placeholder="请输入您的六位鉴定ID"
-                            @change="changeId($event)"
-                        />
-                        <view @tap="searchTo" class="search-btn">
-                            查询鉴定
-                        </view>
+                    <view class="right" @tap="goTeam">
+                        <div class="text">鉴定团队</div>
+                        <image src="../../static/images/向右@2x.png"></image>
                     </view>
                 </view>
-            </view>
-            <view class="selector-end">
-                <view class="left" @tap="goToData(0)">
-                    <image src="../../static/images/鉴定师端拷贝@2x.png"></image>
+                <view class="box">
+                    <view class="data-display">
+                        <view class="data-display-two" @tap="goToQuestion">
+                            <view>鉴定流程及常见问题</view>
+                            <image
+                                class="icon"
+                                src="../../static/images/-@2x.png"
+                            ></image>
+                        </view>
+                        <view @tap="goToRZ">
+                            <view class="data-display-one">
+                                <text class="text">
+                                    已鉴定
+                                    <text class="number">{{ count }}</text>
+                                    次
+                                </text>
+                            </view>
+                            <view class="data-display-one">
+                                <text class="text">
+                                    假货市场占有率
+                                    <text class="number">{{ fail }}</text>
+                                    %
+                                </text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="zm">
+                        <view class="gn">
+                            <view class="js" @tap="goTo(1)">
+                                极速鉴定
+                            </view>
+                            <view class="bj" @tap="goTo(2)">
+                                保价鉴定
+                            </view>
+                        </view>
+                        <view class="search">
+                            <input
+                                type="text"
+                                :value="jdID"
+                                placeholder="请输入您的六位鉴定ID"
+                                @change="changeId($event)"
+                            />
+                            <view @tap="searchTo" class="search-btn">
+                                查询鉴定
+                            </view>
+                        </view>
+                    </view>
                 </view>
-                <view class="right" @tap="goToData(1)">
-                    <image src="../../static/images/版主端拷贝@2x.png"></image>
+                <view class="selector-end" v-show="isLogin">
+                    <view class="left" @tap="goToData(0)">
+                        <image src="../../static/images/鉴定师端拷贝@2x.png"></image>
+                    </view>
+                    <view class="right" @tap="goToData(1)">
+                        <image src="../../static/images/版主端拷贝@2x.png"></image>
+                    </view>
                 </view>
-            </view>
-            <view class="login">
-                登录查看我的鉴定
+                <view class="login" v-show="!isLogin">
+                    登录查看我的鉴定
+                </view>
             </view>
             <view class="check-type" v-show="isShow">
                 <view class="title">选择鉴定品类</view>
@@ -119,6 +121,9 @@
                         src="../../static/images/费用信息@2x.png"
                         @tap="priceDetails(index)"
                     ></image>
+                    <image v-show="item.final_result === 0" class="yinz" src="../../static/images/为假@2x.png"></image>
+                    <image v-show="item.final_result === 1" class="yinz" src="../../static/images/为真拷贝2@2x.png"></image>
+                    <image v-show="item.final_result === 2" class="yinz" src="../../static/images/无法鉴定拷贝@2x.png"></image>
                     <image
                         class="left-image"
                         :src="getPath(item.cover_image)"
@@ -130,23 +135,10 @@
                     >
                         <view class="top">
                             <text>{{ item.brand_name }}</text>
-                            <view>
-                                <image :src="qiniuUrl + '/时间(3)@2x.png'"></image>
-                                <text class="date">{{ item.publish_at }}</text>
-                            </view>
                         </view>
                         <view class="center">
-                            <view>{{ item.appr_sn }}</view>
-                            <view>{{ item.status }}</view>
-                        </view>
-                        <view class="bottom">
-                            <view v-if="item.post_status === 13">
-                                免费鉴定结果仅供参考, 如有疑问请进行
-                                <text class="zy" @tap="goTo(1)">专业鉴定</text>
-                            </view>
-                            <view v-if="item.post_status !== 13">
-                                {{ item.hint }}
-                            </view>
+                            <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
+                            <view class="date">{{ item.publish_at }}</view>
                         </view>
                     </view>
                 </view>
@@ -189,9 +181,7 @@
                             </view>
                         </view>
                     </view>
-                    <view class="tip"
-                        >*无法鉴定情况下费用会退还至账户余额，可随时提现。</view
-                    >
+                    <view class="tip">*无法鉴定情况下费用会退还至账户余额，可随时提现。</view>
                 </view>
             </view>
             <view class="mask" v-show="isShow"></view>
@@ -215,6 +205,7 @@ export default {
             isAppraiser: "",
             isShow: false,
             isCost: false,
+            isLogin: false,
             details: {},
             is_specialty: ''
         };
@@ -225,6 +216,11 @@ export default {
                 url: "/pages/index/index"
             });
             return;
+        }
+        if (uni.getStorageSync('user_info')) {
+            this.isLogin = true;
+        } else {
+            this.isLogin = false;
         }
         uni.showLoading();
         getCount().then(result => {
@@ -284,13 +280,18 @@ export default {
         goToData(index) {
             if (index) {
                 uni.navigateTo({
-                    url: '/pages/gemmologist/gemmologist'
+                    url: '/pages/moderator/moderator'
                 });
             } else {
                 uni.navigateTo({
-                    url: '/pages/gemmologist2/gemmologist2'
+                    url: '/pages/gemmologist/gemmologist'
                 });
             }
+        },
+        goTeam() {
+            uni.navigateTo({
+                url: '/pages/team/team'
+            });
         },
         priceDetails(index) {
             this.isCost = !this.isCost;
@@ -334,13 +335,31 @@ export default {
             this.is_specialty = index;
         },
         goToPath(index) {
+            const that = this;
             if (index) {
                 uni.navigateTo({
-                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=clothing'
+                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=clothing',
+                    success() {
+                        that.isShow = false;
+                    }
                 });
             } else {
                 uni.navigateTo({
-                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=shoes'
+                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=shoes',
+                    success() {
+                        that.isShow = false;
+                    }
+                });
+            }
+        },
+        goNav(index) {
+            if (index) {
+                uni.navigateTo({
+                    url: '/pages/assessment/assessment'
+                });
+            } else {
+                uni.navigateTo({
+                    url: '/pages/assessment/assessment'
                 });
             }
         },
@@ -350,7 +369,7 @@ export default {
         goToDetail(index, id) {
             uni.navigateTo({
                 url:
-                    "/pages/Identificationdetails/Identificationdetails?id=" +
+                    "/pages/Identificationdetails3/Identificationdetails3?id=" +
                     id +
                     "&type=" +
                     index
@@ -361,10 +380,10 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-    background-color: #ffffff;
+.bg {
+    background-color: #fff;
+    overflow: hidden;
 }
-
 .mask {
     position: fixed;
     left: 0;
@@ -441,8 +460,9 @@ export default {
             text-align: center;
         }
         image {
-            width: 6rpx;
-            height: 9rpx;
+            width: 14rpx;
+            height: 24rpx;
+            margin-left: 16rpx;
         }
     }
 }
@@ -581,7 +601,7 @@ export default {
 
 .selector-end {
     width: 610rpx;
-    margin: 46rpx auto 0;
+    margin: 46rpx auto 50rpx;
     display: flex;
     justify-content: space-between;
 
@@ -677,8 +697,18 @@ export default {
         border-radius: 20rpx;
         background-color: #ffffff;
         margin: 0 auto 20rpx;
-        padding: 24rpx;
+        padding: 20rpx 16rpx;
         position: relative;
+
+        .yinz {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            width: 193rpx;
+            height: 137rpx;
+        }
     }
 
     .specialty-img {
@@ -693,9 +723,9 @@ export default {
     }
 
     .left-image {
-        width: 132rpx;
-        height: 132rpx;
-        border-radius: 10rpx;
+        width: 144rpx;
+	    height: 144rpx;
+        border-radius: 4rpx;
     }
 
     .item-right {
@@ -705,9 +735,10 @@ export default {
         .top {
             display: flex;
             justify-content: space-between;
+            margin-top: 22rpx;
 
             text {
-                font-size: 24rpx;
+                color: #000;
             }
 
             .date {
@@ -725,40 +756,18 @@ export default {
 
         .center {
             margin-top: 6rpx;
-            display: flex;
-            justify-content: space-between;
 
-            view {
+            view, text {
                 font-size: 22rpx;
-                background-color: #e6dcb5;
-                border-radius: 5rpx;
+                color: #898989;
+            }
 
-                &:nth-of-type(1) {
-                    width: 102rpx;
-                    height: 30rpx;
-                    line-height: 30rpx;
-                    text-align: center;
-                    background-image: url("../../static/images/index/组10@2x.png");
-                    background-size: cover;
-                }
+            text {
+                margin-left: 6rpx;
+            }
 
-                &:nth-of-type(2) {
-                    width: 100rpx;
-                    height: 32rpx;
-                    line-height: 32rpx;
-                    text-align: center;
-                    color: #ffffff;
-                    background-image: linear-gradient(
-                            135deg,
-                            rgba(28, 211, 249, 0.5) 0%,
-                            rgba(61, 180, 247, 0.5) 39%,
-                            rgba(94, 149, 244, 0.5) 100%
-                        ),
-                        linear-gradient(#5e95f4, #5e95f4);
-                    background-blend-mode: normal, normal;
-                    border-radius: 14rpx 14rpx 14rpx 0rpx;
-                    border: solid 2rpx #50b8f7;
-                }
+            .date {
+                margin-top: 6rpx;
             }
         }
 

@@ -10,7 +10,7 @@
             <image
               src="../../static/images/组24@2x.png"
             ></image>
-            <text class="number">233</text>
+            <text class="number">{{djd_1}}</text>
             <text class="text"></text>
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
@@ -23,7 +23,7 @@
             <image
               src="../../static/images/组24拷贝@2x.png"
             ></image>
-            <text class="number">233</text>
+            <text class="number">{{djd_6}}</text>
             <text class="text"></text>
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
@@ -36,7 +36,7 @@
             <image
               src="../../static/images/组242@2x.png"
             ></image>
-            <text class="number">233</text>
+            <text class="number">{{wt}}</text>
             <text class="text"></text>
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
@@ -50,7 +50,7 @@
               :src="qiniuUrl+'/组24@2x.png'"
               mode=""
             ></image>
-            <text class="number">233</text>
+            <text class="number">{{all}}</text>
             <text class="text"></text>
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
@@ -103,19 +103,17 @@
 </template>
 
 <script>
-import { appraise } from "../../api/gemmologist";
+import { banzhu_appraise_num, banzhu_appraise } from "../../api/moderator";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
 export default {
   data() {
     return {
-      freeAdmission: {},
-      major: {},
-      major2: {},
-      major3: {},
-      work_order: 0,
-      all: 0,
+      all: 9,
+      djd_1: 0,
+      djd_6: 2,
+      wt: 0,
       qiniuUrl: config[NODE_ENV].qiniuUrl
     };
   },
@@ -138,15 +136,14 @@ export default {
     },
     getData() {
       uni.showLoading();
-      appraise().then(result => {
+      banzhu_appraise_num().then(result => {
         const { data } = result.data;
-        const { all, mf, work_order, zy, zy1, zy2 } = data;
-        this.freeAdmission = mf;
-        this.major = zy;
-        this.major2 = zy1;
-        this.major3 = zy2;
-        this.work_order = work_order;
+        const { all, djd_1, djd_6, wt } = data;
         this.all = all;
+        this.djd_1 = djd_1;
+        this.djd_6 = djd_6;
+        this.wt = wt;
+        console.log(result);
         uni.hideLoading();
         uni.stopPullDownRefresh();
       });
@@ -178,6 +175,7 @@ export default {
       background-color: #ffffff;
       padding: 30rpx;
       border-radius: 16rpx;
+      margin-bottom: 30rpx;
     }
 
     .title {
@@ -220,6 +218,7 @@ export default {
   }
 
   .modal {
+    display: none;
     width: 690rpx;
     background-color: #ffffff;
     box-shadow: 0rpx 0rpx 20rpx 0rpx 
