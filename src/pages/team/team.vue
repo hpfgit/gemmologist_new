@@ -148,6 +148,10 @@ export default {
 </script>
 
 <style lang="scss">
+.container {
+    background-color: #fff;
+}
+
 .head {
     margin-top: 50rpx;
     margin-bottom: 62rpx;

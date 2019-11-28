@@ -1,15 +1,27 @@
 {
     "pages": [
         {
+            "path": "pages/index3/index3",
+            "style": {
+                "navigationBarTitleText": "BAN鉴定服务"
+            }
+        },
+        {
             "path": "pages/login/login",
             "style": {
                 "navigationBarTitleText": "登录"
             }
         },
         {
-            "path": "pages/index3/index3",
-            "style": {
-                "navigationBarTitleText": "BAN鉴定服务"
+            "path":"pages/selectappraiser2/selectappraiser2",
+            "style":{
+                "navigationBarTitleText":"选择鉴定师"
+            }
+        },
+        {
+            "path":"pages/record/record",
+            "style":{
+                "navigationBarTitleText":"失误记录"
             }
         },
         {
@@ -180,13 +192,13 @@
         {
             "path": "pages/professionalidentificationagreement/professionalidentificationagreement",
             "style": {
-                "navigationBarTitleText": "专业鉴定协议"
+                "navigationBarTitleText": "保价鉴定声明"
             }
         },
         {
             "path": "pages/freeauthenticationagreement/freeauthenticationagreement",
             "style": {
-                "navigationBarTitleText": "免费鉴定协议"
+                "navigationBarTitleText": "极速鉴定声明"
             }
         },
         {

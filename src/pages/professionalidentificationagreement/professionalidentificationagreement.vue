@@ -87,6 +87,10 @@
 </script>
 
 <style lang="scss">
+	.container {
+		background-color: #fff;
+	}
+	
 	.tip {
 		width: 670rpx;
 		margin: 26rpx auto 40rpx;

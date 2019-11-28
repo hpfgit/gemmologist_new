@@ -29,12 +29,12 @@ export default {
     },
     methods: {
         checkLogin() {
-            // if (uni.getStorageSync("token")) {
-            //     uni.navigateTo({
-            //         url: "/pages/index3/index3"
-            //     });
-            //     return;
-            // }
+            if (uni.getStorageSync("token")) {
+                uni.navigateTo({
+                    url: "/pages/index3/index3"
+                });
+                return;
+            }
         },
         getUserInfo(e) {
             const that = this;

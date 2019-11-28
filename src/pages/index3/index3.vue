@@ -1,35 +1,37 @@
 <template>
     <scroll-view>
         <view class="container">
-            <view class="bg">
-                <view class="navs">
-                    <view class="nav" @tap="goNav(0)">
-                        <image src="../../static/images/考核@2x.png"></image>
-                        <view class="text">鉴定师考核模式</view>
-                    </view>
-                    <view class="nav" @tap="goNav(1)">
-                        <image src="../../static/images/极速@2x.png"></image>
-                        <view class="text">极速鉴定声明</view>
-                    </view>
-                    <view class="nav" @tap="goNav(2)">
-                        <image src="../../static/images/￥@2x.png"></image>
-                        <view class="text">保价鉴定声明</view>
+            <image class="con-bg-img" src="../../static/images/用户端首页渐变背景@2x.png"></image>
+            <view class="navs">
+                <view class="nav" @tap="goNav(0)">
+                    <image src="../../static/images/考核@2x.png"></image>
+                    <view class="text">鉴定师考核模式</view>
+                </view>
+                <view class="nav" @tap="goNav(1)">
+                    <image src="../../static/images/极速@2x.png"></image>
+                    <view class="text">极速鉴定声明</view>
+                </view>
+                <view class="nav" @tap="goNav(2)">
+                    <image src="../../static/images/￥@2x.png"></image>
+                    <view class="text">保价鉴定声明</view>
+                </view>
+            </view>
+            <view class="infos">
+                <view class="left">
+                    <image src="../../static/images/鉴定2@2x.png"></image>
+                    <view class="user-info">
+                        <view class="username">BAN鉴定服务</view>
+                        <view class="userinfo">只为提供最公正的鉴定结果</view>
                     </view>
                 </view>
-                <view class="infos">
-                    <view class="left">
-                        <image src="../../static/images/鉴定2@2x.png"></image>
-                        <view class="user-info">
-                            <view class="username">BAN鉴定服务</view>
-                            <view class="userinfo">只为提供最公正的鉴定结果</view>
-                        </view>
-                    </view>
-                    <view class="right" @tap="goTeam">
-                        <div class="text">鉴定团队</div>
-                        <image src="../../static/images/向右@2x.png"></image>
-                    </view>
+                <view class="right" @tap="goTeam">
+                    <div class="text">鉴定团队</div>
+                    <image src="../../static/images/向右@2x.png"></image>
                 </view>
-                <view class="box">
+            </view>
+            <view class="box">
+                <image class="bg-img" src="../../static/images/有投影bg@2x.png"></image>
+                <view class="inner">
                     <view class="data-display">
                         <view class="data-display-two" @tap="goToQuestion">
                             <view>鉴定流程及常见问题</view>
@@ -77,15 +79,23 @@
                         </view>
                     </view>
                 </view>
-                <view class="selector-end" v-show="isLogin">
-                    <view class="left" @tap="goToData(0)">
-                        <image src="../../static/images/鉴定师端拷贝@2x.png"></image>
-                    </view>
-                    <view class="right" @tap="goToData(1)">
-                        <image src="../../static/images/版主端拷贝@2x.png"></image>
-                    </view>
+            </view>
+            <view class="search-mask" v-show="is_bar_mask">
+                <view class="title">提示</view>
+                <image class="close-img" @tap="closeBarMask" src="../../static/images/圆角矩形607拷贝@2x.png"></image>
+                <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
+                <view class="btn-yes" @tap="closeBarMask">确定</view>
+            </view>
+            <view class="selector-end" v-show="isLogin">
+                <view class="left" @tap="goToData(0)" v-show="isAppraiser">
+                    <image src="../../static/images/鉴定师端拷贝@2x.png"></image>
                 </view>
-                <view class="login" v-show="!isLogin">
+                <view class="right" @tap="goToData(1)" v-show="is_appraisal_admin">
+                    <image src="../../static/images/版主端拷贝@2x.png"></image>
+                </view>
+            </view>
+            <view class="login" v-show="!isLogin" @tap="goToLogin">
+                <view class="login-btn">
                     登录查看我的鉴定
                 </view>
             </view>
@@ -138,7 +148,8 @@
                         </view>
                         <view class="center">
                             <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
-                            <view class="date">{{ item.publish_at }}</view>
+                            <view class="date" :class="{hide: item.final_result === 10 || item.final_result === 12}">{{ item.publish_at }}</view>
+                            <view class="date" :class="{block: item.final_result === 10 || item.final_result === 12, hide: item.final_result !== 10 || item.final_result !== 12}">{{item.status}}</view>
                         </view>
                     </view>
                 </view>
@@ -184,13 +195,14 @@
                     <view class="tip">*无法鉴定情况下费用会退还至账户余额，可随时提现。</view>
                 </view>
             </view>
-            <view class="mask" v-show="isShow"></view>
+            <view class="mask" v-show="isShow || is_bar_mask"></view>
         </view>
     </scroll-view>
 </template>
 
 <script>
 import { getCount, getPost, isAppraiser } from "../../api";
+import { post } from "../../api/Identificationdetails";
 import config from "../../config/index";
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -203,20 +215,16 @@ export default {
             imgUrl: config[NODE_ENV].imgUrl,
             qiniuUrl: config[NODE_ENV].qiniuUrl,
             isAppraiser: "",
+            is_appraisal_admin: "",
             isShow: false,
             isCost: false,
             isLogin: false,
             details: {},
-            is_specialty: ''
+            is_specialty: '',
+            is_bar_mask: false
         };
     },
     onLoad() {
-        if (!uni.getStorageSync("token")) {
-            uni.redirectTo({
-                url: "/pages/index/index"
-            });
-            return;
-        }
         if (uni.getStorageSync('user_info')) {
             this.isLogin = true;
         } else {
@@ -227,56 +235,64 @@ export default {
             const { count, fail } = result.data;
             this.count = count;
             this.fail = fail.substring(0, fail.length - 1);
-        });
-
-        isAppraiser().then(result => {
-            const { is_appraiser } = result.data;
-            this.isAppraiser = is_appraiser;
-        });
-
-        getPost({
-            page: 1,
-            limit: 12
-        }).then(result => {
-            const { data } = result.data;
-            data.forEach(item => {
-                item.total = item.appr_cost + item.appraisal_cost;
-                item.isShow = false;
-                // item.total = (item.total).toString().split('');
-                //   const appr_cost_arr = (item.appr_cost).toString().split('');
-                //   const appraisal_cost_arr = (item.appraisal_cost).toString().split('');
-                //   item.appr_cost = appr_cost_arr;
-                //   item.appraisal_cost = appraisal_cost_arr;
-                //   const arr = [];
-                //   item.appr_cost.forEach(ite => {
-                //     const obj = {
-                //       number: ite
-                //     };
-                //     arr.push(obj);
-                //   });
-                //   item.appr_cost = arr;
-                //   const arr2 = [];
-                //   item.appraisal_cost.forEach(itm => {
-                //     const obj = {
-                //       number: itm
-                //     };
-                //     arr2.push(obj);
-                //   });
-                //   item.appraisal_cost = arr2;
-                //   const arr3 = [];
-                //   item.total.forEach(iem => {
-                //     const obj = {
-                //       number: iem
-                //     };
-                //     arr3.push(obj);
-                //   });
-                // item.total = arr3;
-            });
-            this.lists = data;
             uni.hideLoading();
         });
+        if (this.isLogin) {
+            isAppraiser().then(result => {
+                const { is_appraiser, is_appraisal_admin } = result.data;
+                this.isAppraiser = is_appraiser;
+                this.is_appraisal_admin = is_appraisal_admin;
+            });
+
+            getPost({
+                page: 1,
+                limit: 12
+            }).then(result => {
+                const { data } = result.data;
+                data.forEach(item => {
+                    item.total = item.appr_cost + item.appraisal_cost;
+                    item.isShow = false;
+                    // item.total = (item.total).toString().split('');
+                    //   const appr_cost_arr = (item.appr_cost).toString().split('');
+                    //   const appraisal_cost_arr = (item.appraisal_cost).toString().split('');
+                    //   item.appr_cost = appr_cost_arr;
+                    //   item.appraisal_cost = appraisal_cost_arr;
+                    //   const arr = [];
+                    //   item.appr_cost.forEach(ite => {
+                    //     const obj = {
+                    //       number: ite
+                    //     };
+                    //     arr.push(obj);
+                    //   });
+                    //   item.appr_cost = arr;
+                    //   const arr2 = [];
+                    //   item.appraisal_cost.forEach(itm => {
+                    //     const obj = {
+                    //       number: itm
+                    //     };
+                    //     arr2.push(obj);
+                    //   });
+                    //   item.appraisal_cost = arr2;
+                    //   const arr3 = [];
+                    //   item.total.forEach(iem => {
+                    //     const obj = {
+                    //       number: iem
+                    //     };
+                    //     arr3.push(obj);
+                    //   });
+                    // item.total = arr3;
+                });
+                this.lists = data;
+                uni.hideLoading();
+            });
+        }
     },
     methods: {
+        goToLogin() {
+            uni.navigateTo({
+                url: '/pages/login/login'
+            });
+        },
         goToData(index) {
             if (index) {
                 uni.navigateTo({
@@ -284,7 +300,7 @@ export default {
                 });
             } else {
                 uni.navigateTo({
-                    url: '/pages/gemmologist/gemmologist'
+                    url: '/pages/gemmologist2/gemmologist2'
                 });
             }
         },
@@ -319,16 +335,28 @@ export default {
         searchTo() {
             if (!this.jdID) {
                 uni.showToast({
-                    title: "请输入六位鉴定id",
-                    icon: "none"
+                    title: '请输入鉴定贴id',
+                    icon: 'none'
                 });
                 return;
             }
-            uni.navigateTo({
-                url:
-                    "/pages/Identificationdetails/Identificationdetails?id=" +
-                    this.jdID
+            post({
+                id: this.jdID
+            }).then(result => {
+                const {message, status} = result.data;
+                if (status === 404) {
+                    this.is_bar_mask = true;
+                } else {
+                    uni.navigateTo({
+                        url:
+                            "/pages/Identificationdetails/Identificationdetails?id=" +
+                            this.jdID
+                    });
+                }
             });
+        },
+        closeBarMask() {
+            this.is_bar_mask = false;
         },
         goTo(index) {
             this.isShow = true;
@@ -353,9 +381,13 @@ export default {
             }
         },
         goNav(index) {
-            if (index) {
+            if (index === 1) {
                 uni.navigateTo({
-                    url: '/pages/assessment/assessment'
+                    url: '/pages/freeauthenticationagreement/freeauthenticationagreement'
+                });
+            } else if (index === 2) {
+                uni.navigateTo({
+                    url: '/pages/professionalidentificationagreement/professionalidentificationagreement'
                 });
             } else {
                 uni.navigateTo({
@@ -380,10 +412,71 @@ export default {
 </script>
 
 <style lang="scss">
-.bg {
-    background-color: #fff;
-    overflow: hidden;
+.container {
+    background-color: #f8f8f8;
+    position: relative;
+
+    .con-bg-img {
+        width: 750rpx;
+        height: 920rpx;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+    }
 }
+
+.hide {
+    display: none;
+}
+
+.block {
+    display: block;
+}
+
+.search-mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    margin: auto;
+    width: 670rpx;
+	height: 342rpx;
+	background-color: #ffffff;
+	border-radius: 16rpx;
+    overflow: hidden;
+
+    .title {
+        margin-top: 38rpx;
+        margin-bottom: 56rpx;
+        text-align: center;
+        font-size: 32rpx;
+    }
+
+    .cont {
+        margin-bottom: 56rpx;
+        text-align: center;
+        border-bottom: 1rpx solid #fafafa;
+        color: #666;
+        font-size: 30rpx;
+    }
+
+    .btn-yes {
+        height: 108rpx;
+        line-height: 108rpx;
+        text-align: center;
+        font-size: 32rpx;
+        color: #fc5662;
+    }
+}
+
+.bg {
+    overflow: hidden;
+    background-color: #fff;
+}
+
 .mask {
     position: fixed;
     left: 0;
@@ -467,19 +560,35 @@ export default {
     }
 }
 
-.box {
+.navs, .infos, .login {
     position: relative;
-    width: 690rpx;
-    margin: 28rpx auto 0;
-    box-shadow: 0rpx 1rpx 30rpx 0rpx rgba(66, 71, 90, 0.2);
-    border-radius: 16rpx;
-    overflow: hidden;
+    z-index: 9;
 }
 
-.bg {
-    image {
-        width: 750rpx;
-        height: 700rpx;
+.box {
+    position: relative;
+    z-index: 9;
+
+    .bg-img {
+        padding: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 742rpx;
+        height: 540rpx;
+        display: block;
+    }
+
+    .inner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        width: 690rpx;
+        margin: 0 auto;
+        border-radius: 16rpx;
+        padding-top: 24rpx;
     }
 }
 
@@ -497,7 +606,7 @@ export default {
     .data-display-one {
         position: relative;
         margin-left: 36rpx;
-        margin-top: 14rpx;
+        margin-top: 4rpx;
 
         .text {
             color: #1f1d29;
@@ -569,7 +678,6 @@ export default {
         padding-left: 36rpx;
         padding-right: 36rpx;
         margin-top: 20rpx;
-        margin-bottom: 50rpx;
 
         input {
             width: 610rpx;
@@ -617,15 +725,19 @@ export default {
 }
 
 .login {
-    width: 340rpx;
-    height: 88rpx;
-    margin: 88rpx auto 0;
-    line-height: 88rpx;
-    background-color: #0b0e1b;
-    color: #ffffff;
-    opacity: 0.7;
-    border-radius: 8rpx;
-    text-align: center;
+    background-color: #f8f8f8;
+
+    .login-btn {
+        width: 340rpx;
+        height: 88rpx;
+        margin: 88rpx auto 0;
+        line-height: 88rpx;
+        background-color: #0b0e1b;
+        color: #ffffff;
+        opacity: 0.7;
+        border-radius: 8rpx;
+        text-align: center;
+    }
 }
 
 .check-type {
@@ -666,13 +778,6 @@ export default {
         }
     }
 
-    .close-img {
-        width: 24rpx;
-        height: 23rpx;
-        position: absolute;
-        top: 60rpx;
-        right: 50rpx;
-    }
 
     .shoes-img {
         width: 97rpx;
@@ -683,6 +788,14 @@ export default {
         width: 63rpx;
         height: 74rpx;
     }
+}
+
+.close-img {
+    width: 24rpx;
+    height: 23rpx;
+    position: absolute;
+    top: 60rpx;
+    right: 50rpx;
 }
 
 .lists {

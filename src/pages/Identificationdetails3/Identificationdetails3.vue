@@ -1157,15 +1157,16 @@ export default {
                 position: absolute;
                 bottom: 0;
                 left: 0;
-                height: 40%;
-                background-color: rgba($color: #000000, $alpha: 0.5);
+                height: 60rpx;
+                line-height: 60rpx;
+                background-color: rgba($color: #000000, $alpha: 0.3);
                 z-index: 3;
                 width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 color: #ffffff;
-                font-size: 22rpx;
+                font-size: 26rpx;
             }
         }
     }

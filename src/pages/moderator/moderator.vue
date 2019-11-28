@@ -2,7 +2,7 @@
   <view class="container">
     <view class="jd">
       <view class="inner">
-        <navigator class="box" url="/pages/means4/means4?type=work_order">
+        <navigator class="box" url="/pages/means3/means3?type=djd_1">
           <view class="title">
             超过1小时未鉴定
           </view>
@@ -15,7 +15,7 @@
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
         </navigator>
-        <navigator class="box" url="/pages/means4/means4?type=all">
+        <navigator class="box" url="/pages/means3/means3?type=djd_6">
           <view class="title">
             超过6小时未鉴定
           </view>
@@ -28,7 +28,7 @@
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
         </navigator>
-        <navigator class="box" url="/pages/means4/means4?type=work_order">
+        <navigator class="box" url="/pages/means3/means3?type=wt">
           <view class="title">
             问题商品
           </view>
@@ -41,7 +41,7 @@
             <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
           </view>
         </navigator>
-        <navigator class="box" url="/pages/means4/means4?type=all">
+        <navigator class="box" url="/pages/means3/means3?type=all">
           <view class="title">
             全部鉴定
           </view>

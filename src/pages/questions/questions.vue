@@ -75,6 +75,10 @@
 </script>
 
 <style lang="scss">
+.container {
+	background-color: #fff;
+}
+
 .column {
 	display: none;
 	text-align: center;

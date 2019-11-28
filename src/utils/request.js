@@ -8,13 +8,11 @@ function request(method = 'GET', url, params, isToken = true) {
     const headers = {
         'Content-Type': 'application/json'
     };
-
     let token = uni.getStorageSync('token');
     if (token) {
         const now_time = new Date().getTime();
         const token_start_time = uni.getStorageSync('token_start_time');
         const token_expired_time = 60 * 60 * 1000;
-
         if (now_time - token_start_time > token_expired_time - (5 * 1000)) {
             return refreshToken(token).then(result => {
                 const {data} = result.data;

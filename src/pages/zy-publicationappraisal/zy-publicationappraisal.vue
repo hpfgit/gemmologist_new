@@ -7,7 +7,7 @@
           <view class="right" @tap="resetCheck">重新选择  <image class="arrow" src="../../static/images/矩形1@2x.png"></image></view>
         </view>
         <view class="lists">
-          <view class="list" v-for="(item, index) in appraisals" :key="index">
+          <view class="list" v-for="(item, index) in appraisals" :key="index" @tap="resetCheck">
             <view class="left">
               <image class="avatar" :src="item.avatar"></image>
               <view class="right">
@@ -344,7 +344,7 @@ export default {
       ],
       userCash: '',
       pay_no: '',
-      isAgree: false,
+      isAgree: true,
       appraisals: [],
       appraiser_id: '',
       bjPrice: 1000

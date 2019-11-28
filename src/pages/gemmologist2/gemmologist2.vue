@@ -118,7 +118,7 @@ export default {
     goTo(index) {
       if (index) {
         uni.navigateTo({
-          url: '/pages/means2/means2?type=all'
+          url: '/pages/faultrecord/faultrecord?type=all'
         });
       } else {
         uni.navigateTo({
