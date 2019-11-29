@@ -215,6 +215,9 @@ export default {
         .nickname {
             font-size: 24rpx;
             color: #000000;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space:nowrap;
         }
 
         .level {

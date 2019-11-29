@@ -13,8 +13,7 @@
                     <text>{{banzhu.level_name}}</text>
                 </view>
                 <view class="introduce">
-                    <text class="text">个人介绍：</text>
-                    <text class="text2">{{banzhu.bio}}</text>
+                    <text class="text">个人介绍：<text class="text2">{{banzhu.bio}}</text></text>
                 </view>
                 <view class="requirement">
                     <text class="text">鉴定要求：</text>
@@ -242,6 +241,9 @@ export default {
     }
     .text {
         font-size: 30rpx;
+        overflow:hidden; //超出的文本隐藏
+        text-overflow:ellipsis; //溢出用省略号显示
+        white-space:nowrap; //溢出不换行
     }
     .text2 {
         font-size: 28rpx;
@@ -292,6 +294,10 @@ export default {
 
         &.level-3 {
             background-image: url("../../static/images/组143@2x.png");
+        }
+
+        &:last-child {
+            margin-bottom: 20rpx;
         }
     }
 }

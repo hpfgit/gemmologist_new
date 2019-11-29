@@ -3,7 +3,8 @@
         {
             "path": "pages/index3/index3",
             "style": {
-                "navigationBarTitleText": "BAN鉴定服务"
+                "navigationBarTitleText": "BAN鉴定服务",
+                "enablePullDownRefresh": true
             }
         },
         {

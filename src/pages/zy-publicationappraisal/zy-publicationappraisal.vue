@@ -729,14 +729,14 @@ export default {
           number ++;
         }
       });
-      if (number >= 3) {
+      // if (number >= 3) {
         this.appraisal();
-      } else {
-        uni.showToast({
-          title: '请上传三张主图',
-          icon: "none"
-        });
-      }
+      // } else {
+        // uni.showToast({
+          // title: '请上传三张主图',
+          // icon: "none"
+        // });
+      // }
     }
   }
 };

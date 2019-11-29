@@ -252,37 +252,32 @@ export default {
                 data.forEach(item => {
                     item.total = item.appr_cost + item.appraisal_cost;
                     item.isShow = false;
-                    // item.total = (item.total).toString().split('');
-                    //   const appr_cost_arr = (item.appr_cost).toString().split('');
-                    //   const appraisal_cost_arr = (item.appraisal_cost).toString().split('');
-                    //   item.appr_cost = appr_cost_arr;
-                    //   item.appraisal_cost = appraisal_cost_arr;
-                    //   const arr = [];
-                    //   item.appr_cost.forEach(ite => {
-                    //     const obj = {
-                    //       number: ite
-                    //     };
-                    //     arr.push(obj);
-                    //   });
-                    //   item.appr_cost = arr;
-                    //   const arr2 = [];
-                    //   item.appraisal_cost.forEach(itm => {
-                    //     const obj = {
-                    //       number: itm
-                    //     };
-                    //     arr2.push(obj);
-                    //   });
-                    //   item.appraisal_cost = arr2;
-                    //   const arr3 = [];
-                    //   item.total.forEach(iem => {
-                    //     const obj = {
-                    //       number: iem
-                    //     };
-                    //     arr3.push(obj);
-                    //   });
-                    // item.total = arr3;
                 });
                 this.lists = data;
+                uni.hideLoading();
+            });
+        }
+    },
+    onPullDownRefresh() {
+        uni.showLoading();
+        if (this.isLogin) {
+            isAppraiser().then(result => {
+                const { is_appraiser, is_appraisal_admin } = result.data;
+                this.isAppraiser = is_appraiser;
+                this.is_appraisal_admin = is_appraisal_admin;
+            });
+
+            getPost({
+                page: 1,
+                limit: 12
+            }).then(result => {
+                const { data } = result.data;
+                data.forEach(item => {
+                    item.total = item.appr_cost + item.appraisal_cost;
+                    item.isShow = false;
+                });
+                this.lists = data;
+                uni.stopPullDownRefresh();
                 uni.hideLoading();
             });
         }
