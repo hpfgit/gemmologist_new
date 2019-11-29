@@ -16,8 +16,8 @@ export default {
   name: "releasedsuccessfully",
   methods: {
     goTo() {
-      uni.navigateBack({
-        delta: 3
+      uni.redirectTo({
+        url: '/pages/index3/index3'
       });
     }
   }

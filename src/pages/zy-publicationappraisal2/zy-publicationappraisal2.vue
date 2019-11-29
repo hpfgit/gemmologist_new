@@ -769,7 +769,12 @@ export default {
                     images: result,
                     others: this.others,
                     is_specialty: this.is_specialty,
-                    price: this.cost,
+                    price:
+                        this.is_specialty === "1"
+                            ? 0
+                            : this.price === "请输入保价金额，默认1000元..."
+                            ? 1000
+                            : this.price,
                     brand_id: this.brand_id,
                     appraiser_list: this.appraiser_id
                 })
@@ -819,14 +824,14 @@ export default {
                     number++;
                 }
             });
-            if (number >= 1) {
+            // if (number >= 3) {
                 this.appraisal();
-            } else {
-                uni.showToast({
-                    title: '前三张主图必传',
-                    icon: "none"
-                });
-            }
+            // } else {
+                // uni.showToast({
+            //         title: '前三张主图必传',
+            //         icon: "none"
+            //     });
+            // }
         }
     }
 };

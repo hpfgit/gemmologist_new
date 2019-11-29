@@ -2,8 +2,8 @@
   <view class="container">
     <div class="info-container">
       <view class="info" :class="{active: isOpen}">
-        <view class="top">
-          <view class="title" @tap="open">服务项目 <image class="arrow" v-show="!isOpen" src="../../static/images/矩形1@2x - 副本.png"></image> <image class="arrow" v-show="isOpen" src="../../static/images/矩形1@2x - 副本 - 副本.png"></image></view>
+        <view class="top" @tap="open">
+          <view class="title">服务项目 <image class="arrow" src="../../static/images/鉴定贴详情-展开@2x.png"></image></view>
           <view class="img">
             <image
               v-if="mold === '0'"
@@ -53,6 +53,7 @@
             <text>备注标签</text>
           </view>
         </view>
+        <view class="retract" @tap="open">收起 <image class="arrow" src="../../static/images/鉴定贴详情-展开@2x - 副本.png"></image></view>
       </view>
     </div>
     <view class="djd">
@@ -94,6 +95,13 @@
       <view v-if="isJD === 'false'" class="gdjl">
         <image src="../../static/images/Workorderrecord@2x.png"></image>
       </view>
+    </view>
+    <view class="record">
+      <view class="en">Work order record</view>
+      <view class="line"></view>
+      <view class="title">工单记录</view>
+      <view class="text">鉴定结论得出后30天内可提交工单</view>
+      <view class="text">超出时间后无法创建</view>
     </view>
     <view class="btns">
       <view
@@ -366,8 +374,8 @@ export default {
           icon: "none",
           duration: 1500,
           success() {
-            uni.navigateBack({
-              delta: 1
+            uni.redirectTo({
+              url: '/pages/means4/means4?type='+that.type
             });
           }
         });
@@ -439,8 +447,8 @@ export default {
         uni.showToast({
           title: "提交成功",
           success() {
-            uni.navigateBack({
-              delta: 1
+            uni.redirectTo({
+              url: '/pages/means4/means4?type='+that.type
             });
           }
         });
@@ -586,6 +594,10 @@ export default {
   background-color: #eef1f4;
   overflow: hidden;
 }
+.arrow {
+  width: 18rpx;
+  height: 16rpx;
+}
 
 .info {
   width: 690rpx;
@@ -596,13 +608,9 @@ export default {
   margin: 15rpx auto;
   overflow: hidden;
 
-  .arrow {
-    width: 21rpx;
-    height: 13rpx;
-  }
 
   &.active {
-    height: 246rpx;
+    height: 280rpx;
   }
 
   .title {
@@ -732,6 +740,21 @@ export default {
   }
 }
 
+.retract {
+  font-size: 24rpx;
+  color: #898989;
+  text-align: center;
+  height: 70rpx;
+  line-height: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .arrow {
+    margin-left: 10rpx;
+  }
+}
+
 .djd {
   background-color: #ffffff;
   padding-top: 24rpx;
@@ -829,7 +852,7 @@ export default {
 .content {
   padding-left: 28rpx;
   padding-right: 28rpx;
-  margin-bottom: 100rpx;
+  margin-bottom: 30rpx;
   overflow: hidden;
 
   .title {
@@ -996,6 +1019,32 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 998;
+}
+
+.record {
+  margin-bottom: 66rpx;
+  
+  .en {
+    font-size: 30rpx;
+  }
+  .line {
+    width: 300rpx;
+    height: 1rpx;
+    background: #8a8589;
+    margin: 6rpx auto;
+  }
+  .title {
+    color: #000000;
+    margin-bottom: 24rpx;
+  }
+  .text {
+    color: #4b525b;
+    font-size: 24rpx;
+    line-height: 42rpx;
+  }
+  .en,.title,.text {
+    text-align: center;
+  }
 }
 
 .gdjl {

@@ -1,7 +1,7 @@
 <template>
     <view class="container">
         <view class="lists" v-if="lists.length">
-            <view class="item" v-for="(item, index) in lists" :key="index" @tap="gotoDetails(item.id)">
+            <view class="item" v-for="(item, index) in lists" :key="index" @tap="gotoDetails(item)">
                 <image
                     v-if="item.is_specialty"
                     class="specialty-img"
@@ -17,7 +17,7 @@
                 ></image>
                 <view
                     class="item-right"
-                    @tap="goToDetail(item.is_specialty, item.id)"
+                    @tap="gotoDetails(item)"
                 >
                     <view class="top">
                         <text>{{ item.brand_name }}</text>
@@ -74,17 +74,30 @@ export default {
         getPath(path) {
             return config[NODE_ENV].imgUrl + path;
         },
-        gotoDetails(id) {
-            uni.navigateTo({
-                url:
-                    "../Identificationdetails3/Identificationdetails3?id=" +
-                    id +
-                    "&type=" +
-                    this.type +
-                    "&mold=" +
-                    this.mold +
-                    "&isJD=true"
-            });
+        gotoDetails(item) {
+            if (item.final_result === 1) {
+                uni.navigateTo({
+                    url:
+                        "../Identificationdetails4/Identificationdetails4?id=" +
+                        item.id +
+                        "&type=" +
+                        this.type +
+                        "&mold=" +
+                        this.mold +
+                        "&isJD=true"
+                });
+            } else {
+                uni.navigateTo({
+                    url:
+                        "../Identificationdetails2/Identificationdetails2?id=" +
+                        item.id +
+                        "&type=" +
+                        this.type +
+                        "&mold=" +
+                        this.mold +
+                        "&isJD=true"
+                });
+            }
         }
     }
 };

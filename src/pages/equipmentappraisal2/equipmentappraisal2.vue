@@ -167,6 +167,15 @@ export default {
         goTo(id) {
             const that = this;
             console.log(this.is_specialty);
+            if (this.is_specialty === '2') {
+                uni.navigateTo({
+                    url:
+                        "/pages/selectappraiser/selectappraiser?is_specialty=" +
+                        that.is_specialty +
+                        "&brand_id=" +
+                        id
+                });
+            }
             uni.navigateTo({
                 url:
                     "/pages/selectappraiser2/selectappraiser2?is_specialty=" +

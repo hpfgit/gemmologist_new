@@ -5,10 +5,10 @@
         明细 >
       </view>
       <view class="title">可提现余额(元)</view>
-      <view class="number">2886.09</view>
+      <view class="number">{{appr_money}}</view>
       <view class="bottom">
         <view class="left">
-          <view class="dj-number">200.00</view>
+          <view class="dj-number">{{appr_blocked_money}}</view>
           <view class="text">冻结余额(元)</view>
         </view>
         <view class="right">
@@ -20,10 +20,10 @@
       <view class="inner">
         <view class="title">提现到我的钱包</view>
         <view class="price">
-          <text>￥</text><input placeholder="1000" name="price" id="price" />
+          <text>￥</text><input placeholder="0.00" name="price" id="price" />
         </view>
         <view class="yue">
-          <view>剩余金额￥1886.09</view>
+          <view>剩余金额￥{{appr_money - appr_blocked_money}}</view>
           <view>全部提现</view>
         </view>
       </view>
@@ -39,8 +39,17 @@ import {drawCashDetail} from '../../api/cashwithdrawal';
 
 export default {
   name: "cashwithdrawal",
+  data() {
+    return {
+      appr_blocked_money: "0.00",
+      appr_money: "0.00"
+    }
+  },
   onLoad() {
     drawCashDetail().then(result => {
+      const {appr_blocked_money, appr_money} = result.data;
+      this.appr_blocked_money = appr_blocked_money;
+      this.appr_money = appr_money;
       console.log(result);
     });
   }

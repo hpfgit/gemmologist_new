@@ -34,7 +34,7 @@
                 ></image>
                 <view
                     class="item-right"
-                    @tap="goToDetail(item.is_specialty, item.id)"
+                    @tap="gotoDetails(item.id)"
                 >
                     <view class="top">
                         <text>{{ item.brand_name }}</text>

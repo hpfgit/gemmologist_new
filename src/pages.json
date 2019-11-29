@@ -69,8 +69,20 @@
 				"navigationBarTitleText": "鉴定贴详情"
 			}
 		},
+		{
+			"path": "pages/Identificationdetails4/Identificationdetails4",
+			"style": {
+				"navigationBarTitleText": "鉴定贴详情"
+			}
+		},
         {
             "path": "pages/zy-publicationappraisal/zy-publicationappraisal",
+            "style": {
+                "navigationBarTitleText": "发布鉴定"
+            }
+        },
+        {
+            "path": "pages/zy-publicationappraisal2/zy-publicationappraisal2",
             "style": {
                 "navigationBarTitleText": "发布鉴定"
             }

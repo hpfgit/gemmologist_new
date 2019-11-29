@@ -26,16 +26,18 @@
             </view>
         </view>
         <view  class="btns">
-            <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo(1)">
-                <view class="inner">
-                    <view class="text">专业鉴定</view>
-                    <view class="text2">请选择 {{checkedNumber}}/1 名鉴定师</view>
+            <view class="btn-box">
+                <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo(1)">
+                    <view class="inner">
+                        <view class="text">保价鉴定</view>
+                        <view class="text2">请选择 {{checkedNumber}}/1 名鉴定师</view>
+                    </view>
                 </view>
-            </view>
-            <view class="btn" :class="{active: checkedNumber === 2}"  @tap="goTo(2)">
-                <view class="inner">
-                    <view class="text">保价鉴定</view>
-                    <view class="text2">请选择 {{checkedNumber}}/2 名鉴定师</view>
+                <view class="btn" :class="{active: checkedNumber === 2}"  @tap="goTo(2)">
+                    <view class="inner">
+                        <view class="text">保价鉴定</view>
+                        <view class="text2">请选择 {{checkedNumber}}/2 名鉴定师</view>
+                    </view>
                 </view>
             </view>
         </view>
@@ -141,15 +143,15 @@ export default {
             });
             appraiser_id = appraiser_id.substring(0, appraiser_id.length - 1);
             if (index !== this.checkedNumber) return;
-            if (this.checkedNumber === 1) {
-                uni.navigateTo({
-                    url: '/pages/zy-publicationappraisal/zy-publicationappraisal?is_specialty=1&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
-                });
-            } else if (this.checkedNumber === 2) {
+            // if (this.checkedNumber === 1) {
+            //     uni.navigateTo({
+            //         url: '/pages/zy-publicationappraisal/zy-publicationappraisal?is_specialty=1&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
+            //     });
+            // } else if (this.checkedNumber === 2) {
                 uni.navigateTo({
                     url: '/pages/zy-publicationappraisal/zy-publicationappraisal?is_specialty=2&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
                 });
-            }
+            // }
         }
     }
 }
@@ -252,7 +254,8 @@ export default {
         right: 0;
         bottom: 30rpx;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+
         .btn {
             width: 326rpx;
             height: 124rpx;
@@ -263,6 +266,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 30rpx;
             
             .inner {
                 text-align: center;

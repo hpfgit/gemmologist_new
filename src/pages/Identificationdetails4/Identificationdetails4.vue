@@ -2,18 +2,12 @@
     <view class="container">
         <div class="info-container">
             <view class="info" :class="{ active: isOpen }">
-                <view class="top">
-                    <view class="title" @tap="open"
+                <view class="top" @tap="open">
+                    <view class="title"
                         >服务项目
                         <image
                             class="arrow"
-                            v-show="!isOpen"
-                            src="../../static/images/矩形1@2x - 副本.png"
-                        ></image>
-                        <image
-                            class="arrow"
-                            v-show="isOpen"
-                            src="../../static/images/矩形1@2x - 副本 - 副本.png"
+                            src="../../static/images/鉴定贴详情-展开@2x.png"
                         ></image
                     ></view>
                     <view class="img">
@@ -59,65 +53,13 @@
                         <text>备注标签</text>
                     </view>
                 </view>
-            </view>
-            <view class="info_new">
-                <view class="top">
-                    <view class="title">{{ data.result }}</view>
+                <view class="retract" @tap="open"
+                    >收起
                     <image
-                        v-show="data.final_result === 1"
-                        class="yinz"
-                        src="../../static/images/为真拷贝2@2x.png"
-                    ></image>
-                    <image
-                        v-show="data.final_result === 0"
-                        class="yinz"
-                        src="../../static/images/为假@2x.png"
-                    ></image>
-                    <image
-                        v-show="data.final_result === 2"
-                        class="yinz"
-                        src="../../static/images/无法鉴定拷贝@2x.png"
-                    ></image>
-                    <view class="cont"
-                        ><image src="../../static/images/鉴定2@2x.png"></image
-                        >鉴定合作鉴定师</view
-                    >
-                </view>
-                <view class="bottom" v-for="(item, index) in appraiser" :key="index">
-                    <view class="left">
-                        <image class="head-img" :src="item.avatar"></image>
-                        <view class="right2">
-                            <view class="nickname">{{ item.name }}</view>
-                            <view class="right">
-                                <image
-                                    class="level-img"
-                                    src="../../static/images/矢量智能对象拷贝2@2x.png"
-                                ></image>
-                                <view class="level-name">{{ item.level_name }}</view>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="right">
-                        <view class="text">{{ appraiser.result_reason }}</view>
-                    </view>
-                </view>
-            </view>
-            <view class="ewm">
-                <view class="left">
-                    <image
-                        src="../../static/images/gh_b0f97c897085_344(1)@2x.png"
-                    ></image>
-                    <view class="desc">
-                        <view>识别二维码或微信搜索小程序: BAN鉴定服务</view>
-                        <view
-                            >输入<text class="number">{{ data.post_id }}</text
-                            >查询此鉴定贴</view
-                        >
-                    </view>
-                </view>
-                <view class="right-text">
-                    <text class="copy-id">复制ID</text>
-                </view>
+                        class="arrow"
+                        src="../../static/images/鉴定贴详情-展开@2x - 副本.png"
+                    ></image
+                ></view>
             </view>
         </div>
         <view class="djd">
@@ -160,60 +102,23 @@
                     </view>
                 </view>
             </view>
-            <view class="info_new">
-                <view class="bottom">
-                    <view class="left">
-                        <image class="head-img" :src="avatar"></image>
-                        <view class="right2">
-                            <view class="nickname">{{ user_info.name }}</view>
-                            <view class="right">
-                                <view class="level-name"
-                                    >{{ user_info.created_at }} 发布</view
-                                >
-                            </view>
-                        </view>
-                    </view>
-                </view>
-            </view>
-            <view class="work-order">
-                <view class="title2">工单记录</view>
-                <div class="conte">
-                    鉴定结论得出后30天内可提交工单，超出时间后无法创建
-                </div>
-            </view>
             <view v-if="isJD === 'false'" class="gdjl">
                 <image src="../../static/images/Workorderrecord@2x.png"></image>
             </view>
         </view>
-        <view class="fixed-bottom">
-            <image src="../../static/images/鉴定2@2x.png"></image>
-            <view class="text">BAN永远不会涉及销售</view>
-            <view class="text2">只为提供最公正的鉴定结果</view>
-            <view class="text3">
-                <view class="left">
-                    <view class="cir"></view>已鉴定{{count}}次
-                </view>
-                <view class="right">
-                    <view class="cir"></view>假货市场占有率{{fail}}%
-                </view>
-            </view>
+        <view class="record">
+            <view class="en">Work order record</view>
+            <view class="line"></view>
+            <view class="title">工单记录</view>
+            <view class="text">鉴定结论得出后30天内可提交工单</view>
+            <view class="text">超出时间后无法创建</view>
         </view>
         <view class="btns">
             <view
                 class="button"
-                v-show="!is_start"
                 @tap="startJD"
-                v-if="isJD !== 'false'"
             >
-                开始鉴定
-            </view>
-            <view
-                class="button"
-                v-show="!is_start"
-                @tap="zj_tr"
-                v-if="isJD !== 'false'"
-            >
-                转交他人
+                更改结果
             </view>
         </view>
         <view class="mask" v-show="is_start"></view>
@@ -304,7 +209,6 @@ import {
     changeAppraiser
 } from "../../api/Identificationdetails";
 import { appraiserList } from "../../api/selectappraiser";
-import { getCount } from "../../api";
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -347,7 +251,6 @@ export default {
             is_start: false,
             result: "",
             avatar: "",
-            avatar_img: "",
             type: "",
             markPlace: "可添加备注以便以后查看（仅鉴定师可见）",
             bzFw: false,
@@ -356,18 +259,11 @@ export default {
             isJD: "",
             isOpen: false,
             appraisers: [],
-            isHandOver: false,
-            me: {},
-            count: '',
-            fail: ''
+            isHandOver: false
         };
     },
     onLoad(options) {
-        getCount().then(result => {
-            const { count, fail } = result.data;
-            this.count = count;
-            this.fail = fail.substring(0, fail.length - 1);
-        });
+        console.log(options);
         const { id, type, mold, isJD } = options;
         this.type = type;
         this.mold = mold;
@@ -381,6 +277,7 @@ export default {
                 data,
                 hint_bottom,
                 hint_top,
+                appraiser,
                 operation_name
             } = result.data;
             this.images = images;
@@ -389,22 +286,53 @@ export default {
             this.data = data;
             this.hint_bottom = hint_bottom;
             this.hint_top = hint_top;
+            this.appraiser = appraiser;
             this.operation_name = operation_name;
-            this.avatar = "https://stg.tosneaker.com/" + user_info.avatar;
-            const keys = Object.keys(data.appraiser);
-            const arr = [];
-            keys.forEach(key => {
-                if (/[0-9]/g.test(key)) {
-                    if (/avatar_/ig.test(data.appraiser[key].avatar)) {
-                        data.appraiser[key].avatar = "https://stg.tosneaker.com/" + data.appraiser[key].avatar;
-                    } else {
-                        data.appraiser[key].avatar = config[NODE_ENV].imgUrl + data.appraiser[key].avatar;
+            if (/avatar_/gi.test(user_info.avatar)) {
+                this.avatar = "https://stg.tosneaker.com/" + user_info.avatar;
+            }
+            this.JDstatus = data.result;
+            appraiserList({
+                brand_id: data.brand_id
+            }).then(result => {
+                result.data.cover_image =
+                    config[NODE_ENV].imgUrl + result.data.cover_image;
+                const { cover_image, info } = result.data;
+                this.cover_image = cover_image;
+                this.info = info;
+                const arr = [];
+                const keys = Object.keys(result.data);
+                keys.forEach(key => {
+                    if (/[0-9]/gi.test(key)) {
+                        let avatar = "";
+                        if (/avatar_/gi.test(result.data[key].avatar)) {
+                            avatar =
+                                "https://stg.tosneaker.com/" +
+                                result.data[key].avatar;
+                        } else {
+                            avatar =
+                                config[NODE_ENV].imgUrl +
+                                result.data[key].avatar;
+                        }
+                        arr.push({
+                            appr_ask: result.data[key].appr_ask,
+                            level_name: result.data[key].level_name,
+                            name: result.data[key].name,
+                            bio: result.data[key].bio,
+                            avatar: avatar,
+                            apprs: result.data[key].data,
+                            id: result.data[key].user_id,
+                            appr_id: result.data[key].appr_id
+                        });
                     }
-                    arr.push(data.appraiser[key]);
-                }
+                });
+                arr.forEach((item, index) => {
+                    item.checked = false;
+                    item.index = index;
+                });
+                this.appraisers = arr;
+                uni.hideLoading();
             });
-            console.log(arr);
-            this.appraiser = arr;
         });
     },
     onShareAppMessage(result) {
@@ -471,8 +399,8 @@ export default {
                     icon: "none",
                     duration: 1500,
                     success() {
-                        uni.navigateBack({
-                            delta: 1
+                        uni.redirectTo({
+                            url: "/pages/means2/means2?type=" + that.type
                         });
                     }
                 });
@@ -545,8 +473,8 @@ export default {
                 uni.showToast({
                     title: "提交成功",
                     success() {
-                        uni.navigateBack({
-                            delta: 1
+                        uni.redirectTo({
+                            url: "/pages/means2/means2?type=" + that.type
                         });
                     }
                 });
@@ -625,7 +553,6 @@ export default {
                 bottom: 0;
             }
         }
-
         .icon {
             width: 32rpx;
             height: 30rpx;
@@ -642,7 +569,7 @@ export default {
 
         .nickname {
             font-size: 24rpx;
-            color: #000000;
+            color: #666;
             margin-top: 5rpx;
             text-align: center;
         }
@@ -689,6 +616,15 @@ export default {
     }
 }
 
+.info-container {
+    background-color: #eef1f4;
+    overflow: hidden;
+}
+.arrow {
+    width: 18rpx;
+    height: 16rpx;
+}
+
 .info {
     width: 690rpx;
     height: 90rpx;
@@ -697,15 +633,9 @@ export default {
     padding: 22rpx 28rpx 28rpx 38rpx;
     margin: 15rpx auto;
     overflow: hidden;
-    display: none;
-
-    .arrow {
-        width: 21rpx;
-        height: 13rpx;
-    }
 
     &.active {
-        height: 246rpx;
+        height: 280rpx;
     }
 
     .title {
@@ -724,219 +654,11 @@ export default {
     }
 }
 
-.info_new {
-    padding: 26rpx 0 0 0;
-
-    .top {
-        position: relative;
-
-        .title,
-        .text,
-        .cont {
-            text-align: center;
-            color: #2c2c2c;
-        }
-
-        .title {
-            font-size: 58rpx;
-            font-weight: bold;
-            padding-top: 30rpx;
-        }
-
-        .text {
-            font-size: 24rpx;
-        }
-
-        .cont {
-            font-size: 22rpx;
-            padding-top: 12rpx;
-            color: #666666;
-
-            image {
-                width: 32rpx;
-                height: 32rpx;
-                border-radius: 8rpx;
-                margin-right: 10rpx;
-            }
-        }
-
-        .yinz {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 193rpx;
-            height: 137rpx;
-        }
-    }
-
-    .bottom {
-        display: flex;
-        justify-content: space-between;
-        width: 670rpx;
-        margin: 0 auto;
-        padding-top: 46rpx;
-        overflow: hidden;
-
-        .left {
-            display: flex;
-            align-items: center;
-
-            .head-img {
-                width: 70rpx;
-                height: 70rpx;
-                border-radius: 70rpx;
-                margin-right: 8rpx;
-            }
-        }
-
-        .right2 {
-            .right {
-                display: flex;
-                align-items: center;
-                margin-top: 4rpx;
-            }
-        }
-
-        .level-img {
-            width: 28rpx;
-            height: 28rpx;
-            margin-right: 8rpx;
-        }
-
-        .level-name {
-            font-size: 22rpx;
-            color: #898989;
-        }
-
-        .arrow {
-            width: 10rpx;
-            height: 18rpx;
-        }
-
-        .text {
-            color: #000000;
-            font-size: 24rpx;
-        }
-    }
-}
-
-.ewm {
-    width: 670rpx;
-    margin: 20rpx auto 0;
-    background-color: #f4f3f9;
-    border-radius: 10rpx;
+.top,
+.center,
+.bottom {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    overflow: hidden;
-
-    .left {
-        display: flex;
-        align-items: center;
-    }
-
-    .desc {
-        view {
-            font-size: 20rpx;
-            color: #666666;
-
-            .number {
-                font-size: 20rpx;
-                color: #000000;
-            }
-        }
-    }
-
-    image {
-        width: 104rpx;
-        height: 104rpx;
-        margin: 5px;
-        margin-right: 28rpx;
-    }
-
-    .right-text {
-        width: 46rpx;
-        height: 124rpx;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #e9e8f3;
-        border-radius: 0rpx 10rpx 10rpx 0rpx;
-
-        .copy-id {
-            font-size: 20rpx;
-            width: 20rpx;
-            color: #898989;
-        }
-    }
-}
-
-.fixed-bottom {
-    background-image: url("../../static/images/BAN@2x.png");
-    background-size: cover;
-    text-align: center;
-    overflow: hidden;
-
-    image {
-        width: 90rpx;
-        height: 90rpx;
-        margin-top: 72rpx;
-        margin-bottom: 28rpx;
-    }
-
-    .text {
-        font-size: 36rpx;
-        font-weight: bold;
-        margin-bottom: 12rpx;
-    }
-
-    .text,
-    .text2 {
-        text-align: center;
-        color: #000000;
-    }
-
-    .text3 {
-        display: flex;
-        justify-content: space-between;
-        width: 460rpx;
-        margin: 40rpx auto 60rpx;
-        text-align: center;
-
-        .cir {
-            width: 10rpx;
-            height: 10rpx;
-            background-color: #cdcdcd;
-            border-radius: 3rpx;
-            margin-right: 12rpx;
-        }
-        .right,
-        .left {
-            display: flex;
-            align-items: center;
-            color: #666666;
-            font-size: 22rpx;
-        }
-    }
-}
-
-.work-order {
-    width: 630rpx;
-    margin: 0 auto;
-    padding-left: 10rpx;
-    padding-right: 10rpx;
-
-    .title2 {
-        font-size: 34rpx;
-        color: #000;
-        padding-top: 60rpx;
-    }
-
-    .conte {
-        font-size: 24rpx;
-        color: #898989;
-        margin-top: 16rpx;
-    }
 }
 
 .top {
@@ -953,8 +675,16 @@ export default {
         margin-left: 26rpx;
     }
 
+    margin-bottom: 30rpx;
+    display: flex;
+    justify-content: space-between;
+
     .price {
         margin-left: 10rpx;
+    }
+
+    image {
+        margin-left: 28rpx;
     }
 
     .bjd-img {
@@ -1035,8 +765,22 @@ export default {
     }
 }
 
+.retract {
+    font-size: 24rpx;
+    color: #898989;
+    text-align: center;
+    height: 70rpx;
+    line-height: 70rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .arrow {
+        margin-left: 10rpx;
+    }
+}
+
 .djd {
-    display: none;
     background-color: #ffffff;
     padding-top: 24rpx;
     padding-bottom: 36rpx;
@@ -1065,7 +809,6 @@ export default {
 }
 
 .tip {
-    display: none;
     font-size: 22rpx;
     color: #989898;
     height: 50rpx;
@@ -1090,27 +833,22 @@ export default {
     display: flex;
     flex-wrap: wrap;
     text-align: center;
-    justify-content: space-between;
 
     .img-box {
         font-size: 22rpx;
         color: #ffffff;
-        width: 314rpx;
-        height: 314rpx;
-        background-color: #ffffff;
-        border-radius: 16rpx;
+        width: 25%;
         display: inline-block;
-        margin-bottom: 40rpx;
 
         .img {
             position: relative;
-            width: 314rpx;
-            height: 314rpx;
+            height: 150rpx;
+            width: 150rpx;
             display: inline-block;
 
             image {
-                width: 314rpx;
-                height: 314rpx;
+                width: 150rpx;
+                height: 150rpx;
                 background-color: #f3f0ef;
                 border-radius: 8rpx;
                 position: absolute;
@@ -1122,50 +860,47 @@ export default {
                 position: absolute;
                 bottom: 0;
                 left: 0;
-                height: 60rpx;
-                line-height: 60rpx;
-                background-color: rgba($color: #000000, $alpha: 0.3);
+                height: 40%;
+                background-color: rgba($color: #000000, $alpha: 0.5);
                 z-index: 3;
                 width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 color: #ffffff;
-                font-size: 26rpx;
+                font-size: 22rpx;
             }
         }
     }
 }
 
 .content {
-    padding-bottom: 60rpx;
+    padding-left: 28rpx;
+    padding-right: 28rpx;
+    margin-bottom: 30rpx;
     overflow: hidden;
-    width: 690rpx;
-    margin: 52rpx auto 0;
-    background-color: #ffffff;
-    border-radius: 8rpx;
 
     .title {
         font-size: 40rpx;
+        margin-top: 32rpx;
     }
 
     .beizhu {
         font-size: 26rpx;
         margin-top: 22rpx;
         margin-bottom: 36rpx;
-        color: #898989;
     }
 }
 
 .btns {
-    width: 670rpx;
+    width: 680rpx;
     margin: 0 auto;
     position: fixed;
     left: 0;
     right: 0;
     z-index: 998;
     bottom: 50rpx;
-    display: none;
+    display: flex;
     justify-content: space-around;
 }
 
@@ -1309,6 +1044,34 @@ export default {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 998;
+}
+
+.record {
+    margin-bottom: 66rpx;
+
+    .en {
+        font-size: 30rpx;
+    }
+    .line {
+        width: 300rpx;
+        height: 1rpx;
+        background: #8a8589;
+        margin: 6rpx auto;
+    }
+    .title {
+        color: #000000;
+        margin-bottom: 24rpx;
+    }
+    .text {
+        color: #4b525b;
+        font-size: 24rpx;
+        line-height: 42rpx;
+    }
+    .en,
+    .title,
+    .text {
+        text-align: center;
+    }
 }
 
 .gdjl {

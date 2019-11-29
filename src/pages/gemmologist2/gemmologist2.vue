@@ -50,7 +50,7 @@
       </view>
     </view>
     <view class="modal">
-      <view class="box">
+      <view class="box" @tap="goTo(2)">
         <view class="left">
           <image :src="qiniuUrl+'/组26@2x.png'"></image>
           <view class="text">学习资料</view>
@@ -58,7 +58,7 @@
         <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
         <view class="line"></view>
       </view>
-      <view class="box">
+      <view class="box" @tap="goTo(3)">
         <view class="left">
           <image :src="qiniuUrl+'/组29@2x.png'"></image>
           <view class="text">考核管理</view>
@@ -66,7 +66,7 @@
         <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
         <view class="line"></view>
       </view>
-      <view class="box">
+      <view class="box" @tap="goTo(4)">
         <view class="left">
           <image :src="qiniuUrl+'/组28@2x.png'"></image>
           <view class="text">提现管理</view>
@@ -116,9 +116,13 @@ export default {
       });
     },
     goTo(index) {
-      if (index) {
+      if (index === 1) {
         uni.navigateTo({
           url: '/pages/faultrecord/faultrecord?type=all'
+        });
+      } else if (index === 4) {
+        uni.navigateTo({
+          url: '/pages/cashwithdrawal/cashwithdrawal?type=all'
         });
       } else {
         uni.navigateTo({
