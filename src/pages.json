@@ -67,7 +67,8 @@
 		{
 			"path": "pages/gemmologist2/gemmologist2",
 			"style": {
-				"navigationBarTitleText": "鉴定师端"
+                "navigationBarTitleText": "鉴定师端",
+                "enablePullDownRefresh": true
 			}
 		},
 		{
@@ -248,7 +249,8 @@
         {
             "path": "pages/means4/means4",
             "style": {
-                "navigationBarTitleText": "鉴定记录"
+                "navigationBarTitleText": "鉴定记录",
+                "enablePullDownRefresh": true
             }
         },
         {

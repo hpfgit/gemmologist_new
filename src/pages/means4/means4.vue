@@ -112,6 +112,20 @@ export default {
             uni.hideLoading();
         });
     },
+    enablePullDownRefresh() {
+        uni.showLoading();
+        const { type } = options;
+        this.type = type;
+        newAppraiseDetails({
+            page: 1,
+            type
+        }).then(result => {
+            const { data } = result.data;
+            this.lists = data;
+            uni.hideLoading();
+            uni.stopPullDownRefresh();
+        });
+    },
     methods: {
         getPath(path) {
             if (/avatar_/gi.test(path)) {

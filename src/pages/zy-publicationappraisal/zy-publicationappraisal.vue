@@ -769,7 +769,7 @@ export default {
                     images: result,
                     others: this.others,
                     is_specialty: this.is_specialty,
-                    price: this.cost,
+                    price: this.bjPrice,
                     brand_id: this.brand_id,
                     appraiser_list: this.appraiser_id
                 })
