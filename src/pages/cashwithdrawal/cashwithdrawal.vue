@@ -47,10 +47,10 @@ export default {
   },
   onLoad() {
     drawCashDetail().then(result => {
-      const {appr_blocked_money, appr_money} = result.data;
+      const {appr_blocked_money, appr_money} = result.data.data;
       this.appr_blocked_money = appr_blocked_money;
       this.appr_money = appr_money;
-      console.log(result);
+      console.log(result.data.data);
     });
   }
 };
