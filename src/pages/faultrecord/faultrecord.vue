@@ -1,42 +1,45 @@
 <template>
-  <view class="container">
-    <view class="lists">
-      <view
-        class="item"
-        v-for="(item, index) in lists"
-        :key="index"
-        @tap="gotoDetails(item.id)"
-      >
-        <image class="left-image" :src="getPath(item.cover_image)"></image>
-        <view class="item-right">
-          <view class="top">
-            <text>{{ item.brand_name }}</text>
-            <view class="time">
-              <image :src="qiniuUrl + '间(3)@2x.png'"></image>
-              <text>{{ item.publish_at }}</text>
+    <view class="container">
+        <view class="lists">
+            <view
+                class="item"
+                v-for="(item, index) in lists"
+                :key="index"
+                @tap="gotoDetails(item.id)"
+            >
+                <image
+                    class="left-image"
+                    :src="getPath(item.cover_image)"
+                ></image>
+                <view class="item-right">
+                    <view class="top">
+                        <text>{{ item.brand_name }}</text>
+                        <view class="time">
+                            <image :src="qiniuUrl + '间(3)@2x.png'"></image>
+                            <text>{{ item.publish_at }}</text>
+                        </view>
+                    </view>
+                    <view class="center">
+                        <view class="info">{{ item.appr_sn }}</view>
+                        <view class="status true" v-if="item.final_result === 1"
+                            ><text>鉴定为真</text></view
+                        >
+                        <view class="status true" v-if="item.final_result === 0"
+                            ><text>鉴定为假</text></view
+                        >
+                    </view>
+                </view>
             </view>
-          </view>
-          <view class="center">
-            <view class="info">{{ item.appr_sn }}</view>
-            <view class="status true" v-if="item.final_result === 1"
-              ><text>鉴定为真</text></view
-            >
-            <view class="status true" v-if="item.final_result === 0"
-              ><text>鉴定为假</text></view
-            >
-          </view>
         </view>
-      </view>
+        <view class="no-data" v-if="!lists.length">
+            <view>
+                <image :src="qiniuUrl + '/暂无鉴定贴@2x.png'"></image>
+            </view>
+            <view>
+                <image :src="qiniuUrl + '/暂时没有鉴定贴~@2x.png'"></image>
+            </view>
+        </view>
     </view>
-    <view class="no-data" v-if="!lists.length">
-      <view>
-        <image :src="qiniuUrl + '/暂无鉴定贴@2x.png'"></image>
-      </view>
-      <view>
-        <image :src="qiniuUrl + '/暂时没有鉴定贴~@2x.png'"></image>
-      </view>
-    </view>
-  </view>
 </template>
 
 <script>
@@ -45,32 +48,35 @@ const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
 export default {
-  data() {
-    return {
-      lists: [],
-      imgPath: config[NODE_ENV].imgUrl,
-      qiniuUrl: config[NODE_ENV].qiniuUrl
-    };
-  },
-  onLoad() {
-    errorRate({
-      page: 1
-    }).then(result => {
-      const { data } = result.data;
-      this.lists = data;
-      console.log(result, this.lists);
-    });
-  },
-  methods: {
-    getPath(path) {
-      return this.imgPath + path;
+    data() {
+        return {
+            lists: [],
+            imgPath: config[NODE_ENV].imgUrl,
+            qiniuUrl: config[NODE_ENV].qiniuUrl
+        };
     },
-    gotoDetails(id) {
-      uni.navigateTo({
-        url: "../Identificationdetails2/Identificationdetails2?id=" + id + "&isJD=false"
-      });
+    onLoad() {
+        errorRate({
+            page: 1
+        }).then(result => {
+            const { data } = result.data;
+            this.lists = data;
+            console.log(result, this.lists);
+        });
+    },
+    methods: {
+        getPath(path) {
+            return this.imgPath + path;
+        },
+        gotoDetails(id) {
+            uni.navigateTo({
+                url:
+                    "../Identificationdetails2/Identificationdetails2?id=" +
+                    id +
+                    "&isJD=false"
+            });
+        }
     }
-  }
 };
 </script>
 
@@ -184,22 +190,22 @@ export default {
     }
 }
 .no-data {
-  overflow: hidden;
-  view {
-    text-align: center;
-    &:nth-of-type(1) {
-      margin-top: 200rpx;
-      image {
-        width: 300rpx;
-        height: 298rpx;
-      }
+    overflow: hidden;
+    view {
+        text-align: center;
+        &:nth-of-type(1) {
+            margin-top: 200rpx;
+            image {
+                width: 300rpx;
+                height: 298rpx;
+            }
+        }
+        &:nth-of-type(2) {
+            image {
+                width: 192rpx;
+                height: 34rpx;
+            }
+        }
     }
-    &:nth-of-type(2) {
-      image {
-        width: 192rpx;
-        height: 34rpx;
-      }
-    }
-  }
 }
 </style>

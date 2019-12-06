@@ -359,21 +359,21 @@ export default {
         },
         goToPath(index) {
             const that = this;
-            // if (index) {
+            if (index) {
                 uni.navigateTo({
                     url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=clothing',
                     success() {
                         that.isShow = false;
                     }
                 });
-            // } else {
-            //     uni.navigateTo({
-            //         url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=shoes',
-            //         success() {
-            //             that.isShow = false;
-            //         }
-            //     });
-            // }
+            } else {
+                uni.navigateTo({
+                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=shoes',
+                    success() {
+                        that.isShow = false;
+                    }
+                });
+            }
         },
         goNav(index) {
             if (index === 1) {
