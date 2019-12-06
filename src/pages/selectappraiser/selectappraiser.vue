@@ -191,7 +191,7 @@ export default {
 
     .lists {
         width: 678rpx;
-        margin: 0 auto;
+        margin: 0 auto 400rpx;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;

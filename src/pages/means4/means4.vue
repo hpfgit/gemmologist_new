@@ -102,6 +102,7 @@ export default {
     onLoad(options) {
         uni.showLoading();
         const { type } = options;
+        this.type = type;
         newAppraiseDetails({
             page: 1,
             type
@@ -120,6 +121,7 @@ export default {
             }
         },
         gotoDetails(id) {
+            const that = this;
             uni.navigateTo({
                 url:
                     "../Identificationdetails2/Identificationdetails2?id=" +

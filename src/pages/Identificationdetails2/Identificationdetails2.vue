@@ -245,6 +245,7 @@ export default {
   onLoad(options) {
     console.log(options);
     const { id, type, mold, isJD } = options;
+    console.log(type);
     this.type = type;
     this.mold = mold;
     this.isJD = isJD;
@@ -314,7 +315,6 @@ export default {
     if (result.from === 'button') {
       console.log(result.target);
     }
-
     return {
       title: '鉴定贴详情',
       path: '/pages/Identificationdetails/Identificationdetails',
@@ -369,6 +369,13 @@ export default {
       }).then(result => {
         const that = this;
         const {message, status} = result.data;
+        if (status === 401) {
+          uni.showToast({
+            title: message,
+            icon: "none"
+          });
+          return;
+        }
         uni.showToast({
           title: message,
           icon: "none",
@@ -383,14 +390,9 @@ export default {
       });
     },
     check_appr(index) {
-      if (this.checkedNumber >= 1) {
-        this.checkedArr.forEach(item => {
-          if (index === item.index) {
-            this.appraisers[index].checked = !this.appraisers[index].checked;
-          }
-        });
-        return;
-      }
+      this.appraisers.forEach(item => {
+        item.checked = false;
+      });
       this.appraisers[index].checked = !this.appraisers[index].checked;
     },
     open() {
@@ -1022,7 +1024,7 @@ export default {
 }
 
 .record {
-  margin-bottom: 66rpx;
+  margin-bottom: 180rpx;
   
   .en {
     font-size: 30rpx;
