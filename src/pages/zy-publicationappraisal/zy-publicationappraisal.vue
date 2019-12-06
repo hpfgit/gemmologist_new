@@ -752,7 +752,7 @@ export default {
             this.price = this.insuredPriceNumber;
             cost({
                 appr_cost: 5,
-                appr_goods_scale: 0.02,
+                appr_goods_scale: 0.03,
                 price: this.price
             }).then(result => {
                 const { cost } = result.data;
