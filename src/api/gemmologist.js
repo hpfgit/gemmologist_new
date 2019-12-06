@@ -11,3 +11,7 @@ export function appraisal() {
 export function newAppraise(params) {
     return request('GET', '/api/appraisal/post/my/new-appraise', {});
 }
+
+export function workOrder(params) {
+    return request('POST', '/api/appraisal/post/work-order', params);
+}

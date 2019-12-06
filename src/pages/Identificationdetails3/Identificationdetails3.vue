@@ -376,7 +376,8 @@ export default {
             isHandOver: false,
             me: {},
             count: '',
-            fail: ''
+            fail: '',
+            id: ''
         };
     },
     onLoad(options) {
@@ -389,6 +390,7 @@ export default {
         this.type = type;
         this.mold = mold;
         this.isJD = isJD;
+        this.id = id;
         this.result = 1;
         post({ id }).then(result => {
             const {
@@ -435,7 +437,6 @@ export default {
         if (result.from === "button") {
             console.log(result.target);
         }
-
         return {
             title: "鉴定贴详情",
             path: "/pages/Identificationdetails/Identificationdetails",
@@ -472,7 +473,7 @@ export default {
     methods: {
         make_up_order() {
             uni.navigateTo({
-                url: '/pages/workOrder/workOrder'
+                url: '/pages/workOrder/workOrder?id='+this.id
             });
         },
         zj_tr() {
