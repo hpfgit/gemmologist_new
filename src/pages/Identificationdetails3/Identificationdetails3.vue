@@ -177,9 +177,26 @@
             </view>
             <view class="work-order">
                 <view class="title2">工单记录</view>
-                <div class="conte">
+                <div class="conte" v-show="work_order.length > 0">
                     鉴定结论得出后30天内可提交工单，超出时间后无法创建
                 </div>
+            </view>
+            <view class="work-orker-list">
+                <view class="order-list" v-for="(item, index) in work_order" :key="index">
+                    <view class="left">
+                        <image :src="item.avatar"></image>
+                    </view>
+                    <view class="right">
+                        <view class="top">
+                            <view class="username">{{item.name}}</view>
+                            <view class="date">{{item.created_at}}</view>
+                        </view>
+                        <view class="contents">{{item.content}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="make-up" @tap="make_up_order">
+                补充工单
             </view>
             <view v-if="isJD === 'false'" class="gdjl">
                 <image src="../../static/images/Workorderrecord@2x.png"></image>
@@ -385,6 +402,13 @@ export default {
             } = result.data;
             this.images = images;
             this.user_info = user_info;
+            work_order.forEach(item => {
+                if (/avatar_/ig.test(item.avatar)) {
+                    item.avatar = 'https://stg.tosneaker.com/' + item.avatar;
+                } else {
+                    item.avatar = config[NODE_ENV].imgUrl + item.avatar;
+                }
+            });
             this.work_order = work_order;
             this.data = data;
             this.hint_bottom = hint_bottom;
@@ -446,6 +470,11 @@ export default {
         }
     },
     methods: {
+        make_up_order() {
+            uni.navigateTo({
+                url: '/pages/workOrder/workOrder'
+            });
+        },
         zj_tr() {
             this.isHandOver = true;
         },
@@ -937,6 +966,56 @@ export default {
         color: #898989;
         margin-top: 16rpx;
     }
+}
+
+.work-orker-list {
+    width: 630rpx;
+    margin: 30rpx auto;
+    padding-left: 10rpx;
+    padding-right: 10rpx;
+
+    .order-list { 
+        display: flex;
+        justify-content: space-between;
+        
+        .left {
+            margin-right: 20rpx;
+        }
+
+        image {
+            width: 72rpx;
+            height: 72rpx;
+            border-radius: 72rpx;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10rpx;
+
+            .username,.date {
+                font-size: 26rpx;
+            }
+        }
+        
+        .contents {
+            font-size: 22rpx;
+            color: #4b525b;
+            line-height: 36rpx;
+        }
+    }
+}
+
+.make-up {
+    width: 240rpx;
+	height: 70rpx;
+    margin: 0 auto 30rpx;
+	background-color: #5e95f4;
+	border-radius: 35rpx;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .top {

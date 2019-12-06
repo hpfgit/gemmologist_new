@@ -8,6 +8,12 @@
             }
         },
         {
+            "path": "pages/workOrder/workOrder",
+            "style": {
+                "navigationBarTitleText": "添加工单"
+            }
+        },
+        {
             "path": "pages/login/login",
             "style": {
                 "navigationBarTitleText": "登录"
@@ -54,7 +60,8 @@
         {
             "path":"pages/moderator/moderator",
             "style":{
-                "navigationBarTitleText":"版主端"
+                "navigationBarTitleText":"版主端",
+                "enablePullDownRefresh": true
             }
         },
 		{

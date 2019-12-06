@@ -18,3 +18,7 @@ export function supplement(params) {
 export function changeAppraiser(params) {
     return request('POST', '/api/appraisal/change-appraiser', params);
 }
+
+export function workOrder(params) {
+    return request('POST', '/api/appraisal/post/work-order', params);
+}
