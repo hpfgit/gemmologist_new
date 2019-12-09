@@ -356,7 +356,7 @@ export default {
     /*left: 0;*/
     /*right: 0;*/
     margin: 0 auto;
-    background-image: url("../../static/images/gemmologist/矩形1@2x.png");
+    background-image: url("../../static/images/矩形1@2x.png");
     background-repeat: no-repeat;
     background-size: cover;
     padding-left: 38rpx;

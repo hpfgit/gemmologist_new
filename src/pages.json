@@ -134,7 +134,8 @@
         {
             "path": "pages/means3/means3",
             "style": {
-                "navigationBarTitleText": "鉴定记录"
+                "navigationBarTitleText": "鉴定记录",
+                "enablePullDownRefresh": true
             }
         },
         {

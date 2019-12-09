@@ -686,7 +686,7 @@ export default {
           height: 30rpx;
           line-height: 30rpx;
           text-align: center;
-          background-image: url('../../static/images/index/组10@2x.png');
+          background-image: url('../../static/images/组10@2x.png');
           background-size: cover;
         }
 

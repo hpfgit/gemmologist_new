@@ -1,24 +1,24 @@
 <template>
     <scroll-view>
         <view class="container">
-            <image class="con-bg-img" src="../../static/images/用户端首页渐变背景@2x.png"></image>
+            <image class="con-bg-img" :src="qiniuUrl+'用户端首页渐变背景@2x.png'"></image>
             <view class="navs">
                 <view class="nav" @tap="goNav(0)">
-                    <image src="../../static/images/考核@2x.png"></image>
+                    <image :src="qiniuUrl+'考核@2x.png'"></image>
                     <view class="text">鉴定师考核模式</view>
                 </view>
                 <view class="nav" @tap="goNav(1)">
-                    <image src="../../static/images/极速@2x.png"></image>
+                    <image :src="qiniuUrl+'极速@2x.png'"></image>
                     <view class="text">极速鉴定声明</view>
                 </view>
                 <view class="nav" @tap="goNav(2)">
-                    <image src="../../static/images/￥@2x.png"></image>
+                    <image :src="qiniuUrl+'￥@2x.png'"></image>
                     <view class="text">保价鉴定声明</view>
                 </view>
             </view>
             <view class="infos">
                 <view class="left">
-                    <image src="../../static/images/鉴定2@2x.png"></image>
+                    <image :src="qiniuUrl+'鉴定2@2x.png'"></image>
                     <view class="user-info">
                         <view class="username">BAN鉴定服务</view>
                         <view class="userinfo">只为提供最公正的鉴定结果</view>
@@ -26,18 +26,18 @@
                 </view>
                 <view class="right" @tap="goTeam">
                     <div class="text">鉴定团队</div>
-                    <image src="../../static/images/向右@2x.png"></image>
+                    <image :src="qiniuUrl+'向右@2x.png'"></image>
                 </view>
             </view>
             <view class="box">
-                <image class="bg-img" src="../../static/images/有投影bg@2x.png"></image>
+                <image class="bg-img" :src="qiniuUrl+'有投影bg@2x.png'"></image>
                 <view class="inner">
                     <view class="data-display">
                         <view class="data-display-two" @tap="goToQuestion">
                             <view>鉴定流程及常见问题</view>
                             <image
                                 class="icon"
-                                src="../../static/images/-@2x.png"
+                                :src="qiniuUrl+'-@2x.png'"
                             ></image>
                         </view>
                         <view @tap="goToRZ">
@@ -82,16 +82,16 @@
             </view>
             <view class="search-mask" v-show="is_bar_mask">
                 <view class="title">提示</view>
-                <image class="close-img" @tap="closeBarMask" src="../../static/images/圆角矩形607拷贝@2x.png"></image>
+                <image class="close-img" @tap="closeBarMask" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image>
                 <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
                 <view class="btn-yes" @tap="closeBarMask">确定</view>
             </view>
             <view class="selector-end" v-show="isLogin">
                 <view class="left" @tap="goToData(0)" v-show="isAppraiser">
-                    <image src="../../static/images/鉴定师端拷贝@2x.png"></image>
+                    <image :src="qiniuUrl+'鉴定师端拷贝@2x.png'"></image>
                 </view>
                 <view class="right" @tap="goToData(1)" v-show="is_appraisal_admin">
-                    <image src="../../static/images/版主端拷贝@2x.png"></image>
+                    <image :src="qiniuUrl+'版主端拷贝@2x.png'"></image>
                 </view>
             </view>
             <view class="login" v-show="!isLogin" @tap="goToLogin">
@@ -102,7 +102,7 @@
             <view class="check-type" v-show="isShow">
                 <view class="title">选择鉴定品类</view>
                 <image
-                    src="../../static/images/圆角矩形607拷贝@2x.png"
+                    :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"
                     class="close-img"
                     @tap="close"
                 ></image>
@@ -110,14 +110,14 @@
                     <view class="list" @tap="goToPath(0)">
                         <image
                             class="shoes-img"
-                            src="../../static/images/球鞋@2x.png"
+                            :src="qiniuUrl+'球鞋@2x.png'"
                         ></image>
                         <view class="text">球鞋</view>
                     </view>
                     <view class="list" @tap="goToPath(1)">
                         <image
                             class="clothing-img"
-                            src="../../static/images/服饰@2x.png"
+                            :src="qiniuUrl+'服饰@2x.png'"
                         ></image>
                         <view class="text">服饰</view>
                     </view>
@@ -128,12 +128,12 @@
                     <image
                         v-if="item.is_specialty"
                         class="specialty-img"
-                        src="../../static/images/费用信息@2x.png"
+                        :src="qiniuUrl+'费用信息@2x.png'"
                         @tap="priceDetails(index)"
                     ></image>
-                    <image v-show="item.final_result === 0" class="yinz" src="../../static/images/为假@2x.png"></image>
-                    <image v-show="item.final_result === 1" class="yinz" src="../../static/images/为真拷贝2@2x.png"></image>
-                    <image v-show="item.final_result === 2" class="yinz" src="../../static/images/无法鉴定拷贝@2x.png"></image>
+                    <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
+                    <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
+                    <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
                     <image
                         class="left-image"
                         :src="getPath(item.cover_image)"
@@ -160,11 +160,11 @@
                         <image
                             class="close-img"
                             @tap="closeDetails"
-                            src="../../static/images/price/关闭@2x.png"
+                            :src="qiniuUrl+'关闭@2x.png'"
                         ></image>
                         <view class="price">
                             <image
-                                src="../../static/images/price/01@2x.png"
+                                :src="qiniuUrl+'01@2x.png'"
                             ></image>
                             <view class="img-number-container">
                                 <view class="number">{{
@@ -175,7 +175,7 @@
                         </view>
                         <view class="total">
                             <image
-                                src="../../static/images/price/02@2x.png"
+                                :src="qiniuUrl+'02@2x.png'"
                             ></image>
                             <view class="img-number-container">
                                 <view class="number">{{ details.total }}</view>
@@ -184,7 +184,7 @@
                         </view>
                         <view class="price">
                             <image
-                                src="../../static/images/price/03@2x.png"
+                                :src="qiniuUrl+'03@2x.png'"
                             ></image>
                             <view class="img-number-container">
                                 <view class="number">{{ details.appr_cost }}</view>
