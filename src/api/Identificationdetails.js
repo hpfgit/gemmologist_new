@@ -22,3 +22,8 @@ export function changeAppraiser(params) {
 export function workOrder(params) {
     return request('POST', '/api/appraisal/post/work-order', params);
 }
+
+export function banzhuAppraise(params) {
+    const {id} = params;
+    return request('PUT', `/api/appraisal/post/${id}/banzhu-appraise`, params);
+}

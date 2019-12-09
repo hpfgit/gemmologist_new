@@ -75,7 +75,7 @@ export default {
             return config[NODE_ENV].imgUrl + path;
         },
         gotoDetails(item) {
-            if (item.final_result === 1) {
+            if (item.post_status === 13) {
                 uni.navigateTo({
                     url:
                         "../Identificationdetails4/Identificationdetails4?id=" +

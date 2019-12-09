@@ -34,19 +34,19 @@
           <view class="jd"> 已鉴定 {{ user_info.count }} 双 </view>
         </view>
         <view class="bottom">
-          <view class="tab">
+          <view class="tab" @tap="goto(0)">
             <image
               :src="qiniuUrl+'/个人主页2@2x.png'"
             ></image>
             <text>查看主页</text>
           </view>
-          <view class="tab">
+          <view class="tab" @tap="goto(1)">
             <image
               :src="qiniuUrl+'/记录@2x.png'"
             ></image>
             <text>查看记录</text>
           </view>
-          <view class="tab">
+          <view class="tab" @tap="goto(2)">
             <image
               :src="qiniuUrl+'/备注@2x.png'"
             ></image>
@@ -349,6 +349,21 @@ export default {
     }
   },
   methods: {
+    goto(index) {
+      if (index === 0) {
+        uni.navigateTo({
+          url: ''
+        });
+      } else if (index === 1) {
+        uni.navigateTo({
+          url: ''
+        });
+      } else if (index === 2) {
+        uni.navigateTo({
+          url: ''
+        });
+      }
+    },
     zj_tr() {
       this.isHandOver = true;
     },

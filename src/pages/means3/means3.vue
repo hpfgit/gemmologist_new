@@ -33,9 +33,7 @@
                     :src="getPath(item.cover_image)"
                 ></image>
                 <view
-                    class="item-right"
-                    @tap="goToDetail(item.is_specialty, item.id)"
-                >
+                    class="item-right">
                     <view class="top">
                         <text>{{ item.brand_name }}</text>
                     </view>
@@ -86,6 +84,7 @@
 
 <script>
 import { banzhu_appraise_num, banzhu_appraise } from "../../api/moderator";
+import { isAppraiser } from '../../api/index';
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
@@ -96,11 +95,17 @@ export default {
       imgPath: config[NODE_ENV].imgUrl,
       qiniuUrl: config[NODE_ENV].qiniuUrl,
       type: "",
-      mold: ""
+      mold: "",
+      is_appraisal_admin: ''
     };
   },
   onLoad(options) {
     uni.showLoading();
+    isAppraiser().then(result => {
+      console.log(result);
+      const {is_appraisal_admin} = result.data;
+      this.is_appraisal_admin = is_appraisal_admin;
+    });
     const { type, mold } = options;
     this.type = type;
     this.mold = mold;
@@ -118,16 +123,30 @@ export default {
       return config[NODE_ENV].imgUrl + path;
     },
     gotoDetails(id) {
-      uni.navigateTo({
-        url:
-          "../Identificationdetails2/Identificationdetails2?id=" +
-          id +
-          "&type=" +
-          this.type +
-          "&mold=" +
-          this.mold +
-          "&isJD=false"
-      });
+      if (this.is_appraisal_admin === 1) {
+        uni.navigateTo({
+          url:
+            "../Identificationdetails4/Identificationdetails4?id=" +
+            id +
+            "&type=" +
+            this.type +
+            "&mold=" +
+            this.mold +
+            "&isJD=true&is_appraisal_admin=" +
+            this.is_appraisal_admin
+        });
+      } else {
+        uni.navigateTo({
+          url:
+            "../Identificationdetails2/Identificationdetails2?id=" +
+            id +
+            "&type=" +
+            this.type +
+            "&mold=" +
+            this.mold +
+            "&isJD=true"
+        });
+      }
     }
   }
 };
