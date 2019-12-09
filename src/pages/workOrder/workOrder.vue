@@ -204,15 +204,20 @@ export default {
                         uni.hideLoading();
                         const {message, status} = result.data;
                         if (status === 403) {
-                            that.showToast({
+                            uni.showToast({
                                 title: message,
                                 icon: 'none'
                             });
                             return;
                         } else {
-                            that.showToast({
+                            uni.showToast({
                                 title: message,
-                                icon: 'none'
+                                icon: 'none',
+                                success() {
+                                    uni.navigateTo({
+                                        url: '/pages/index3/index3'
+                                    });
+                                }
                             });
                         }
                     });
@@ -227,15 +232,20 @@ export default {
                         uni.hideLoading();
                         const {message, status} = result.data;
                         if (status === 403) {
-                            that.showToast({
+                            uni.showToast({
                                 title: message,
                                 icon: 'none'
                             });
                             return;
                         } else {
-                            that.showToast({
+                            uni.showToast({
                                 title: message,
-                                icon: 'none'
+                                icon: 'none',
+                                success() {
+                                    uni.navigateTo({
+                                        url: '/pages/index3/index3'
+                                    });
+                                }
                             });
                         }
                     });

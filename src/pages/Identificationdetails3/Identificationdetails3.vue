@@ -177,7 +177,7 @@
             </view>
             <view class="work-order">
                 <view class="title2">工单记录</view>
-                <div class="conte" v-show="work_order.length > 0">
+                <div class="conte" v-show="work_order.length <= 0">
                     鉴定结论得出后30天内可提交工单，超出时间后无法创建
                 </div>
             </view>
@@ -195,7 +195,7 @@
                     </view>
                 </view>
             </view>
-            <view class="make-up" @tap="make_up_order">
+            <view class="make-up" @tap="make_up_order" v-if="data.post_status === 13">
                 补充工单
             </view>
             <view v-if="isJD === 'false'" class="gdjl">
@@ -381,6 +381,7 @@ export default {
         };
     },
     onLoad(options) {
+        uni.showLoading();
         getCount().then(result => {
             const { count, fail } = result.data;
             this.count = count;
@@ -431,6 +432,7 @@ export default {
             });
             console.log(arr);
             this.appraiser = arr;
+            uni.hideLoading();
         });
     },
     onShareAppMessage(result) {
@@ -978,9 +980,18 @@ export default {
     .order-list { 
         display: flex;
         justify-content: space-between;
+        margin-bottom: 30rpx;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
         
         .left {
             margin-right: 20rpx;
+        }
+
+        .right {
+            flex: 1;
         }
 
         image {
