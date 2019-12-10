@@ -7,12 +7,12 @@
                 :key="index"
                 @tap="gotoDetails(item)"
             >
-                <image
+                <!-- <image
                     v-if="item.is_specialty"
                     class="specialty-img"
                     src="../../static/images/费用信息@2x.png"
                     @tap="priceDetails(index)"
-                ></image>
+                ></image> -->
                 <image
                     v-show="item.final_result === 0"
                     class="yinz"

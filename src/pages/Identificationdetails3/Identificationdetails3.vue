@@ -379,7 +379,10 @@ export default {
         };
     },
     onLoad(options) {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         getCount().then(result => {
             const { count, fail } = result.data;
             this.count = count;

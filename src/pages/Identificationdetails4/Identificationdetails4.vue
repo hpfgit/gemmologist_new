@@ -470,18 +470,42 @@ export default {
       } else {
         params.result_reason = this.markContent;
       }
-      banzhuAppraise(params).then(result => {
-        console.log(result);
-        uni.hideLoading();
-        uni.showToast({
-          title: "提交成功",
-          success() {
-            uni.redirectTo({
-              url: '/pages/means3/means3?type='+that.type
+      if (this.post_status === '13') {
+        appraise(params).then(result => {
+          console.log(result);
+          const {message, status} = result.data;
+          console.log(message, status);
+          uni.hideLoading();
+          if (status === 403) {
+            uni.showToast({
+              title: message,
+              icon: 'none'
             });
+            return;
           }
+          uni.showToast({
+            title: "提交成功",
+            success() {
+              uni.redirectTo({
+                url: '/pages/means2/means2?type='+that.type
+              });
+            }
+          });
         });
-      });
+      } else {
+        banzhuAppraise(params).then(result => {
+          console.log(result);
+          uni.hideLoading();
+          uni.showToast({
+            title: "提交成功",
+            success() {
+              uni.redirectTo({
+                url: '/pages/means3/means3?type='+that.type
+              });
+            }
+          });
+        });
+      }
     }
   }
 };

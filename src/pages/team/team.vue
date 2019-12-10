@@ -13,7 +13,7 @@
                     <text>{{banzhu.level_name}}</text>
                 </view>
                 <view class="introduce">
-                    <text class="text">个人介绍：<text class="text2">{{banzhu.bio}}</text></text>
+                    个人介绍：{{banzhu.bio}}
                 </view>
                 <view class="requirement">
                     <text class="text">鉴定要求：</text>
@@ -53,7 +53,7 @@
                     <text>{{item.level_name}}</text>
                 </view>
                 <view class="introduce">
-                    <text>个人介绍：</text> <text>{{item.bio}}</text>
+                    个人介绍：{{item.bio}}
                 </view>
                 <view class="requirement">
                     <text class="text">鉴定要求：</text>
@@ -164,6 +164,7 @@ export default {
     position: relative;
     border-radius: 16rpx;
     width: 690rpx;
+    height: 453rpx;
     box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.04);
     margin: 0 auto;
 }
@@ -226,6 +227,8 @@ export default {
     .introduce,
     .requirement,
     .range {
+        color: #fff;
+
         text,
         view {
             color: #ffffff;
@@ -272,7 +275,7 @@ export default {
 }
 .imgs {
     margin-top: 20rpx;
-    padding-bottom: 36rpx;
+    // padding-bottom: 36rpx;
     white-space: nowrap;
 
     .img {
@@ -288,8 +291,9 @@ export default {
 .lists {
     .list {
         width: 690rpx;
+        height: 453rpx;
         margin: 0 auto;
-        margin-bottom: 82rpx;
+        margin-bottom: 62rpx;
         background-color: #ffffff;
         background-size: cover;
         box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.04);

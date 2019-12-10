@@ -44,7 +44,7 @@
                     </view>
                     <image
                         class="arrow"
-                        src="../../static/images/矩形1@2x.png"
+                        :src="qiniuUrl+'矩形12@2x.png'"
                     ></image>
                 </view>
             </view>
@@ -98,6 +98,7 @@ export default {
             xie: [],
             clothing: [],
             imgPath: config[NODE_ENV].imgUrl,
+            qiniuUrl: config[NODE_ENV].qiniuUrl,
             is_specialty: "",
             tabIndex: 0,
             type: ""

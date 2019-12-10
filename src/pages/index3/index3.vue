@@ -663,6 +663,7 @@ export default {
             line-height: 110rpx;
             padding-left: 28rpx;
             background-size: contain;
+            background-repeat: no-repeat;
             border-radius: 8rpx;
         }
 

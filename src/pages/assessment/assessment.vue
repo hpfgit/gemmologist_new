@@ -9,7 +9,7 @@
         <view class="right">
           <view class="top">
             <view class="text">{{ level_name(item.level) }}</view>
-            <!--          <view class="shallow">鉴定师</view>-->
+            <!--<view class="shallow">鉴定师</view>-->
           </view>
           <view class="center">
             <view class="progress" :class="item.progressClass"></view>
@@ -53,7 +53,10 @@ export default {
     };
   },
   onLoad() {
-    uni.showLoading();
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none'
+    });
     appraisal().then(result => {
       const { data } = result.data;
       const sortData = data.sort(function(a, b) {
@@ -66,7 +69,6 @@ export default {
       uni.hideLoading();
     });
   },
-  computed: {},
   methods: {
     goTo(item) {
       if (item.level === 4) {
