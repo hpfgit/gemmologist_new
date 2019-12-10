@@ -6,7 +6,7 @@
           class="item"
           v-for="(item, index) in lists"
           :key="index"
-          @tap="gotoDetails(item.id)"
+          @tap="gotoDetails(item)"
         >
           <image
             v-if="item.is_specialty"
@@ -161,29 +161,33 @@ export default {
     getPath(path) {
       return config[NODE_ENV].imgUrl + path;
     },
-    gotoDetails(id) {
+    gotoDetails(item) {
       if (this.is_appraisal_admin === 1) {
         uni.navigateTo({
           url:
             "../Identificationdetails4/Identificationdetails4?id=" +
-            id +
+            item.id +
             "&type=" +
             this.type +
             "&mold=" +
             this.mold +
             "&isJD=true&is_appraisal_admin=" +
-            this.is_appraisal_admin
+            this.is_appraisal_admin +
+            "&post_status=" +
+            item.post_status
         });
       } else {
         uni.navigateTo({
           url:
             "../Identificationdetails2/Identificationdetails2?id=" +
-            id +
+            item.id +
             "&type=" +
             this.type +
             "&mold=" +
             this.mold +
-            "&isJD=true"
+            "&isJD=true" +
+            "&post_status=" +
+            item.post_status
         });
       }
     }

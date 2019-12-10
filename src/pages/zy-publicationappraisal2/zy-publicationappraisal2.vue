@@ -9,8 +9,7 @@
                         <image
                             class="arrow"
                             :src="qiniuUrl+'矩形1@2x.png'"
-                        ></image
-                    ></view>
+                        ></image></view>
                 </view>
                 <view class="lists">
                     <view

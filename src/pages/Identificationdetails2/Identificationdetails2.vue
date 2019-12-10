@@ -243,9 +243,12 @@ export default {
     };
   },
   onLoad(options) {
-    console.log(options);
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none',
+      mask: true
+    });
     const { id, type, mold, isJD } = options;
-    console.log(type);
     this.type = type;
     this.mold = mold;
     this.isJD = isJD;
@@ -447,7 +450,8 @@ export default {
     submit() {
       uni.showLoading({
         title: '加载中...',
-        icon: 'none'
+        icon: 'none',
+        mask: true
       });
       const that = this;
       const params = {

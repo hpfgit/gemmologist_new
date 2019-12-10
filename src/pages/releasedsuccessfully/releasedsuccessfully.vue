@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="box">
-      <image src="../../static/images/成功.png"></image>
+      <image :src="qiniuUrl+'成功.png'"></image>
       <view class="text">发布成功</view>
       <view class="text">BAN鉴定团队马上为您鉴定</view>
       <view class="text">请喝杯茶稍等片刻</view>
@@ -12,8 +12,16 @@
 </template>
 
 <script>
+const NODE_ENV = process.env.NODE_ENV;
+import config from "../../config";
+
 export default {
   name: "releasedsuccessfully",
+  data() {
+    return {
+      qiniuUrl: config[NODE_ENV].qiniuUrl
+    }
+  },
   methods: {
     goTo() {
       uni.redirectTo({

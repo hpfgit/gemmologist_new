@@ -40,7 +40,7 @@
                 </view>
                 <image
                     class="arrow"
-                    :src="qiniuUrl+'矩形1@2x.png'"
+                    :src="qiniuUrl+'矩形12@2x.png'"
                 ></image>
                 <view class="line"></view>
             </view>
@@ -51,7 +51,7 @@
                 </view>
                 <image
                     class="arrow"
-                    :src="qiniuUrl+'矩形1@2x.png'"
+                    :src="qiniuUrl+'矩形12@2x.png'"
                 ></image>
             </view>
         </view>
@@ -63,7 +63,7 @@
                 </view>
                 <image
                     class="arrow"
-                    :src="qiniuUrl+'矩形1@2x.png'"
+                    :src="qiniuUrl+'矩形12@2x.png'"
                 ></image>
                 <view class="line"></view>
             </view>
@@ -74,7 +74,7 @@
                 </view>
                 <image
                     class="arrow"
-                    :src="qiniuUrl+'矩形1@2x.png'"
+                    :src="qiniuUrl+'矩形12@2x.png'"
                 ></image>
                 <view class="line"></view>
             </view>
@@ -85,7 +85,7 @@
                 </view>
                 <image
                     class="arrow"
-                    :src="qiniuUrl+'矩形1@2x.png'"
+                    :src="qiniuUrl+'矩形12@2x.png'"
                 ></image>
             </view>
         </view>
@@ -243,7 +243,7 @@ export default {
         width: 630rpx;
         margin: 0 auto;
         display: flex;
-        align-content: center;
+        align-items: center;
         justify-content: space-between;
         position: relative;
         padding: 32rpx 0;

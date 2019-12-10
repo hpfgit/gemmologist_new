@@ -104,9 +104,7 @@
             </view>
             <view class="ewm">
                 <view class="left">
-                    <image
-                        src="../../static/images/gh_b0f97c897085_344(1)@2x.png"
-                    ></image>
+                    <image src=data:image/png;base64,eyJlcnJjb2RlIjo0MTAzMCwiZXJybXNnIjoiaW52YWxpZCBwYWdlIGhpbnQ6IFtRdnRmMzAyMzMzMDY0XSJ9></image>
                     <view class="desc">
                         <view>识别二维码或微信搜索小程序: BAN鉴定服务</view>
                         <view
@@ -115,7 +113,7 @@
                         >
                     </view>
                 </view>
-                <view class="right-text">
+                <view class="right-text" @click="copy">
                     <text class="copy-id">复制ID</text>
                 </view>
             </view>
@@ -473,6 +471,14 @@ export default {
         }
     },
     methods: {
+        copy() {
+            uni.setClipboardData({
+                data: this.id,
+                success() {
+                    console.log('设置成功');
+                }
+            });
+        },
         make_up_order() {
             uni.navigateTo({
                 url: '/pages/workOrder/workOrder?id='+this.id
@@ -558,7 +564,10 @@ export default {
             this.bzFw = !this.bzFw;
         },
         submit() {
-            uni.showLoading();
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none'
+            });
             const that = this;
             const params = {
                 result: this.result,

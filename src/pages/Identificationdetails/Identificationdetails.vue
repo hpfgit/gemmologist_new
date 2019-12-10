@@ -6,11 +6,11 @@
           <view class="title">服务项目</view>
           <view class="img">
             <image
-              v-if="mold === '0'"
+              v-if="mold === '1'"
               :src="qiniuUrl+'/免费鉴定@2x.png'"
             ></image>
             <image
-              v-if="mold === '1'"
+              v-if="mold === '2'"
               :src="qiniuUrl+'/专业鉴定@2x.png'"
             ></image>
           </view>
@@ -205,7 +205,10 @@ export default {
   },
   onLoad(options) {
     console.log(options);
-    uni.showLoading();
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none'
+    });
     const { id, type, mold } = options;
     this.type = type;
     this.mold = mold;

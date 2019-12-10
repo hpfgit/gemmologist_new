@@ -6,11 +6,11 @@
           <view class="title">服务项目 <image class="arrow" src="../../static/images/鉴定贴详情-展开@2x.png"></image></view>
           <view class="img">
             <image
-              v-if="mold === '0'"
+              v-if="mold === '1'"
               :src="qiniuUrl+'/免费鉴定@2x.png'"
             ></image>
             <image
-              v-if="mold === '1'"
+              v-if="mold === '2'"
               :src="qiniuUrl+'/专业鉴定@2x.png'"
             ></image>
           </view>
@@ -110,7 +110,7 @@
         @tap="startJD"
         v-if="isJD !== 'false'"
       >
-        开始鉴定
+        {{post_status === '13' ? '更改结果' : '开始鉴定'}}
       </view>
       <!-- <view
         class="button"
@@ -240,11 +240,14 @@ export default {
       isOpen: false,
       appraisers: [],
       isHandOver: false,
-      is_appraisal_admin: ''
+      is_appraisal_admin: '',
+      post_status: ''
     };
   },
   onLoad(options) {
     console.log(options);
+    const {post_status} = options;
+    this.post_status = post_status;
     uni.showLoading({
       title: '加载中...',
       icon: 'none'
@@ -451,7 +454,10 @@ export default {
       this.bzFw = !this.bzFw;
     },
     submit() {
-      uni.showLoading();
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none'
+      });
       const that = this;
       const params = {
         result: this.result,

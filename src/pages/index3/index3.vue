@@ -128,12 +128,12 @@
             </view>
             <view class="lists" v-if="lists.length">
                 <view class="item" v-for="(item, index) in lists" :key="index">
-                    <image
+                    <!-- <image
                         v-if="item.is_specialty"
                         class="specialty-img"
                         :src="qiniuUrl+'费用信息@2x.png'"
                         @tap="priceDetails(index)"
-                    ></image>
+                    ></image> -->
                     <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
                     <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
                     <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
@@ -151,8 +151,8 @@
                         </view>
                         <view class="center">
                             <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
-                            <view class="date" :class="{hide: item.final_result === 10 || item.final_result === 12}">{{ item.publish_at }}</view>
-                            <view class="date" :class="{block: item.final_result === 10 || item.final_result === 12, hide: item.final_result !== 10 || item.final_result !== 12}">{{item.status}}</view>
+                            <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12}">{{ item.publish_at }}</view>
+                            <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12, hide: item.post_status !== 10 || item.post_status !== 12}">{{item.status}}</view>
                         </view>
                     </view>
                 </view>
@@ -265,11 +265,11 @@ export default {
         }
     },
     onPullDownRefresh() {
-        uni.showLoading({
-            title: '加载中...',
-            icon: 'none'
-        });
         if (this.isLogin) {
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none'
+            });
             isAppraiser().then(result => {
                 const { is_appraiser, is_appraisal_admin } = result.data;
                 this.isAppraiser = is_appraiser;
@@ -289,6 +289,8 @@ export default {
                 uni.stopPullDownRefresh();
                 uni.hideLoading();
             });
+        } else {
+            uni.stopPullDownRefresh();
         }
     },
     methods: {

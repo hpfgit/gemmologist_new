@@ -181,6 +181,7 @@ export default {
                         "&brand_id=" +
                         id
                 });
+                return;
             }
             uni.navigateTo({
                 url:

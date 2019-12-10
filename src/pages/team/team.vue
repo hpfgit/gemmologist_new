@@ -41,15 +41,15 @@
                 v-for="(item, index) in appraisers"
                 :key="index"
             >
-                <image v-show="item.level === 3" class="bg-img" src="../../static/images/组142@2x.png"></image>
-                <image v-show="item.level === 2" class="bg-img" src="../../static/images/组143@2x.png"></image>
+                <image v-show="item.level === 4" class="bg-img" :src="qiniuUrl+'组142@2x.png'"></image>
+                <image v-show="item.level === 3" class="bg-img" :src="qiniuUrl+'组143@2x.png'"></image>
                 <image
                     class="head-img"
                     :src="item.avatar"
                 ></image>
                 <view class="nickname">{{item.name}}</view>
                 <view class="level-info">
-                    <image class="cir" src="../../static/images/矢量智能对象@2x.png"></image>
+                    <image class="cir" :src="qiniuUrl+'矢量智能对象@2x.png'"></image>
                     <text>{{item.level_name}}</text>
                 </view>
                 <view class="introduce">
@@ -164,6 +164,7 @@ export default {
     position: relative;
     border-radius: 16rpx;
     width: 690rpx;
+    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.04);
     margin: 0 auto;
 }
 
@@ -213,6 +214,11 @@ export default {
         font-size: 24rpx;
     }
 }
+.introduce {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .box {
     .introduce {
         margin-top: 40rpx;
@@ -224,6 +230,9 @@ export default {
         view {
             color: #ffffff;
         }
+    }
+    .range {
+        margin-bottom: 0;
     }
 }
 
@@ -280,7 +289,7 @@ export default {
     .list {
         width: 690rpx;
         margin: 0 auto;
-        margin-bottom: 62rpx;
+        margin-bottom: 82rpx;
         background-color: #ffffff;
         background-size: cover;
         box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.04);
@@ -292,17 +301,17 @@ export default {
             color: #252320;
         }
 
-        &.level-2 {
-            background-image: url("../../static/images/组142@2x.png");
-        }
+        // &.level-2 {
+        //     background-image: url("../../static/images/组142@2x.png");
+        // }
 
-        &.level-3 {
-            background-image: url("../../static/images/组143@2x.png");
-        }
+        // &.level-3 {
+        //     background-image: url("../../static/images/组143@2x.png");
+        // }
 
-        &:last-child {
-            margin-bottom: 20rpx;
-        }
+        // &:last-child {
+        //     margin-bottom: 20rpx;
+        // }
     }
 }
 .top,
