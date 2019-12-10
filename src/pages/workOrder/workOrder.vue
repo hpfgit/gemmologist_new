@@ -4,9 +4,9 @@
         <view class="up-img">
             <view class="box" v-for="(item, index) in images" :key="index">
                 <image class="img" :src="item.path"></image>
-                <image class="close" @tap="close(index)" src="../../static/images/删除拷贝@2x.png"></image>
+                <image class="close" @tap="close(index)" :src="qiniuUrl+'删除拷贝@2x.png'"></image>
             </view>
-            <image class="img" @tap="upImg(index)" src="../../static/images/圆角矩形1拷贝@2x.png"></image>
+            <image class="img" @tap="upImg(index)" :src="qiniuUrl+'圆角矩形1拷贝@2x.png'"></image>
         </view>
         <view class="btn" @tap="submit">
             确认提交
@@ -27,7 +27,8 @@ export default {
             images: [],
             uploadPicture: [],
             content: '',
-            id: ''
+            id: '',
+            qiniuUrl: config[NODE_ENV].qiniuUrl
         }
     },
     onLoad(options) {
@@ -191,7 +192,10 @@ export default {
                 });
                 return;
             }
-            uni.showLoading();
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none'
+            });
             if (this.images.length > 0) {
                 this.uploadImgQiniu(this.images).then(result => {
                     console.log(result);

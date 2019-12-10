@@ -5,7 +5,7 @@
                 class="item"
                 v-for="(item, index) in lists"
                 :key="index"
-                @tap="gotoDetails(item.id)"
+                @tap="gotoDetails(item)"
             >
                 <image
                     v-if="item.is_specialty"
@@ -34,7 +34,6 @@
                 ></image>
                 <view
                     class="item-right"
-                    @tap="gotoDetails(item.id)"
                 >
                     <view class="top">
                         <text>{{ item.brand_name }}</text>
@@ -100,7 +99,10 @@ export default {
         };
     },
     onLoad(options) {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         const { type } = options;
         this.type = type;
         newAppraiseDetails({
@@ -113,7 +115,10 @@ export default {
         });
     },
     enablePullDownRefresh() {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         const { type } = options;
         this.type = type;
         newAppraiseDetails({
@@ -134,16 +139,16 @@ export default {
                 return config[NODE_ENV].imgUrl + path;
             }
         },
-        gotoDetails(id) {
+        gotoDetails(item) {
             const that = this;
             uni.navigateTo({
                 url:
                     "../Identificationdetails2/Identificationdetails2?id=" +
-                    id +
+                    item.id +
                     "&type=" +
                     this.type +
                     "&mold=" +
-                    this.mold +
+                    item.is_specialty +
                     "&isJD=true"
             });
         }

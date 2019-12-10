@@ -26,7 +26,7 @@
                 </view>
                 <view class="right" @tap="goTeam">
                     <div class="text">鉴定团队</div>
-                    <image :src="qiniuUrl+'向右@2x.png'"></image>
+                    <image :src="qiniuUrl+'向右2@2x.png'"></image>
                 </view>
             </view>
             <view class="box">
@@ -86,7 +86,7 @@
                 <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
                 <view class="btn-yes" @tap="closeBarMask">确定</view>
             </view>
-            <view class="selector-end" v-show="isLogin">
+            <view class="selector-end" v-if="isLogin">
                 <view class="left" @tap="goToData(0)" v-show="isAppraiser">
                     <image :src="qiniuUrl+'鉴定师端拷贝@2x.png'"></image>
                 </view>
@@ -94,18 +94,21 @@
                     <image :src="qiniuUrl+'版主端拷贝@2x.png'"></image>
                 </view>
             </view>
-            <view class="login" v-show="!isLogin" @tap="goToLogin">
+            <view class="login" v-if="!isLogin" @tap="goToLogin">
                 <view class="login-btn">
                     登录查看我的鉴定
                 </view>
             </view>
             <view class="check-type" v-show="isShow">
                 <view class="title">选择鉴定品类</view>
-                <image
-                    :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"
-                    class="close-img"
+                <view class="close-box"
                     @tap="close"
-                ></image>
+                >
+                    <image
+                        :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"
+                        class="close-img"
+                    ></image>
+                </view>
                 <view class="classList">
                     <view class="list" @tap="goToPath(0)">
                         <image
@@ -230,7 +233,10 @@ export default {
         } else {
             this.isLogin = false;
         }
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         getCount().then(result => {
             const { count, fail } = result.data;
             this.count = count;
@@ -259,7 +265,10 @@ export default {
         }
     },
     onPullDownRefresh() {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         if (this.isLogin) {
             isAppraiser().then(result => {
                 const { is_appraiser, is_appraisal_admin } = result.data;
@@ -714,7 +723,7 @@ export default {
     }
 
     image {
-        width: 294rpx;
+        width: 290rpx;
         height: 86rpx;
     }
 }
@@ -785,12 +794,25 @@ export default {
     }
 }
 
-.close-img {
+.close-img, .close-box {
     width: 24rpx;
     height: 23rpx;
     position: absolute;
+}
+
+.close-img {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.close-box {
     top: 60rpx;
     right: 50rpx;
+    width: 48rpx;
+    height: 48rpx;
 }
 
 .lists {

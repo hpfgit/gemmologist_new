@@ -7,12 +7,12 @@
                         待鉴定
                     </view>
                     <view class="info">
-                        <image :src="qiniuUrl + '/组24@2x.png'" mode=""></image>
+                        <image :src="qiniuUrl + '组24@2x.png'" mode=""></image>
                         <text class="number">{{ djd }}</text>
                         <text class="text"></text>
                         <image
                             class="arrow"
-                            src="../../static/images/矩形1187@2x.png"
+                            :src="qiniuUrl+'矩形1187@2x.png'"
                         ></image>
                     </view>
                 </navigator>
@@ -21,12 +21,12 @@
                         待回复
                     </view>
                     <view class="info">
-                        <image :src="qiniuUrl + '/组25@2x.png'" mode=""></image>
+                        <image :src="qiniuUrl + '组25@2x.png'" mode=""></image>
                         <text class="number">{{ dhf }}</text>
                         <text class="text"></text>
                         <image
                             class="arrow"
-                            src="../../static/images/矩形1187@2x.png"
+                            :src="qiniuUrl+'矩形1187@2x.png'"
                         ></image>
                     </view>
                 </navigator>
@@ -35,23 +35,23 @@
         <view class="modal">
             <view class="box" @tap="goTo(0)">
                 <view class="left">
-                    <image src="../../static/images/全部鉴定@2x.png"></image>
+                    <image :src="qiniuUrl+'全部鉴定@2x.png'"></image>
                     <view class="text">全部鉴定</view>
                 </view>
                 <image
                     class="arrow"
-                    src="../../static/images/矩形1@2x.png"
+                    :src="qiniuUrl+'矩形1@2x.png'"
                 ></image>
                 <view class="line"></view>
             </view>
             <view class="box" @tap="goTo(1)">
                 <view class="left">
-                    <image src="../../static/images/全部鉴定@2x.png"></image>
+                    <image :src="qiniuUrl+'全部鉴定@2x.png'"></image>
                     <view class="text">失误记录</view>
                 </view>
                 <image
                     class="arrow"
-                    src="../../static/images/矩形1@2x.png"
+                    :src="qiniuUrl+'矩形1@2x.png'"
                 ></image>
             </view>
         </view>
@@ -63,7 +63,7 @@
                 </view>
                 <image
                     class="arrow"
-                    src="../../static/images/矩形1@2x.png"
+                    :src="qiniuUrl+'矩形1@2x.png'"
                 ></image>
                 <view class="line"></view>
             </view>
@@ -74,7 +74,7 @@
                 </view>
                 <image
                     class="arrow"
-                    src="../../static/images/矩形1@2x.png"
+                    :src="qiniuUrl+'矩形1@2x.png'"
                 ></image>
                 <view class="line"></view>
             </view>
@@ -85,7 +85,7 @@
                 </view>
                 <image
                     class="arrow"
-                    src="../../static/images/矩形1@2x.png"
+                    :src="qiniuUrl+'矩形1@2x.png'"
                 ></image>
             </view>
         </view>
@@ -146,7 +146,10 @@ export default {
             }
         },
         getData() {
-            uni.showLoading();
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none'
+            });
             newAppraise().then(result => {
                 const { data } = result.data;
                 const { all, dhf, djd, jdz } = data;

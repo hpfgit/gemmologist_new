@@ -49,7 +49,10 @@ export default {
     };
   },
   onReady(options) {
-    uni.showLoading();
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none'
+    });
     const { brand_id } = options;
     getStudy({
       page: 1,

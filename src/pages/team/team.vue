@@ -2,7 +2,7 @@
     <view class="container">
         <view class="head">
             <view class="box">
-                <image class="bg-img" src="../../static/images/组14@2x.png"></image>
+                <image class="bg-img" :src="qiniuUrl+'组14@2x.png'"></image>
                 <image
                     class="head-img"
                     :src="banzhu.avatar"
@@ -87,11 +87,15 @@ export default {
         return {
             appraisers: [],
             banzhu: {},
-            imgUrl: config[NODE_ENV].imgUrl
+            imgUrl: config[NODE_ENV].imgUrl,
+            qiniuUrl: config[NODE_ENV].qiniuUrl
         };
     },
     onLoad(options) {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         let { brand_id } = options;
         let obj = {};
         if (brand_id) {

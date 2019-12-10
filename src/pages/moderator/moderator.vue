@@ -8,11 +8,11 @@
           </view>
           <view class="info">
             <image
-              src="../../static/images/组24@2x.png"
+              :src="qiniuUrl+'组24@2x.png'"
             ></image>
             <text class="number">{{djd_1}}</text>
             <text class="text"></text>
-            <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
+            <image class="arrow" :src="qiniuUrl+'矩形1187@2x.png'"></image>
           </view>
         </navigator>
         <navigator class="box" url="/pages/means3/means3?type=djd_6">
@@ -21,11 +21,11 @@
           </view>
           <view class="info">
             <image
-              src="../../static/images/组24拷贝@2x.png"
+              :src="qiniuUrl+'组24拷贝@2x.png'"
             ></image>
             <text class="number">{{djd_6}}</text>
             <text class="text"></text>
-            <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
+            <image class="arrow" :src="qiniuUrl+'矩形1187@2x.png'"></image>
           </view>
         </navigator>
         <navigator class="box" url="/pages/means3/means3?type=wt">
@@ -34,11 +34,11 @@
           </view>
           <view class="info">
             <image
-              src="../../static/images/组242@2x.png"
+              :src="qiniuUrl+'组242@2x.png'"
             ></image>
             <text class="number">{{wt}}</text>
             <text class="text"></text>
-            <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
+            <image class="arrow" :src="qiniuUrl+'矩形1187@2x.png'"></image>
           </view>
         </navigator>
         <navigator class="box" url="/pages/means3/means3?type=all">
@@ -52,7 +52,7 @@
             ></image>
             <text class="number">{{all}}</text>
             <text class="text"></text>
-            <image class="arrow" src="../../static/images/矩形1187@2x.png"></image>
+            <image class="arrow" :src="qiniuUrl+'矩形1187@2x.png'"></image>
           </view>
         </navigator>
       </view>
@@ -60,18 +60,18 @@
     <view class="modal">
       <view class="box">
         <view class="left">
-          <image src="../../static/images/全部鉴定@2x.png"></image>
+          <image :src="qiniuUrl+'全部鉴定@2x.png'"></image>
           <view class="text">全部鉴定</view>
         </view>
-        <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
+        <image class="arrow" :src="qiniuUrl+'矩形1@2x.png'"></image>
         <view class="line"></view>
       </view>
       <view class="box">
         <view class="left">
-          <image src="../../static/images/全部鉴定@2x.png"></image>
+          <image :src="qiniuUrl+'全部鉴定@2x.png'"></image>
           <view class="text">失误记录</view>
         </view>
-        <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
+        <image class="arrow" :src="qiniuUrl+'矩形1@2x.png'"></image>
       </view>
     </view>
     <view class="modal">
@@ -80,7 +80,7 @@
           <image :src="qiniuUrl+'/组26@2x.png'"></image>
           <view class="text">学习资料</view>
         </view>
-        <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
+        <image class="arrow" :src="qiniuUrl+'矩形1@2x.png'"></image>
         <view class="line"></view>
       </view>
       <view class="box">
@@ -88,7 +88,7 @@
           <image :src="qiniuUrl+'/组29@2x.png'"></image>
           <view class="text">考核管理</view>
         </view>
-        <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
+        <image class="arrow" :src="qiniuUrl+'矩形1@2x.png'"></image>
         <view class="line"></view>
       </view>
       <view class="box">
@@ -96,7 +96,7 @@
           <image :src="qiniuUrl+'/组28@2x.png'"></image>
           <view class="text">提现管理</view>
         </view>
-        <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
+        <image class="arrow" :src="qiniuUrl+'矩形1@2x.png'"></image>
       </view>
     </view>
   </view>
@@ -135,7 +135,10 @@ export default {
       });
     },
     getData() {
-      uni.showLoading();
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none'
+      });
       banzhu_appraise_num().then(result => {
         const { data } = result.data;
         const { all, djd_1, djd_6, wt } = data;

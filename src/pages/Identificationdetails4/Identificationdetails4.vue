@@ -245,6 +245,10 @@ export default {
   },
   onLoad(options) {
     console.log(options);
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none'
+    });
     const { id, type, mold, isJD, is_appraisal_admin } = options;
     this.is_appraisal_admin = is_appraisal_admin;
     console.log(type);

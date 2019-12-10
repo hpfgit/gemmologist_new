@@ -8,7 +8,7 @@
                         >重新选择
                         <image
                             class="arrow"
-                            src="../../static/images/矩形1@2x.png"
+                            :src="qiniuUrl+'矩形1@2x.png'"
                         ></image
                     ></view>
                 </view>
@@ -28,7 +28,7 @@
                                     }}</view>
                                     <image
                                         class="level"
-                                        src="../../static/images/矢量智能对象@2x.png"
+                                        :src="qiniuUrl+'矢量智能对象@2x.png'"
                                     ></image>
                                     <view class="level-name">{{
                                         item.last_level_name
@@ -46,7 +46,7 @@
                         </view>
                         <image
                             class="arrow2"
-                            src="../../static/images/矩形1187@2x.png"
+                            :src="qiniuUrl+'矩形1187@2x.png'"
                         ></image>
                     </view>
                 </view>
@@ -118,7 +118,7 @@
                         ></image>
                         <image
                             v-show="isAgree"
-                            src="../../static/images/同意(1)@2x.png"
+                            :src="qiniuUrl+'同意(1)@2x.png'"
                         ></image>
                         我同意《
                         <text>专业鉴定契约条款</text>
@@ -185,11 +185,11 @@
                     </view>
                     <image
                         v-show="isPayTypeIndex !== 0"
-                        src="../../static/images/未选中拷贝2@2x.png"
+                        :src="qiniuUrl+'未选中拷贝2@2x.png'"
                     ></image>
                     <image
                         v-show="isPayTypeIndex === 0"
-                        src="../../static/images/选中@2x.png"
+                        :src="qiniuUrl+'选中@2x.png'"
                     ></image>
                 </view>
                 <view class="type weixin" @tap="checkPay(1)">
@@ -199,11 +199,11 @@
                     </view>
                     <image
                         v-show="isPayTypeIndex !== 1"
-                        src="../../static/images/未选中拷贝2@2x.png"
+                        :src="qiniuUrl+'未选中拷贝2@2x.png'"
                     ></image>
                     <image
                         v-show="isPayType === 'pay' && isPayTypeIndex === 1"
-                        src="../../static/images/选中@2x.png"
+                        :src="qiniuUrl+'选中@2x.png'"
                     ></image>
                 </view>
                 <view class="type zhifubao" @tap="checkPay(2)">
@@ -213,11 +213,11 @@
                     </view>
                     <image
                         v-show="isPayTypeIndex !== 2"
-                        src="../../static/images/未选中拷贝2@2x.png"
+                        :src="qiniuUrl+'未选中拷贝2@2x.png'"
                     ></image>
                     <image
                         v-show="isPayType === 'pay' && isPayTypeIndex === 2"
-                        src="../../static/images/选中@2x.png"
+                        :src="qiniuUrl+'选中@2x.png'"
                     ></image>
                 </view>
                 <view class="imm-pay" @tap="ImmediatePayment">

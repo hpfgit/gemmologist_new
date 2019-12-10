@@ -55,7 +55,10 @@ export default {
     };
   },
   onLoad(options) {
-    uni.showLoading();
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none'
+    });
     const { type } = options;
     if (type === 'work_order') {
       work_order({

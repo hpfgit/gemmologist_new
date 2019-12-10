@@ -6,20 +6,20 @@
                 <view class="name">{{info}}</view>
             </view>
             <view class="see" @tap="see">
-                查看团队 <image class="arrow" src="../../static/images/矩形1@2x.png"></image>
+                查看团队 <image class="arrow" :src="qiniuUrl+'矩形1@2x.png'"></image>
             </view>
         </view>
         <view class="lists">
             <view class="list" v-for="(item, index) in appraisers" :key="index" @tap="goTo(index)">
-                <!-- <image v-show="!item.checked" class="icon" src="../../static/images/对号-加粗@2x.png"></image>
-                <image v-show="item.checked" class="icon" src="../../static/images/对号-加粗2@2x.png"></image> -->
+                <!-- <image v-show="!item.checked" class="icon" :src="qiniuUrl+'对号-加粗@2x.png'"></image>
+                <image v-show="item.checked" class="icon" :src="qiniuUrl+'对号-加粗2@2x.png'"></image> -->
                 <view class="left">
                     <image class="avatar" :src="item.avatar"></image>
                 </view>
                 <view class="right">
                     <view class="nickname">{{item.name}}</view>
                     <view class="level">
-                        <image src="../../static/images/矢量智能对象@2x.png"></image>
+                        <image :src="qiniuUrl+'矢量智能对象@2x.png'"></image>
                         <view class="level-name">{{item.level_name}}</view>
                     </view>
                 </view>
@@ -52,6 +52,7 @@ export default {
         return {
             appraisers: [],
             imgUrl: config[NODE_ENV].imgUrl,
+            qiniuUrl: config[NODE_ENV].qiniuUrl,
             info: '',
             cover_image: '',
             brand_id: ''
@@ -138,7 +139,7 @@ export default {
         goTo(index) {
             let appraiser_id = this.appraisers[index].id;
             uni.navigateTo({
-                url: '/pages/zy-publicationappraisal/zy-publicationappraisal?is_specialty='+this.is_specialty+'&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
+                url: '/pages/zy-publicationappraisal2/zy-publicationappraisal2?is_specialty='+this.is_specialty+'&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
             });
         }
     }

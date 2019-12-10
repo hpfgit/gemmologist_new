@@ -57,7 +57,10 @@ export default {
         };
     },
     onLoad(options) {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         const { type } = options;
         this.type = type;
         // this.mold = mold;

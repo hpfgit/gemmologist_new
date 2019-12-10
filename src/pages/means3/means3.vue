@@ -107,7 +107,10 @@ export default {
     });
   },
   onLoad(options) {
-    uni.showLoading();
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none'
+    });
     isAppraiser().then(result => {
       console.log(result);
       const { is_appraisal_admin } = result.data;
@@ -129,7 +132,10 @@ export default {
   },
   methods: {
     scrolltolower() {
-      uni.showLoading();
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none'
+      });
       this.page ++;
       if (this.page >= 3) {
         uni.showToast({

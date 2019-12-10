@@ -3,14 +3,14 @@
     <div class="info-container">
       <view class="info" :class="{active: isOpen}">
         <view class="top" @tap="open">
-          <view class="title">服务项目 <image class="arrow" src="../../static/images/鉴定贴详情-展开@2x.png"></image></view>
+          <view class="title">服务项目 <image class="arrow" :src="qiniuUrl+'鉴定贴详情-展开@2x.png'"></image></view>
           <view class="img">
             <image
-              v-if="mold === '0'"
+              v-if="mold === '1'"
               :src="qiniuUrl+'/免费鉴定@2x.png'"
             ></image>
             <image
-              v-if="mold === '1'"
+              v-if="mold === '2'"
               :src="qiniuUrl+'/专业鉴定@2x.png'"
             ></image>
           </view>
@@ -53,7 +53,7 @@
             <text>备注标签</text>
           </view>
         </view>
-        <view class="retract" @tap="open">收起 <image class="arrow" src="../../static/images/鉴定贴详情-展开@2x - 副本.png"></image></view>
+        <view class="retract" @tap="open">收起 <image class="arrow" :src="qiniuUrl+'鉴定贴详情-展开@2x - 副本.png'"></image></view>
       </view>
     </div>
     <view class="djd">
@@ -93,7 +93,7 @@
         </view>
       </view>
       <view v-if="isJD === 'false'" class="gdjl">
-        <image src="../../static/images/Workorderrecord@2x.png"></image>
+        <image :src="qiniuUrl+'Workorderrecord@2x.png'"></image>
       </view>
     </view>
     <view class="record">
@@ -162,11 +162,11 @@
       <view class="lists-box">
         <scroll-view class="lists" scroll-x="true">
           <view class="list" v-for="(item, index) in appraisers" :key="index" @tap="check_appr(index)">
-            <image v-show="!item.checked" class="icon" src="../../static/images/对号-加粗@2x.png"></image>
-            <image v-show="item.checked" class="icon" src="../../static/images/对号-加粗2@2x.png"></image>
+            <image v-show="!item.checked" class="icon" :src="qiniuUrl+'对号-加粗@2x.png'"></image>
+            <image v-show="item.checked" class="icon" :src="qiniuUrl+'对号-加粗2@2x.png'"></image>
             <view class="left">
               <image class="avatar" :src="item.avatar"></image>
-              <image class="level-img" src="../../static/images/矢量智能对象@2x.png"></image>
+              <image class="level-img" :src="qiniuUrl+'矢量智能对象@2x.png'"></image>
             </view>
             <view class="right">
               <view class="nickname">{{item.name}}</view>
@@ -445,7 +445,10 @@ export default {
       this.bzFw = !this.bzFw;
     },
     submit() {
-      uni.showLoading();
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none'
+      });
       const that = this;
       const params = {
         result: this.result,

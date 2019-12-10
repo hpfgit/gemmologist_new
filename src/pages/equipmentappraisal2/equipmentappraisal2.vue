@@ -104,7 +104,10 @@ export default {
         };
     },
     onLoad(options) {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
         const { is_specialty, type } = options;
         this.is_specialty = is_specialty;
         console.log(is_specialty);
@@ -133,7 +136,10 @@ export default {
     },
     methods: {
         tabs(index) {
-            uni.showLoading();
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none'
+            });
             this.tabIndex = index;
             if (index) {
                 clothing({ page: 1, type: 1, limit: 1000, is_sport: 0 }).then(
