@@ -55,12 +55,14 @@ export default {
             qiniuUrl: config[NODE_ENV].qiniuUrl,
             info: '',
             cover_image: '',
-            brand_id: ''
+            brand_id: '',
+            type: ''
         }
     },
     onLoad(options) {
-        const {brand_id, is_specialty} = options;
+        const {brand_id, is_specialty, type} = options;
         this.brand_id = brand_id;
+        this.type = type;
         this.is_specialty = is_specialty;
         uni.showLoading();
         appraiserList({
@@ -139,7 +141,7 @@ export default {
         goTo(index) {
             let appraiser_id = this.appraisers[index].id;
             uni.navigateTo({
-                url: '/pages/zy-publicationappraisal2/zy-publicationappraisal2?is_specialty='+this.is_specialty+'&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
+                url: '/pages/zy-publicationappraisal2/zy-publicationappraisal2?is_specialty='+this.is_specialty+'&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id + "&type=" + this.type
             });
         }
     }

@@ -22,9 +22,8 @@
                             <image class="avatar" :src="item.avatar"></image>
                             <view class="right">
                                 <view class="top">
-                                    <view class="nickname">{{
-                                        item.name
-                                    }}</view>
+                                    <view class="nickname">
+                                        {{item.name}}</view>
                                     <image
                                         class="level"
                                         :src="qiniuUrl+'矢量智能对象@2x.png'"
@@ -56,11 +55,27 @@
                         <view>上传照片</view>
                         <!-- <view>图片要求 ></view> -->
                     </view>
-                    <view class="imgs">
+                    <view class="imgs" v-if="type === 'shoes'">
                         <view
                             class="img-box"
                             @tap="upImg(index)"
                             v-for="(item, index) in images"
+                            :key="index"
+                        >
+                            <view class="img">
+                                <image :src="getPath(item.image)"></image>
+                                <text v-show="item.isShow">{{
+                                    item.name ? item.name : ""
+                                }}</text>
+                                <view class="mark2" v-show="item.isShow"></view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="imgs" v-if="type === 'clothing'">
+                        <view
+                            class="img-box"
+                            @tap="upImg(index)"
+                            v-for="(item, index) in clothingImages"
                             :key="index"
                         >
                             <view class="img">
@@ -350,6 +365,79 @@ export default {
                     isShow: false
                 }
             ],
+            clothingImages: [
+                {
+                    "code": "facade",
+                    "name": "外观",
+                    "image": "/uploads/appraisal/post/icon/facade.png",
+                    isShow: false
+                },
+                {
+                    "code": "neck",
+                    "name": "衣领标识",
+                    "image": "/uploads/appraisal/post/icon/neck.png",
+                    isShow: false
+                },
+                {
+                    "code": "trademark",
+                    "name": "商标",
+                    "image": "/uploads/appraisal/post/icon/trademark.png",
+                    isShow: false
+                },
+                {
+                    "code": "trademark_chain",
+                    "name": "吊牌",
+                    "image": "/uploads/appraisal/post/icon/trademark_chain.png",
+                    isShow: false
+                },
+                {
+                    "code": "bag",
+                    "name": "外包装袋",
+                    "image": "/uploads/appraisal/post/icon/bag.png",
+                    isShow: false
+                },
+                {
+                    "code": "qr_code",
+                    "name": "二维码",
+                    "image": "/uploads/appraisal/post/icon/qr_code.png",
+                    isShow: false
+                },
+                {
+                    "code": "zipper",
+                    "name": "拉链接缝",
+                    "image": "/uploads/appraisal/post/icon/zipper.png",
+                    isShow: false
+                },
+                {
+                    "code": "receipt",
+                    "name": "交易单据",
+                    "image": "/uploads/appraisal/post/icon/receipt.png",
+                    isShow: false
+                },
+                {
+                    "code": "washing_mark_1",
+                    "name": "水洗标1",
+                    "image": "/uploads/appraisal/post/icon/washing_mark_1.png",
+                    isShow: false
+                },
+                {
+                    "code": "washing_mark_2",
+                    "name": "水洗标2",
+                    "image": "/uploads/appraisal/post/icon/washing_mark_2.png",
+                    isShow: false
+                },
+                {
+                    "code": "washing_mark_3",
+                    "name": "水洗标3",
+                    "image": "/uploads/appraisal/post/icon/washing_mark_3.png",
+                    isShow: false
+                },
+                {
+                    "code": "0",
+                    "image": "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                    "name": "补图"
+                }
+            ],
             price: "请输入保价金额，默认1000元...",
             insuredPriceNumber: "请输入商品实际价值",
             isPopup: false,
@@ -423,7 +511,9 @@ export default {
             isAgree: true,
             appraisals: [],
             appraiser_id: "",
-            bjPrice: 1000
+            bjPrice: 1000,
+            type: '',
+            falg: true
         };
     },
     onLoad(options) {
@@ -431,10 +521,11 @@ export default {
             title: '加载中...',
             icon: 'none'
         });
-        const { brand_id, is_specialty, appraiser_id } = options;
+        const { brand_id, is_specialty, appraiser_id, type } = options;
         this.brand_id = brand_id || 22;
         this.is_specialty = is_specialty;
         this.appraiser_id = appraiser_id;
+        this.type = type;
         let price = "";
         if (is_specialty === "1") {
             price = 0;
@@ -512,7 +603,7 @@ export default {
             }
             if (this.keyIndex >= 5) {
                 uni.showLoading({
-                    title: '加载中...',
+                    title: '支付中...',
                     icon: 'none'
                 });
                 this.keyIndex = 5;
@@ -567,19 +658,36 @@ export default {
                 success(res) {
                     const { tempFilePaths } = res;
                     const imgPath = tempFilePaths[0];
-                    that.images[index].image = imgPath;
-                    that.images[index].isShow = true;
-                    if (index >= that.images.length - 1) {
-                        that.images[index].code = index - 11;
+                    if (that.type === 'clothing') {
+                        that.clothingImages[index].image = imgPath;
+                        that.clothingImages[index].isShow = true;
+                        if (index >= that.clothingImages.length - 1) {
+                            that.clothingImages[index].code = index - 11;
+                            that.clothingImages[index].image = imgPath;
+                            that.clothingImages[index].name = "补充";
+                            const obj = {
+                                code: index - 10,
+                                image:
+                                    "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                                name: "补充"
+                            };
+                            that.clothingImages.push(obj);
+                        }
+                    } else {
                         that.images[index].image = imgPath;
-                        that.images[index].name = "补充";
-                        const obj = {
-                            code: index - 10,
-                            image:
-                                "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
-                            name: "补充"
-                        };
-                        that.images.push(obj);
+                        that.images[index].isShow = true;
+                        if (index >= that.images.length - 1) {
+                            that.images[index].code = index - 11;
+                            that.images[index].image = imgPath;
+                            that.images[index].name = "补充";
+                            const obj = {
+                                code: index - 10,
+                                image:
+                                    "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                                name: "补充"
+                            };
+                            that.images.push(obj);
+                        }
                     }
                 },
                 fail(err) {
@@ -591,10 +699,19 @@ export default {
             let that = this;
             const res_img = [];
             images.forEach(image => {
-                if (/tmp/gi.test(image.image)) {
+                if (/tmp/gi.test(image.image) && !/appraiser/ig.test(image.image)) {
                     res_img.push(image);
                 }
             });
+            if (res_img.length <= 2) {
+                uni.showToast({
+                    title: '请先上传图片',
+                    icon: 'none'
+                });
+                Promise.resolve();
+                uni.hideLoading();
+                return;
+            }
             return new Promise((resolve, reject) => {
                 images.map((r, i) => {
                     const path = r.image;
@@ -771,51 +888,62 @@ export default {
                 icon: 'none'
             });
             const that = this;
-            this.uploadImgQiniu(this.images).then(result => {
-                placeOrder({
-                    description: this.description,
-                    images: result,
-                    others: this.others,
-                    is_specialty: this.is_specialty,
-                    price:
-                        this.is_specialty === "1"
-                            ? 0
-                            : this.price === "请输入保价金额，默认1000元..."
-                            ? 1000
-                            : this.price,
-                    brand_id: this.brand_id,
-                    appraiser_list: this.appraiser_id
-                })
-                    .then(result => {
-                        const { message, status, pay_no } = result.data;
-                        this.pay_no = pay_no;
-                        uni.showToast({
-                            title: message,
-                            icon: "none",
-                            success() {
-                                if (status === 201) {
-                                    cash().then(result => {
-                                        const { userCash } = result.data.data;
-                                        that.userCash = userCash;
-                                        that.isPayShow = true;
-                                        console.log(result);
-                                        uni.hideLoading();
-                                    });
-                                    // uni.navigateTo({
-                                    //   url: "/pages/releasedsuccessfully/releasedsuccessfully"
-                                    // });
-                                } else {
-                                    uni.showToast({
-                                        title: message,
-                                        icon: "none"
-                                    });
-                                }
-                            }
-                        });
+            let images = '';
+            if (this.type === 'clothing') {
+                images = this.clothingImages;
+            } else {
+                images = this.images;
+            }
+            this.uploadImgQiniu(images).then(result => {
+                if (this.falg) {
+                    this.falg = falg;
+                    placeOrder({
+                        description: this.description,
+                        images: result,
+                        others: this.others,
+                        is_specialty: this.is_specialty,
+                        price:
+                            this.is_specialty === "1"
+                                ? 0
+                                : this.price === "请输入保价金额，默认1000元..."
+                                ? 1000
+                                : this.price,
+                        brand_id: this.brand_id,
+                        appraiser_list: this.appraiser_id
                     })
-                    .catch(error => {
-                        console.log(error);
-                    });
+                        .then(result => {
+                            this.falg = true;
+                            const { message, status, pay_no } = result.data;
+                            this.pay_no = pay_no;
+                            uni.showToast({
+                                title: message,
+                                icon: "none",
+                                success() {
+                                    if (status === 201) {
+                                        cash().then(result => {
+                                            const { userCash } = result.data.data;
+                                            that.userCash = userCash;
+                                            that.isPayShow = true;
+                                            console.log(result);
+                                            uni.hideLoading();
+                                        });
+                                        // uni.navigateTo({
+                                        //   url: "/pages/releasedsuccessfully/releasedsuccessfully"
+                                        // });
+                                    } else {
+                                        uni.showToast({
+                                            title: message,
+                                            icon: "none"
+                                        });
+                                    }
+                                }
+                            });
+                        })
+                        .catch(error => {
+                            this.falg = true;
+                            console.log(error);
+                        });
+                }
             });
         },
         submission() {
@@ -826,12 +954,12 @@ export default {
                 });
                 return;
             }
-            let number = 0;
-            this.images.forEach(img => {
-                if (/tmp/gi.test(img.image)) {
-                    number++;
-                }
-            });
+            // let number = 0;
+            // this.images.forEach(img => {
+            //     if (/tmp/gi.test(img.image)) {
+            //         number++;
+            //     }
+            // });
             // if (number >= 3) {
                 this.appraisal();
             // } else {

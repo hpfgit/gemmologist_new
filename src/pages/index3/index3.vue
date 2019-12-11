@@ -99,7 +99,7 @@
                     登录查看我的鉴定
                 </view>
             </view>
-            <view class="check-type" v-show="isShow">
+            <view class="check-type" :class="{'active': isShow}">
                 <view class="title">选择鉴定品类</view>
                 <view class="close-box"
                     @tap="close"
@@ -249,7 +249,6 @@ export default {
                 this.isAppraiser = is_appraiser;
                 this.is_appraisal_admin = is_appraisal_admin;
             });
-
             getPost({
                 page: 1,
                 limit: 12
@@ -275,7 +274,6 @@ export default {
                 this.isAppraiser = is_appraiser;
                 this.is_appraisal_admin = is_appraisal_admin;
             });
-
             getPost({
                 page: 1,
                 limit: 12
@@ -355,7 +353,7 @@ export default {
                 } else {
                     uni.navigateTo({
                         url:
-                            "/pages/Identificationdetails/Identificationdetails?id=" +
+                            "/pages/Identificationdetails3/Identificationdetails3?id=" +
                             this.jdID
                     });
                 }
@@ -749,14 +747,20 @@ export default {
 
 .check-type {
     position: fixed;
-    bottom: 0;
+    bottom: -454rpx;
     right: 0;
     left: 0;
     z-index: 999;
     width: 750rpx;
+    height: 454rpx;
     background-color: #ffffff;
     border-radius: 40rpx 40rpx 0rpx 0rpx;
+    transition: all .3s;
     overflow: hidden;
+
+    &.active {
+        bottom: 0;
+    }
 
     .title {
         text-align: center;

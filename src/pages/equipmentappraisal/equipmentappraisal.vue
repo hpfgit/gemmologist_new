@@ -1,23 +1,5 @@
 <template>
   <view class="container">
-    <view class="navs">
-      <view
-        class="nav"
-        :class="{ active: currentIndex === 0 }"
-        @tap="tabNav(0)"
-      >
-        <image :src="qiniuUrl + '/鞋@2x.png'"></image>
-        <text>球鞋</text>
-      </view>
-      <view
-        class="nav"
-        :class="{ active: currentIndex === 1 }"
-        @tap="tabNav(1)"
-      >
-        <image :src="qiniuUrl + '/服装@2x.png'"></image>
-        <text>服装</text>
-      </view>
-    </view>
     <view class="title">品牌选择</view>
     <view class="brands" v-show="currentIndex === 0">
       <view class="box" v-for="(brand, index) in xie" :key="index">

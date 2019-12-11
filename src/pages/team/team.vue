@@ -143,7 +143,6 @@ export default {
     },
     methods: {
         path(path) {
-            console.log(path);
             return config[NODE_ENV].imgUrl + path;
         }
     }

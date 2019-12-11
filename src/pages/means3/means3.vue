@@ -17,17 +17,17 @@
           <image
             v-show="item.final_result === 0"
             class="yinz"
-            src="../../static/images/为假@2x.png"
+            :src="qiniuUrl+'为假@2x.png'"
           ></image>
           <image
             v-show="item.final_result === 1"
             class="yinz"
-            src="../../static/images/为真拷贝2@2x.png"
+            :src="qiniuUrl+'为真拷贝2@2x.png'"
           ></image>
           <image
             v-show="item.final_result === 2"
             class="yinz"
-            src="../../static/images/无法鉴定拷贝@2x.png"
+            :src="qiniuUrl+'无法鉴定拷贝@2x.png'"
           ></image>
           <image class="left-image" :src="getPath(item.cover_image)"></image>
           <view class="item-right">

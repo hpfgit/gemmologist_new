@@ -1,29 +1,5 @@
 <template>
     <view class="container">
-        <view class="navs-box">
-            <view class="navs">
-                <view
-                    class="nav"
-                    :class="{ active: currentIndex === 0 }"
-                    @tap="tabNav(0)"
-                >
-                    <image
-                        src="../../static/images/equipmentappraisal/鞋@2x.png"
-                    ></image>
-                    <text>球鞋</text>
-                </view>
-                <view
-                    class="nav"
-                    :class="{ active: currentIndex === 1 }"
-                    @tap="tabNav(1)"
-                >
-                    <image
-                        src="../../static/images/equipmentappraisal/服装@2x.png"
-                    ></image>
-                    <text>服装</text>
-                </view>
-            </view>
-        </view>
         <view class="brands" v-show="type === 'shoes'">
             <view class="tabs">
                 <view class="active"><text>运动品牌</text></view>
@@ -180,17 +156,21 @@ export default {
                         "/pages/selectappraiser/selectappraiser?is_specialty=" +
                         that.is_specialty +
                         "&brand_id=" +
-                        id
+                        id +
+                        "&type=" +
+                        this.type
                 });
-                return;
+            } else {
+                uni.navigateTo({
+                    url:
+                        "/pages/selectappraiser2/selectappraiser2?is_specialty=" +
+                        that.is_specialty +
+                        "&brand_id=" +
+                        id +
+                        "&type=" +
+                        this.type
+                });
             }
-            uni.navigateTo({
-                url:
-                    "/pages/selectappraiser2/selectappraiser2?is_specialty=" +
-                    that.is_specialty +
-                    "&brand_id=" +
-                    id
-            });
         }
     }
 };
