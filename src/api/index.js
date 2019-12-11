@@ -11,3 +11,7 @@ export function getPost(params) {
 export function isAppraiser(params) {
     return request('GET', '/api/appraisal/is-appraiser', params);
 }
+
+export function bindMobile(params) {
+    return request('POST', '/api/wechat/ma/auth/bind-mobile', params);
+}

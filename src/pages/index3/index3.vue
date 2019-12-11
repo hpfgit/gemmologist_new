@@ -151,7 +151,7 @@
                         </view>
                         <view class="center">
                             <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
-                            <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12}">{{ item.publish_at }}</view>
+                            <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11}">{{ item.publish_at }}</view>
                             <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status === 11}">{{item.status}}</view>
                         </view>
                     </view>
@@ -253,6 +253,16 @@ export default {
                 page: 1,
                 limit: 12
             }).then(result => {
+                const { status, message } = result.data;
+                if (status !== 201) {
+                    uni.hideLoading();
+                    uni.showToast({
+                        title: message,
+                        icon: 'none',
+                        mask: true
+                    });
+                    return;
+                }
                 const { data } = result.data;
                 data.forEach(item => {
                     item.total = item.appr_cost + item.appraisal_cost;

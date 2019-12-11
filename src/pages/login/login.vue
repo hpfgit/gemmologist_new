@@ -10,6 +10,14 @@
         >
             <image class="iphone" src="../../static/images/iphone@2x.png"></image>获取用户信息
         </button>
+        <view class="authorize" v-show="authorize">
+            <view class="title">授权手机号码</view>
+            <view class="info">为了提供更优质的服务，我们需要您的授权获取您在微信中绑定的手机号码</view>
+            <button open-type='getPhoneNumber' @getphonenumber="bindgetphonenumber">
+                同意授权
+            </button>
+        </view>
+        <view class="mask" v-show="authorize"></view>
     </view>
 </template>
 
@@ -17,23 +25,72 @@
 import request from "../../utils/request.js";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
+import { bindMobile } from '../../api/index';
 
 export default {
     data() {
         return {
-            qiniuUrl: config[NODE_ENV].qiniuUrl
+            qiniuUrl: config[NODE_ENV].qiniuUrl,
+            authorize: false
         };
     },
-    onReady() {
+    onLoad() {
         this.checkLogin();
     },
     methods: {
+        bindgetphonenumber(e) {
+            const mobile_info = e.detail;
+            uni.getProvider({
+                service: "oauth",
+                success(res) {
+                    const { provider } = res;
+                    uni.login({
+                        provider: provider[0],
+                        success(loginRes) {
+                            uni.getUserInfo({
+                                success(user_info) {
+                                    console.log(user_info);
+                                    const { code } = loginRes;
+                                    const js_code = code;
+                                    const miniapp_name = "appraisal";
+                                    bindMobile({
+                                        miniapp_name,
+                                        js_code,
+                                        user_info,
+                                        mobile_info
+                                    }).then(result => {
+                                        console.log(result);
+                                        const { data } = result.data;
+                                        const { token, user_info } = data;
+                                        uni.setStorageSync(
+                                            "token_start_time",
+                                            new Date().getTime()
+                                        );
+                                        that.$store.dispatch("setToken", token);
+                                        that.$store.dispatch(
+                                            "setUserInfo",
+                                            user_info
+                                        );
+                                        uni.hideLoading();
+                                        setTimeout(() => {
+                                            uni.redirectTo({
+                                                url: "/pages/index3/index3"
+                                            });
+                                        }, 200);
+                                    });
+                                }
+                            })
+                        }
+                    })
+                }
+            });
+        },
         checkLogin() {
             if (uni.getStorageSync("token")) {
                 uni.navigateTo({
                     url: "/pages/index3/index3"
                 });
-                return;
+                uni.hideLoading();
             }
         },
         getUserInfo(e) {
@@ -64,6 +121,12 @@ export default {
                                             user_info
                                         }
                                     ).then(result => {
+                                        const { status } = result.data;
+                                        if (status === 401) {
+                                            uni.hideLoading();
+                                            that.authorize = true;
+                                            return;
+                                        }
                                         const { data } = result.data;
                                         const { token, user_info } = data;
                                         uni.setStorageSync(
@@ -81,7 +144,6 @@ export default {
                                                 url: "/pages/index3/index3"
                                             });
                                         }, 200);
-                                        console.log(res);
                                     });
                                 }
                             });
@@ -134,5 +196,47 @@ export default {
     width: 24rpx;
     height: 40rpx;
     margin-right: 20rpx;
+}
+.mask,.authorize {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.authorize {
+    width: 500rpx;
+    height: 500rpx;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 12rpx;
+    padding-top: 65rpx;
+    z-index: 999;
+
+    .title {
+        color: #2c2c2c;
+        font-size: 34rpx;
+    }
+    .info {
+        width: 400rpx;
+        margin: 60rpx auto;
+        color: #666;
+        font-size: 26rpx;
+        text-align: left;
+    }
+
+    button {
+        width: 400rpx;
+        margin: 0 auto;
+        background-color: #7186f1;
+        color: #fff;
+        border-radius: 60rpx;
+    }
+}
+.mask {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 998;
 }
 </style>
