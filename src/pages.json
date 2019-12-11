@@ -96,6 +96,12 @@
             }
         },
         {
+            "path": "pages/zy-publicationappraisal3/zy-publicationappraisal3",
+            "style": {
+                "navigationBarTitleText": "发布鉴定"
+            }
+        },
+        {
             "path": "pages/team/team",
             "style": {
                 "navigationBarTitleText": "鉴定团队"

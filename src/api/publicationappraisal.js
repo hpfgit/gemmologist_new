@@ -6,7 +6,7 @@ export function release(params) {
 
 export function complementGraph(params) {
     const {id} = params;
-    return request('PUT', `/api/appraisal/post/${id}`);
+    return request('PUT', `/api/appraisal/post/${id}`, params);
 }
 
 export function appraisal(params) {

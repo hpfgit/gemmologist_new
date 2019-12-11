@@ -127,7 +127,9 @@
                 </view>
             </view>
             <view class="lists" v-if="lists.length">
-                <view class="item" v-for="(item, index) in lists" :key="index">
+                <view class="item" v-for="(item, index) in lists" :key="index"
+                    @tap="goToDetail(item)"
+                >
                     <!-- <image
                         v-if="item.is_specialty"
                         class="specialty-img"
@@ -140,11 +142,9 @@
                     <image
                         class="left-image"
                         :src="getPath(item.cover_image)"
-                        @tap="goToDetail(item.is_specialty, item.id)"
                     ></image>
                     <view
                         class="item-right"
-                        @tap="goToDetail(item.is_specialty, item.id)"
                     >
                         <view class="top">
                             <text>{{ item.brand_name }}</text>
@@ -254,7 +254,7 @@ export default {
                 limit: 12
             }).then(result => {
                 const { status, message } = result.data;
-                if (status !== 201) {
+                if (status !== 200) {
                     uni.hideLoading();
                     uni.showToast({
                         title: message,
@@ -412,14 +412,26 @@ export default {
         close() {
             this.isShow = false;
         },
-        goToDetail(index, id) {
-            uni.navigateTo({
-                url:
-                    "/pages/Identificationdetails3/Identificationdetails3?id=" +
-                    id +
-                    "&type=" +
-                    index
-            });
+        goToDetail(item) {
+            let type = '';
+            if (item.brand_type === 0) {
+                type = 'shoes';
+            } else if (item.brand_type === 1) {
+                type = 'clothimg';
+            }
+            if (item.post_status === 11) {
+                uni.navigateTo({
+                    url: '/pages/zy-publicationappraisal3/zy-publicationappraisal3?brand_id='+item.brand_id+'&is_specialty='+item.is_specialty+'&appraiser_id='+item.user_id+'&type='+type+'&id='+item.id
+                });
+            } else {
+                uni.navigateTo({
+                    url:
+                        "/pages/Identificationdetails3/Identificationdetails3?id=" +
+                        item.id +
+                        "&type=" +
+                        item.is_specialty
+                });
+            }
         }
     }
 };

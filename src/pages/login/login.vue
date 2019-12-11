@@ -1,6 +1,6 @@
 <template>
     <view class="container">
-        <image class="login-img" src="../../static/images/鉴定logo@2x.png"></image>
+        <image class="login-img" :src="qiniuUrl+'微信2@2x.png'"></image>
         <view class="text">登录BAN鉴定服务</view>
         <view class="text2">只为提供最公正的鉴定结果</view>
         <button

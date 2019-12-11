@@ -4,19 +4,18 @@
             <view class="check">
                 <view class="title">
                     <view class="left">已选鉴定师</view>
-                    <view class="right" @tap="resetCheck"
+                    <!-- <view class="right" @tap="resetCheck"
                         >重新选择
                         <image
                             class="arrow"
                             :src="qiniuUrl+'矩形1@2x.png'"
-                        ></image></view>
+                        ></image></view> -->
                 </view>
                 <view class="lists">
                     <view
                         class="list"
                         v-for="(item, index) in appraisals"
                         :key="index"
-                        @tap="resetCheck"
                     >
                         <view class="left">
                             <image class="avatar" :src="item.avatar"></image>
@@ -108,6 +107,7 @@
                         type="text"
                         name="mark"
                         placeholder="输入文字"
+                        :value="markText"
                         class="number"
                         @tap="mark($event)"
                     />
@@ -140,7 +140,7 @@
                     </view>
                 </view>
                 <view class="btn-info-right" @tap="submission">
-                    微信支付
+                    提交补图
                 </view>
             </view>
             <view class="mark" v-if="isPay"></view>
@@ -280,8 +280,10 @@ import {
     cost,
     blpay,
     appraiserDetail,
-    placeOrder
+    placeOrder,
+    complementGraph
 } from "../../api/publicationappraisal";
+import { appraise, post, changeAppraiser, banzhuAppraise } from "../../api/Identificationdetails";
 import { upload, init } from "../../utils/qiniuUploader";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
@@ -513,7 +515,8 @@ export default {
             appraiser_id: "",
             bjPrice: 1000,
             type: '',
-            falg: true
+            falg: true,
+            id: ''
         };
     },
     onLoad(options) {
@@ -521,26 +524,12 @@ export default {
             title: '加载中...',
             icon: 'none'
         });
-        const { brand_id, is_specialty, appraiser_id, type } = options;
-        this.brand_id = brand_id || 22;
+        const { brand_id, is_specialty, appraiser_id, type, id } = options;
+        this.brand_id = brand_id;
         this.is_specialty = is_specialty;
         this.appraiser_id = appraiser_id;
+        this.id = id;
         this.type = type;
-        let price = "";
-        if (is_specialty === "1") {
-            price = 0;
-        } else if (is_specialty === "2") {
-            price =
-                this.price === "请输入保价金额，默认1000元..."
-                    ? 1000
-                    : this.price;
-        }
-        console.log(is_specialty, price);
-        cost({ appr_cost: 5, appr_goods_scale: 0.03, price }).then(result => {
-            const { cost } = result.data;
-            this.cost = cost;
-            uni.hideLoading();
-        });
         appraiserDetail({
             id: appraiser_id
         }).then(result => {
@@ -555,11 +544,33 @@ export default {
                         bio: data[key].bio,
                         appr_ask: data[key].appr_ask,
                         last_level_name: data[key].last_level_name,
-                        name: data[key].name
+                        name: data[key].name,
+                        images: data[key].data
                     });
                 }
             });
-            console.log(this.appraisals);
+        });
+        
+        post({id}).then(result => {
+            console.log(result);
+            const {images, user_info, data} = result.data;
+            this.price = user_info.price;
+            let price = user_info.price;
+            this.markText = data.result;
+            cost({ appr_cost: 5, appr_goods_scale: 0.03, price }).then(result => {
+                const { cost } = result.data;
+                this.cost = cost;
+                uni.hideLoading();
+            });
+            images.forEach((image, index) => {
+                console.log(image);
+                if (image.path) {
+                    this.images[index].name = image.name;
+                    this.images[index].image = image.path;
+                    this.images[index].code = image.code;
+                    this.images[index].isShow = true;
+                }
+            });
         });
     },
     methods: {
@@ -703,9 +714,9 @@ export default {
                     res_img.push(image);
                 }
             });
-            if (res_img.length <= 2) {
+            if (res_img.length < 1) {
                 uni.showToast({
-                    title: '至少上传3张图片',
+                    title: '请上传图片',
                     icon: 'none'
                 });
                 Promise.resolve();
@@ -895,49 +906,39 @@ export default {
                 images = this.images;
             }
             this.uploadImgQiniu(images).then(result => {
+                console.log({
+                        id: this.id,
+                        images: result
+                });
                 if (this.falg) {
-                    this.falg = true;
-                    placeOrder({
-                        description: this.description,
-                        images: result,
-                        others: this.others,
-                        is_specialty: this.is_specialty,
-                        price:
-                            this.is_specialty === "1"
-                                ? 0
-                                : this.price === "请输入保价金额，默认1000元..."
-                                ? 1000
-                                : this.price,
-                        brand_id: this.brand_id,
-                        appraiser_list: this.appraiser_id
+                    this.falg = false;
+                    complementGraph({
+                        id: this.id,
+                        images: result
                     })
                         .then(result => {
                             this.falg = true;
-                            const { message, status, pay_no } = result.data;
-                            this.pay_no = pay_no;
+                            console.log(result);
+                            const {status, message} = result.data;
+                            if (status !== 201) {
+                                uni.showToast({
+                                    title: message,
+                                    icon: 'none',
+                                    mask: true
+                                });
+                                return;
+                            }
                             uni.showToast({
                                 title: message,
-                                icon: "none",
-                                success() {
-                                    if (status === 201) {
-                                        cash().then(result => {
-                                            const { userCash } = result.data.data;
-                                            that.userCash = userCash;
-                                            that.isPayShow = true;
-                                            console.log(result);
-                                            uni.hideLoading();
-                                        });
-                                        // uni.navigateTo({
-                                        //   url: "/pages/releasedsuccessfully/releasedsuccessfully"
-                                        // });
-                                    } else {
-                                        uni.showToast({
-                                            title: message,
-                                            icon: "none"
-                                        });
-                                    }
-                                }
+                                icon: 'none',
+                                mask: true
                             });
+                            setTimeout(() => {
+                                uni.navigateTo({
+                                    url:
+                                        "/pages/releasedsuccessfully/releasedsuccessfully"
+                                });
+                            }, 100);
                         })
                         .catch(error => {
                             this.falg = true;

@@ -1,9 +1,9 @@
 <template>
   <view class="container">
-    <div class="info-container" v-if="user_info.avatar">
-      <view class="info">
-        <view class="top">
-          <view class="title">服务项目</view>
+    <div class="info-container">
+      <view class="info" :class="{active: isOpen}">
+        <view class="top" @tap="open">
+          <view class="title">服务项目 <image class="arrow" :src="qiniuUrl+'鉴定贴详情-展开@2x.png'"></image></view>
           <view class="img">
             <image
               v-if="mold === '1'"
@@ -34,25 +34,26 @@
           <view class="jd"> 已鉴定 {{ user_info.count }} 双 </view>
         </view>
         <view class="bottom">
-          <view class="tab">
+          <view class="tab" @tap="goto(0)">
             <image
               :src="qiniuUrl+'/个人主页2@2x.png'"
             ></image>
             <text>查看主页</text>
           </view>
-          <view class="tab">
+          <view class="tab" @tap="goto(1)">
             <image
               :src="qiniuUrl+'/记录@2x.png'"
             ></image>
             <text>查看记录</text>
           </view>
-          <view class="tab">
+          <view class="tab" @tap="goto(2)">
             <image
               :src="qiniuUrl+'/备注@2x.png'"
             ></image>
             <text>备注标签</text>
           </view>
         </view>
+        <view class="retract" @tap="open">收起 <image class="arrow" :src="qiniuUrl+'鉴定贴详情-展开@2x - 副本.png'"></image></view>
       </view>
     </div>
     <view class="djd">
@@ -83,7 +84,7 @@
       </view>
       <view class="imgs">
         <view class="img-box" v-for="(item, index) in images" :key="index">
-          <view class="img" @tap="data.post_status === 11 ? upImg(index) : ''">
+          <view class="img">
             <image :src="getPath(item.path, item.image)"></image>
             <view class="mark">
               {{ item.name }}
@@ -91,18 +92,37 @@
           </view>
         </view>
       </view>
-      <view class="gdjl">
-        <image src="../../static/images/Workorderrecord@2x.png"></image>
+      <view v-if="isJD === 'false'" class="gdjl">
+        <image :src="qiniuUrl+'Workorderrecord@2x.png'"></image>
       </view>
     </view>
-    <view
-      class="button"
-      @tap="supplementFn"
-      v-if="data.post_status === 11"
-    >
-      提交补图
+    <view class="record">
+      <view class="en">Work order record</view>
+      <view class="line"></view>
+      <view class="title">工单记录</view>
+      <view class="text">鉴定结论得出后30天内可提交工单</view>
+      <view class="text">超出时间后无法创建</view>
+    </view>
+    <view class="btns">
+      <view
+        class="button"
+        v-show="!is_start"
+        @tap="startJD"
+        v-if="isJD !== 'false'"
+      >
+        开始鉴定
+      </view>
+      <view
+        class="button"
+        v-show="!is_start"
+        @tap="zj_tr"
+        v-if="isJD !== 'false'"
+      >
+        转交他人
+      </view>
     </view>
     <view class="mask" v-show="is_start"></view>
+    <view class="mask" v-show="isHandOver"></view>
     <view class="start-jd" v-show="is_start">
       <div class="title">开始鉴定</div>
       <view class="close" @tap="close">关闭</view>
@@ -136,13 +156,39 @@
         确认提交
       </view>
     </view>
+    <view class="handover" v-show="isHandOver">
+      <view class="title">转交他人</view>
+      <view class="close" @tap="zj_close">关闭</view>
+      <view class="lists-box">
+        <scroll-view class="lists" scroll-x="true">
+          <view class="list" v-for="(item, index) in appraisers" :key="index" @tap="check_appr(index)">
+            <image v-show="!item.checked" class="icon" :src="qiniuUrl+'对号-加粗@2x.png'"></image>
+            <image v-show="item.checked" class="icon" :src="qiniuUrl+'对号-加粗2@2x.png'"></image>
+            <view class="left">
+              <image class="avatar" :src="item.avatar"></image>
+              <image class="level-img" :src="qiniuUrl+'矢量智能对象@2x.png'"></image>
+            </view>
+            <view class="right">
+              <view class="nickname">{{item.name}}</view>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+      <view class="buttons">
+        <view class="cancel-btn" @tap="zj_close">
+          取消
+        </view>
+        <view class="yes-btn" @tap="sub_zj">
+          确认转交
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
 <script>
-import { qiniuToken } from "../../api/publicationappraisal";
-import { appraise, post, supplement } from "../../api/Identificationdetails";
-import { upload, init } from "../../utils/qiniuUploader";
+import { appraise, post, changeAppraiser } from "../../api/Identificationdetails";
+import {appraiserList} from '../../api/selectappraiser';
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -190,28 +236,22 @@ export default {
       bzFw: false,
       mold: '',
       JDstatus: '',
-      uploadPicture: {}
+      isJD: '',
+      isOpen: false,
+      appraisers: [],
+      isHandOver: false
     };
   },
-  onShareAppMessage(result) {
-    if (result.from === 'button') {
-      console.log(result.target);
-    }
-
-    return {
-      title: '自定义分享标题',
-      path: '/pages/Identificationdetails/Identificationdetails'
-    }
-  },
   onLoad(options) {
-    console.log(options);
     uni.showLoading({
       title: '加载中...',
-      icon: 'none'
+      icon: 'none',
+      mask: true
     });
-    const { id, type, mold } = options;
+    const { id, type, mold, isJD } = options;
     this.type = type;
     this.mold = mold;
+    this.isJD = isJD;
     this.result = 1;
     post({ id }).then(result => {
       const {
@@ -224,19 +264,7 @@ export default {
         appraiser,
         operation_name
       } = result.data;
-      images.forEach(img => {
-        if (img.path) {
-          img.path = config[NODE_ENV].imgUrl + img.path;
-        }
-        img.image = config[NODE_ENV].imgUrl + img.image;
-      });
       this.images = images;
-      this.images.push({
-        code: "0",
-        name: "补图",
-        image:
-          "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png"
-      });
       this.user_info = user_info;
       this.work_order = work_order;
       this.data = data;
@@ -244,200 +272,156 @@ export default {
       this.hint_top = hint_top;
       this.appraiser = appraiser;
       this.operation_name = operation_name;
-      this.avatar = config[NODE_ENV].imgUrl + user_info.avatar;
+      if (/avatar_/ig.test(user_info.avatar)) {
+        this.avatar = "https://stg.tosneaker.com/" + user_info.avatar;
+      }
       this.JDstatus = data.result;
-      uni.hideLoading();
-    });
-  },
-  methods: {
-    upImg(index) {
-      const that = this;
-      uni.chooseImage({
-        count: 1,
-        success(res) {
-          const { tempFilePaths } = res;
-          const imgPath = tempFilePaths[0];
-          that.images[index].path = imgPath;
-          if (index >= that.images.length - 1) {
-            that.images[index].code = index - 11;
-            that.images[index].path = imgPath;
-            that.images[index].name = "补充";
-            const obj = {
-              code: index - 10,
-              path:
-                "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
-              name: "补充"
-            };
-            that.images.push(obj);
-          }
-        },
-        fail(err) {
-          console.log(err);
-        }
-      });
-    },
-    uploadImgQiniu(images) {
-      console.log(images);
-      let that = this;
-      const res_img = [];
-      images.forEach(image => {
-        if (/tmp/gi.test(image.path)) {
-          res_img.push(image);
-        }
-      });
-      console.log(images.length - 1);
-      return new Promise((resolve, reject) => {
-        images.map((r, i) => {
-          console.log(i);
-          const path = r.path;
-          let ext = '';
-          if (path) {
-            ext = path.split(".")[path.split(".").length - 1]
-          }
-          if (/tmp/gi.test(path)) {
-            qiniuToken().then(res => {
-              let { upload_token } = res.data.data;
-              upload(
-                path,
-                res => {
-                  that.uploadPicture[r.code] = res.imageURL;
-                  console.log(i, res_img.length - 1 + i);
-                  if (i === res_img.length - 1 + i) {
-                    console.log(that.uploadPicture);
-                    resolve(that.uploadPicture);
-                  }
-                  // i === images.length - 1 && resolve(that.uploadPicture);
-                },
-                error => {
-                  reject(error);
-                },
-                {
-                  region: "NCN",
-                  uptoken: upload_token,
-                  uploadURL: "https://upload-z1.qiniup.com",
-                  domain: config[NODE_ENV].domain,
-                  key:
-                    "uploads/appraiser/" +
-                    that.getRandomStr(false, 32) +
-                    "." +
-                    ext
-                }
-              );
+      appraiserList({
+          brand_id: data.brand_id
+      }).then(result => {
+        result.data.cover_image = config[NODE_ENV].imgUrl + result.data.cover_image;
+        const {cover_image, info} = result.data;
+        this.cover_image = cover_image;
+        this.info = info;
+        const arr = [];
+        const keys = Object.keys(result.data);
+        keys.forEach(key => {
+          if (/[0-9]/ig.test(key)) {
+            let avatar = '';
+            if (/avatar_/ig.test(result.data[key].avatar)) {
+              avatar = 'https://stg.tosneaker.com/' + result.data[key].avatar;
+            } else {
+              avatar = config[NODE_ENV].imgUrl + result.data[key].avatar;
+            }
+            arr.push({
+              appr_ask: result.data[key].appr_ask,
+              level_name: result.data[key].level_name,
+              name: result.data[key].name,
+              bio: result.data[key].bio,
+              avatar: avatar,
+              apprs: result.data[key].data,
+              id: result.data[key].user_id,
+              appr_id: result.data[key].appr_id
             });
           }
         });
+        arr.forEach((item, index) => {
+          item.checked = false;
+          item.index = index;
+        });
+        this.appraisers = arr;
+        uni.hideLoading();
       });
-    },
-    getRandomStr(randomFlag, min, max) {
-      let str = "",
-        range = min,
-        pos = "",
-        arr = [
-          "0",
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "a",
-          "b",
-          "c",
-          "d",
-          "e",
-          "f",
-          "g",
-          "h",
-          "i",
-          "j",
-          "k",
-          "l",
-          "m",
-          "n",
-          "o",
-          "p",
-          "q",
-          "r",
-          "s",
-          "t",
-          "u",
-          "v",
-          "w",
-          "x",
-          "y",
-          "z",
-          "A",
-          "B",
-          "C",
-          "D",
-          "E",
-          "F",
-          "G",
-          "H",
-          "I",
-          "J",
-          "K",
-          "L",
-          "M",
-          "N",
-          "O",
-          "P",
-          "Q",
-          "R",
-          "S",
-          "T",
-          "U",
-          "V",
-          "W",
-          "X",
-          "Y",
-          "Z"
-        ];
-
-      // 随机产生
-      if (randomFlag) {
-        range = Math.round(Math.random() * (max - min)) + min;
+    });
+  },
+  onShareAppMessage(result) {
+    if (result.from === 'button') {
+      console.log(result.target);
+    }
+    return {
+      title: '鉴定贴详情',
+      path: '/pages/Identificationdetails/Identificationdetails',
+      imageUrl: '',
+      desc: '',
+      success() {
+        uni.showToast({
+          title: '分享成功',
+          icon: 'none'
+        });
       }
-      for (let i = 0; i < range; i++) {
-        pos = Math.round(Math.random() * (arr.length - 1));
-        str += arr[pos];
-      }
-      return str;
+    }
+  },
+  computed: {
+    checkedNumber() {
+      const arr = [];
+      this.appraisers.forEach(appraiser => {
+        if (appraiser.checked) {
+            arr.push(appraiser);
+        }
+      });
+      return arr.length;
     },
-    appraisal() {
-      uni.showLoading();
-      const that = this;
-      this.uploadImgQiniu(this.images).then(result => {
-        console.log(result);
-        supplement({
-          images: result,
-          id: that.data.id
-        })
-          .then(result => {
-            const {message} = result.data;
-            uni.showToast({
-              title: message,
-              icon: "none",
-              success() {
-                uni.navigateBack({
-                  delta: 1
-                });
-              }
-            });
-          })
-          .catch(error => {
-            console.log(error);
+    checkedArr() {
+      const arr = [];
+      this.appraisers.forEach(appraiser => {
+        if (appraiser.checked) {
+          arr.push(appraiser);
+        }
+      });
+      return arr;
+    }
+  },
+  methods: {
+    goto(index) {
+      if (index === 0) {
+        uni.navigateTo({
+          url: ''
+        });
+      } else if (index === 1) {
+        uni.navigateTo({
+          url: ''
+        });
+      } else if (index === 2) {
+        uni.navigateTo({
+          url: ''
+        });
+      }
+    },
+    zj_tr() {
+      this.isHandOver = true;
+    },
+    zj_close() {
+      this.isHandOver = false;
+    },
+    sub_zj() {
+      if (this.checkedNumber <= 0) {
+        uni.showToast({
+          title: '请选择鉴定师',
+          icon: "none"
+        });
+        return;
+      }
+      changeAppraiser({
+        post_id: this.data.id,
+        new_appraiser_id: this.checkedArr[0].appr_id
+      }).then(result => {
+        const that = this;
+        const {message, status} = result.data;
+        if (status === 401) {
+          uni.showToast({
+            title: message,
+            icon: "none"
           });
+          return;
+        }
+        uni.showToast({
+          title: message,
+          icon: "none",
+          duration: 1500,
+          success() {
+            uni.redirectTo({
+              url: '/pages/means4/means4?type='+that.type
+            });
+          }
+        });
+        console.log(result);
       });
+    },
+    check_appr(index) {
+      this.appraisers.forEach(item => {
+        item.checked = false;
+      });
+      this.appraisers[index].checked = !this.appraisers[index].checked;
+    },
+    open() {
+      this.isOpen = !this.isOpen;
     },
     getPath(path, image) {
       if (path) {
-        return path;
+        return "http://static-stg.tosneaker.com/" + path;
+      } else {
+        return config[NODE_ENV].imgUrl + image;
       }
-      return image;
     },
     check(index) {
       this.checks.forEach(check => {
@@ -463,8 +447,36 @@ export default {
     bz_fw() {
       this.bzFw = !this.bzFw;
     },
-    supplementFn() {
-      this.appraisal();
+    submit() {
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none',
+        mask: true
+      });
+      const that = this;
+      const params = {
+        result: this.result,
+        brand_id: this.data.brand_id,
+        id: this.data.id,
+        add_status: this.result === 10 ? 1 : 0
+      };
+      if (this.result === 10) {
+        params.need_image = this.markContent;
+      } else {
+        params.result_reason = this.markContent;
+      }
+      appraise(params).then(result => {
+        console.log(result);
+        uni.hideLoading();
+        uni.showToast({
+          title: "提交成功",
+          success() {
+            uni.redirectTo({
+              url: '/pages/means4/means4?type='+that.type
+            });
+          }
+        });
+      });
     }
   }
 };
@@ -475,18 +487,155 @@ export default {
   background-color: #fff;
 }
 
+.handover {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 999;
+  margin: auto;
+  width: 670rpx;
+	height: 418rpx;
+	background-color: #ffffff;
+	border-radius: 16rpx;
+
+  .title {
+    font-size: 32rpx;
+    text-align: center;
+    padding-top: 42rpx;
+    padding-bottom: 32rpx;
+  }
+
+  .close {
+    position: absolute;
+    right: 50rpx;
+    top: 50rpx;
+  }
+
+  .lists-box {
+    width: 590rpx;
+    margin: 0 auto;
+    margin-bottom: 60rpx;
+    overflow: hidden;
+  }
+
+  .lists {
+    width: 100%;
+    height: 141rpx;
+    white-space: nowrap;
+  }
+
+  .list {
+    position: relative;
+    width: 180rpx;
+    height: 141rpx;
+    background-color: #f4f3f9;
+    border-radius: 16rpx;
+    box-shadow: 0rpx 0rpx 20rpx 0rpx 
+        rgba(0, 0, 0, 0.04);
+    display: inline-block;
+    margin-right: 24rpx;
+
+    .left {
+      position: relative;
+      width: 70rpx;
+      height: 70rpx;
+      margin: 16rpx auto 0;
+      overflow: hidden;
+
+      .level-img {
+        width: 26rpx;
+        height: 26rpx;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
+    .icon {
+      width: 32rpx;
+      height: 30rpx;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .avatar {
+      width: 70rpx;
+      border-radius: 70rpx;
+      height: 70rpx;
+    }
+
+    .nickname {
+      font-size: 24rpx;
+      color: #666;
+      margin-top: 5rpx;
+      text-align: center;
+    }
+
+    .level {
+      display: flex;
+      align-items: center;
+      margin-top: 6rpx;
+      
+      image {
+        width: 26rpx;
+        height: 26rpx;
+      }
+      .level-name {
+        font-size: 24rpx;
+        color: #898989;
+        margin-left: 6rpx;
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 590rpx;
+    margin: 0 auto;
+
+    .cancel-btn,.yes-btn {
+      width: 252rpx;
+      height: 70rpx;
+      line-height: 70rpx;
+      border-radius: 12rpx;
+      text-align: center;
+      font-size: 32rpx;
+    }
+    .cancel-btn {
+      background-color: #e8e8e8;
+      color: #898989;
+    }
+    .yes-btn {
+      background-color: #7186f1;
+      color: #fff;
+    }
+  }
+}
+
 .info-container {
   background-color: #eef1f4;
   overflow: hidden;
 }
+.arrow {
+  width: 18rpx;
+  height: 16rpx;
+}
 
 .info {
   width: 690rpx;
-  height: 246rpx;
+  height: 90rpx;
   background-color: #ffffff;
   border-radius: 10rpx;
-  padding: 28rpx 28rpx 28rpx 38rpx;
+  padding: 22rpx 28rpx 28rpx 38rpx;
   margin: 15rpx auto;
+  overflow: hidden;
+
+
+  &.active {
+    height: 280rpx;
+  }
 
   .title {
     flex: 1;
@@ -615,6 +764,21 @@ export default {
   }
 }
 
+.retract {
+  font-size: 24rpx;
+  color: #898989;
+  text-align: center;
+  height: 70rpx;
+  line-height: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .arrow {
+    margin-left: 10rpx;
+  }
+}
+
 .djd {
   background-color: #ffffff;
   padding-top: 24rpx;
@@ -712,7 +876,7 @@ export default {
 .content {
   padding-left: 28rpx;
   padding-right: 28rpx;
-  margin-bottom: 100rpx;
+  margin-bottom: 30rpx;
   overflow: hidden;
 
   .title {
@@ -727,17 +891,24 @@ export default {
   }
 }
 
-.button {
+.btns {
+  width: 680rpx;
+  margin: 0 auto;
   position: fixed;
   left: 0;
   right: 0;
   z-index: 998;
   bottom: 50rpx;
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
   width: 250rpx;
   height: 80rpx;
+  margin: 0 auto;
   line-height: 80rpx;
   text-align: center;
-  margin: 0 auto;
   background-image: linear-gradient(
       -90deg,
       #738af9 0%,
@@ -874,10 +1045,36 @@ export default {
   z-index: 998;
 }
 
-.gdjl {
-  margin-top: 100rpx;
-  text-align: center;
+.record {
+  margin-bottom: 180rpx;
   
+  .en {
+    font-size: 30rpx;
+  }
+  .line {
+    width: 300rpx;
+    height: 1rpx;
+    background: #8a8589;
+    margin: 6rpx auto;
+  }
+  .title {
+    color: #000000;
+    margin-bottom: 24rpx;
+  }
+  .text {
+    color: #4b525b;
+    font-size: 24rpx;
+    line-height: 42rpx;
+  }
+  .en,.title,.text {
+    text-align: center;
+  }
+}
+
+.gdjl {
+  margin-top: 40rpx;
+  text-align: center;
+
   image {
     width: 478rpx;
     height: 114rpx;
