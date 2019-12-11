@@ -705,7 +705,7 @@ export default {
             });
             if (res_img.length <= 2) {
                 uni.showToast({
-                    title: '请先上传图片',
+                    title: '至少上传3张图片',
                     icon: 'none'
                 });
                 Promise.resolve();

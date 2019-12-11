@@ -590,6 +590,15 @@ export default {
                     res_img.push(image);
                 }
             });
+            if (res_img.length <= 2) {
+                uni.showToast({
+                    title: '至少上传3张图片',
+                    icon: 'none'
+                });
+                Promise.resolve();
+                uni.hideLoading();
+                return;
+            }
             return new Promise((resolve, reject) => {
                 images.map((r, i) => {
                     const path = r.image;
@@ -813,20 +822,20 @@ export default {
                 });
                 return;
             }
-            let number = 0;
-            this.images.forEach(img => {
-                if (/tmp/gi.test(img.image)) {
-                    number++;
-                }
-            });
-            if (number >= 1) {
+            // let number = 0;
+            // this.images.forEach(img => {
+            //     if (/tmp/gi.test(img.image)) {
+            //         number++;
+            //     }
+            // });
+            // if (number >= 1) {
                 this.appraisal();
-            } else {
-                uni.showToast({
-                    title: '前三张主图必传',
-                    icon: "none"
-                });
-            }
+            // } else {
+            //     uni.showToast({
+            //         title: '前三张主图必传',
+            //         icon: "none"
+            //     });
+            // }
         }
     }
 };
