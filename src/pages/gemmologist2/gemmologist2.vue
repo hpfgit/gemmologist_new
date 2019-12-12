@@ -1,6 +1,11 @@
 <template>
     <view class="container">
         <view class="jd">
+            <view class="status-box" @tap="show">
+                <view class="status" :class="{active: appraise.is_online}">
+                    {{ appraise.is_online === 1 ? '在线' : '离线'}} <view class="triangle"></view>
+                </view>
+            </view>
             <view class="inner">
                 <navigator class="box" url="/pages/means4/means4?type=djd">
                     <view class="title">
@@ -89,11 +94,34 @@
                 ></image>
             </view>
         </view>
+        <view class="mask" v-show="isShow"></view>
+        <view class="change-status-box" v-show="isShow">
+            <view class="title">切换状态</view>
+            <image class="close" src="../../static/images/圆角矩形607拷贝@2x.png"></image>
+            <view class="status-list">
+                <view class="item" @tap="changeStatus(0)">
+                    <view class="circle active"></view>
+                    <view class="text">在线</view>
+                    <view class="checked" v-show="statusIndex === 0">
+                        <image class="checked-img" src="../../static/images/对号@2x.png"></image>
+                    </view>
+                </view>
+                <view class="item" @tap="changeStatus(1)">
+                    <view class="circle"></view>
+                    <view class="text">离线</view>
+                    <view class="checked" v-show="statusIndex === 1">
+                        <image class="checked-img" src="../../static/images/对号@2x.png"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
     </view>
 </template>
 
 <script>
 import { appraise, newAppraise } from "../../api/gemmologist";
+import { banzhu_appraise_num, banzhu_appraise, changeOnline } from "../../api/moderator";
+import { appraiserDetail } from "../../api/publicationappraisal";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 
@@ -110,16 +138,64 @@ export default {
             all: 0,
             dhf: 0,
             djd: 0,
-            jdz: 0
+            jdz: 0,
+            appraise: {},
+            isShow: false,
+            statusIndex: ''
         };
     },
-    onReady() {
+    onLoad() {
+        const userinfo = uni.getStorageSync("user_info");
+        appraiserDetail({
+            id: userinfo.id
+        }).then(result => {
+            const obj = {};
+            const keys = Object.keys(result.data);
+            keys.forEach(key => {
+                if (/[0-9]/gi.test(key)) {
+                    obj['is_online'] = result.data[key].is_online;
+                }
+            });
+            if (obj.is_online === 1) {
+                this.statusIndex = 0;
+            } else {
+                this.statusIndex = 1;
+            }
+            this.appraise = obj;
+        })
         this.getData();
     },
     onPullDownRefresh() {
         this.getData();
     },
     methods: {
+        show() {
+            this.isShow = true;
+        },
+        changeStatus(index) {
+            this.statusIndex = index;
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none',
+                mask: true
+            });
+            if (this.appraise.is_online === 1) {
+                this.appraise.is_online = 0;
+            } else {
+                this.appraise.is_online = 1;
+            }
+            changeOnline({
+                is_online: this.appraise.is_online
+            }).then(result => {
+                this.isShow = false;
+                const {message} = result.data;
+                uni.showToast({
+                    title: message,
+                    icon: 'none'
+                });
+                uni.hideLoading();
+            });
+        },
         goBack() {
             uni.navigateBack({
                 delta: 1
@@ -166,13 +242,106 @@ export default {
 </script>
 
 <style lang="scss">
+.mask,.change-status-box {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.mask {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    background-color: rgba(0,0,0,.5);
+}
+.change-status-box {
+	width: 750rpx;
+	height: 358rpx;
+	background-color: #ffffff;
+	border-radius: 40rpx 40rpx 0rpx 0rpx;
+    z-index: 999;
+
+    .title {
+        padding-top: 40rpx;
+        text-align: center;
+    }
+
+    .close {
+        width: 24rpx;
+        height: 23rpx;
+        position: absolute;
+        right: 46rpx;
+        top: 44rpx;
+    }
+
+    .item {
+        margin-top: 66rpx;
+        display: flex;
+        align-items: center;
+        padding-left: 20rpx;
+        padding-right: 20rpx;
+        
+        .circle {
+            margin-right: 20rpx;
+            &.active {
+                background-color: #88ef39;
+            }
+            width: 32rpx;
+            height: 32rpx;
+            border-radius: 32rpx;
+            background-color: #cdcdcd;
+        }
+    }
+
+    .checked {
+        flex: 1;
+        text-align: right;
+        .checked-img {
+            width: 34rpx;
+            height: 24rpx;
+        }
+    }
+}
 .jd {
     background-image: url("http://static-stg.tosneaker.com/image/appraisal/bg@2x.png");
     background-size: cover;
     padding: 40rpx 0;
 
+    .status {
+        width: 148rpx;
+        height: 70rpx;
+        border-radius: 35rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #7b7b7b;
+        color: #343434;
+
+        &.active {
+            background-image: linear-gradient(-90deg, 
+            #7ce2be 0%, 
+            #4ec99a 100%);
+            box-shadow: 0rpx 0rpx 6rpx 0rpx 
+            rgba(11, 133, 164, 0.6);
+            color: #000;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 12rpx solid transparent;
+            border-right: 12rpx solid transparent;
+            border-top: 8rpx solid #000;
+            margin-left: 16rpx;
+        }
+    }
     navigator {
         box-sizing: border-box;
+    }
+    .status-box {
+        width: 690rpx;
+        margin: 0 auto 20rpx;
     }
     .inner {
         display: flex;

@@ -89,7 +89,8 @@ export default {
       is_appraisal_admin: "",
       page: 1,
       count: '',
-      totalPage: ''
+      totalPage: '',
+      istype: ''
     };
   },
   onPullDownRefresh() {
@@ -99,7 +100,7 @@ export default {
     });
     this.page = 1;
     banzhu_appraise({
-      type: this,type,
+      type: this.type,
       page: this.page
     }).then(result => {
       const { data, count } = result.data;
@@ -111,6 +112,8 @@ export default {
     });
   },
   onLoad(options) {
+    const {istype} = options;
+    this.istype = istype;
     uni.showLoading({
       title: '加载中...',
       icon: 'none'
@@ -178,7 +181,8 @@ export default {
             "&isJD=true&is_appraisal_admin=" +
             this.is_appraisal_admin +
             "&post_status=" +
-            item.post_status
+            item.post_status +
+            "&istype=" + this.istype
         });
       } else {
         uni.navigateTo({

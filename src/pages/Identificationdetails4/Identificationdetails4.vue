@@ -241,12 +241,14 @@ export default {
       appraisers: [],
       isHandOver: false,
       is_appraisal_admin: '',
-      post_status: ''
+      post_status: '',
+      istype: ''
     };
   },
   onLoad(options) {
     console.log(options);
-    const {post_status} = options;
+    const {post_status, istype} = options;
+    this.istype = istype;
     this.post_status = post_status;
     uni.showLoading({
       title: '加载中...',
@@ -471,27 +473,50 @@ export default {
         params.result_reason = this.markContent;
       }
       if (this.post_status === '13') {
-        appraise(params).then(result => {
-          console.log(result);
-          const {message, status} = result.data;
-          console.log(message, status);
-          uni.hideLoading();
-          if (status === 403) {
-            uni.showToast({
-              title: message,
-              icon: 'none'
-            });
-            return;
-          }
-          uni.showToast({
-            title: "提交成功",
-            success() {
-              uni.redirectTo({
-                url: '/pages/means3/means3?type='+that.type
+        if (this.istype === 'banzhu') {
+          banzhuAppraise(params).then(result => {
+            console.log(result);
+            uni.hideLoading();
+            const {message, status} = result.data;
+            if (status === 403) {
+              uni.showToast({
+                title: message,
+                icon: 'none'
               });
+              return;
             }
+            uni.showToast({
+              title: "提交成功",
+              success() {
+                uni.redirectTo({
+                  url: '/pages/means3/means3?type='+that.type+'&istype=banzhu'
+                });
+              }
+            });
           });
-        });
+        } else {
+          appraise(params).then(result => {
+            console.log(result);
+            const {message, status} = result.data;
+            console.log(message, status);
+            uni.hideLoading();
+            if (status === 403) {
+              uni.showToast({
+                title: message,
+                icon: 'none'
+              });
+              return;
+            }
+            uni.showToast({
+              title: "提交成功",
+              success() {
+                uni.redirectTo({
+                  url: '/pages/means2/means2?type='+that.type
+                });
+              }
+            });
+          });
+        }
       } else {
         banzhuAppraise(params).then(result => {
           console.log(result);

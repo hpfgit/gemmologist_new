@@ -283,12 +283,20 @@ export default {
             this.count = count;
             this.fail = fail.substring(0, fail.length - 1);
             uni.hideLoading();
+        }).catch(error => {
+            console.log(error);
+            uni.stopPullDownRefresh();
+            uni.hideLoading();
         });
         if (this.isLogin) {
             isAppraiser().then(result => {
                 const { is_appraiser, is_appraisal_admin } = result.data;
                 this.isAppraiser = is_appraiser;
                 this.is_appraisal_admin = is_appraisal_admin;
+            }).catch(error => {
+                console.log(error);
+                uni.hideLoading();
+                uni.stopPullDownRefresh();
             });
             getPost({
                 page: 1,
@@ -302,6 +310,10 @@ export default {
                 this.lists = data;
                 uni.stopPullDownRefresh();
                 uni.hideLoading();
+            }).catch(error => {
+                console.log(error);
+                uni.hideLoading();
+                uni.stopPullDownRefresh();
             });
         } else {
             uni.stopPullDownRefresh();
@@ -316,7 +328,7 @@ export default {
         goToData(index) {
             if (index) {
                 uni.navigateTo({
-                    url: '/pages/moderator/moderator'
+                    url: '/pages/moderator/moderator?istype=banzhu'
                 });
             } else {
                 uni.navigateTo({

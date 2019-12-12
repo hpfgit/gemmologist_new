@@ -37,3 +37,7 @@ export function appraiserDetail(params) {
 export function placeOrder(params) {
     return request('POST', '/api/appraisal/place-order', params);
 }
+
+export function pay(params) {
+    return request('POST', '/api/payment/pay', params);
+}

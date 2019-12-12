@@ -266,7 +266,8 @@ import {
     cost,
     blpay,
     appraiserDetail,
-    placeOrder
+    placeOrder,
+    pay
 } from "../../api/publicationappraisal";
 import { upload, init } from "../../utils/qiniuUploader";
 const NODE_ENV = process.env.NODE_ENV;
@@ -601,7 +602,8 @@ export default {
             if (res_img.length <= 2) {
                 uni.showToast({
                     title: '至少上传3张图片',
-                    icon: 'none'
+                    icon: 'none',
+                    mask: true
                 });
                 Promise.resolve();
                 uni.hideLoading();
@@ -805,7 +807,16 @@ export default {
                                     cash().then(result => {
                                         const { userCash } = result.data.data;
                                         that.userCash = userCash;
-                                        that.isPayShow = true;
+                                        // that.isPayShow = true;
+                                        pay({
+                                            pay_no,
+                                            method: 'miniapp',
+                                            'driver': 'wechat',
+                                            'openid': uni.getStorageSync('user_info').profile.wechat_new,
+                                            'miniapp_name': 'appraisal'
+                                        }).then(result => {
+                                            console.log(result);
+                                        });
                                         console.log(result);
                                         uni.hideLoading();
                                     });

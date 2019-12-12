@@ -280,7 +280,8 @@ import {
     cost,
     blpay,
     appraiserDetail,
-    placeOrder
+    placeOrder,
+    pay
 } from "../../api/publicationappraisal";
 import { upload, init } from "../../utils/qiniuUploader";
 const NODE_ENV = process.env.NODE_ENV;
@@ -940,7 +941,12 @@ export default {
                             });
                         })
                         .catch(error => {
-                            this.falg = true;
+                            // this.falg = true;
+                            pay({
+
+                            }).then(result => {
+                                console.log(result);
+                            });
                             console.log(error);
                         });
                 }

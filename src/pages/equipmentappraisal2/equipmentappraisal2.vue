@@ -51,7 +51,7 @@
                     </view>
                     <image
                         class="arrow"
-                        src="../../static/images/矩形1@2x.png"
+                        :src="qiniuUrl+'矩形12@2x.png'"
                     ></image>
                 </view>
             </view>
