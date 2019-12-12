@@ -165,7 +165,8 @@
         {
             "path": "pages/cashwithdrawal/cashwithdrawal",
             "style": {
-                "navigationBarTitleText": "提现管理"
+                "navigationBarTitleText": "提现管理",
+                "enablePullDownRefresh": true
             }
         },
         {
@@ -250,7 +251,8 @@
         {
             "path": "pages/means2/means2",
             "style": {
-                "navigationBarTitleText": "鉴定记录"
+                "navigationBarTitleText": "鉴定记录",
+                "enablePullDownRefresh": true
             }
         },
         {

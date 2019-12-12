@@ -46,12 +46,26 @@ export default {
     }
   },
   onLoad() {
-    drawCashDetail().then(result => {
+    this.getData();
+  },
+  onPullDownRefresh() {
+    this.getData();
+    uni.stopPullDownRefresh();
+  },
+  methods: {
+    getData() {
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none',
+        mask: true
+      });
+      drawCashDetail().then(result => {
       const {appr_blocked_money, appr_money} = result.data.data;
       this.appr_blocked_money = appr_blocked_money;
       this.appr_money = appr_money;
-      console.log(result.data.data);
+      uni.hideLoading();
     });
+    }
   }
 };
 </script>

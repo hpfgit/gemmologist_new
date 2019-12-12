@@ -93,6 +93,10 @@ export default {
     };
   },
   onPullDownRefresh() {
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none'
+    });
     this.page = 1;
     banzhu_appraise({
       type: this,type,

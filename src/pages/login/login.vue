@@ -1,6 +1,6 @@
 <template>
     <view class="container">
-        <image class="login-img" :src="qiniuUrl+'微信2@2x.png'"></image>
+        <image class="login-img" :src="qiniuUrl+'鉴定logo@2x.png'"></image>
         <view class="text">登录BAN鉴定服务</view>
         <view class="text2">只为提供最公正的鉴定结果</view>
         <button
@@ -8,7 +8,7 @@
             open-type="getUserInfo"
             @getuserinfo="getUserInfo"
         >
-            <image class="iphone" src="../../static/images/iphone@2x.png"></image>获取用户信息
+            <image class="iphone" :src="qiniuUrl+'微信2@2x.png'"></image>使用微信账号登录
         </button>
         <view class="authorize" v-show="authorize">
             <view class="title">授权手机号码</view>
@@ -78,8 +78,14 @@ export default {
                                             });
                                         }, 200);
                                     });
+                                },
+                                fail() {
+                                    uni.hideLoading();
                                 }
                             })
+                        },
+                        fail() {
+                            uni.hideLoading();
                         }
                     })
                 }
@@ -150,6 +156,7 @@ export default {
                         },
                         fail(error) {
                             console.log(error);
+                            uni.hideLoading();
                         }
                     });
                 }
@@ -193,8 +200,8 @@ export default {
     justify-content: center;
 }
 .iphone {
-    width: 24rpx;
-    height: 40rpx;
+    width: 48rpx;
+    height: 37rpx;
     margin-right: 20rpx;
 }
 .mask,.authorize {

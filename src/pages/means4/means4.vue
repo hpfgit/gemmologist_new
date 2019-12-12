@@ -114,16 +114,14 @@ export default {
             uni.hideLoading();
         });
     },
-    enablePullDownRefresh() {
+    onPullDownRefresh() {
         uni.showLoading({
             title: '加载中...',
             icon: 'none'
         });
-        const { type } = options;
-        this.type = type;
         newAppraiseDetails({
             page: 1,
-            type
+            type: this.type
         }).then(result => {
             const { data } = result.data;
             this.lists = data;

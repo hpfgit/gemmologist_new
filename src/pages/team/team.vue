@@ -129,16 +129,20 @@ export default {
                         apprs: result.data[key].data,
                         id: result.data[key].user_id,
                         level: result.data[key].level,
-                        imgs: result.data[key].data
+                        imgs: result.data[key].data,
+                        level: result.data[key].level
                     });
                 }
-                uni.hideLoading();
             });
-            arr.forEach((item, index) => {
+            uni.hideLoading();
+            let sortArr = arr.sort((a, b) => {
+                return b.level - a.level;
+            });
+            sortArr.forEach((item, index) => {
                 item.checked = false;
                 item.index = index;
             });
-            this.appraisers = arr;
+            this.appraisers = sortArr;
         });
     },
     methods: {

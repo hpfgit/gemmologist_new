@@ -70,8 +70,8 @@
                             <input
                                 type="text"
                                 :value="jdID"
-                                placeholder="请输入您的六位鉴定ID"
-                                @change="changeId($event)"
+                                placeholder="请输入您的鉴定ID"
+                                @input="changeId($event)"
                             />
                             <view @tap="searchTo" class="search-btn">
                                 查询鉴定
@@ -82,7 +82,7 @@
             </view>
             <view class="search-mask" v-show="is_bar_mask">
                 <view class="title">提示</view>
-                <image class="close-img" @tap="closeBarMask" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image>
+                <!-- <image class="close-img" @tap="closeBarMask" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image> -->
                 <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
                 <view class="btn-yes" @tap="closeBarMask">确定</view>
             </view>
@@ -151,8 +151,8 @@
                         </view>
                         <view class="center">
                             <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
-                            <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11}">{{ item.publish_at }}</view>
-                            <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status === 11}">{{item.status}}</view>
+                            <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14}">{{ item.publish_at }}</view>
+                            <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status !== 11 || item.post_status !== 14}">{{item.status}}</view>
                         </view>
                     </view>
                 </view>
@@ -274,11 +274,17 @@ export default {
         }
     },
     onPullDownRefresh() {
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
+        getCount().then(result => {
+            const { count, fail } = result.data;
+            this.count = count;
+            this.fail = fail.substring(0, fail.length - 1);
+            uni.hideLoading();
+        });
         if (this.isLogin) {
-            uni.showLoading({
-                title: '加载中...',
-                icon: 'none'
-            });
             isAppraiser().then(result => {
                 const { is_appraiser, is_appraisal_admin } = result.data;
                 this.isAppraiser = is_appraiser;
@@ -347,7 +353,7 @@ export default {
             this.jdID = e.target.value;
         },
         searchTo() {
-            if (!this.jdID) {
+            if (!this.jdID || !/\d/.test(this.jdID)) {
                 uni.showToast({
                     title: '请输入鉴定贴id',
                     icon: 'none'
@@ -361,6 +367,7 @@ export default {
                 if (status === 404) {
                     this.is_bar_mask = true;
                 } else {
+                    this.jdID = '';
                     uni.navigateTo({
                         url:
                             "/pages/Identificationdetails3/Identificationdetails3?id=" +
@@ -482,7 +489,7 @@ export default {
     }
 
     .cont {
-        margin-bottom: 56rpx;
+        padding-bottom: 56rpx;
         text-align: center;
         border-bottom: 1rpx solid #fafafa;
         color: #666;

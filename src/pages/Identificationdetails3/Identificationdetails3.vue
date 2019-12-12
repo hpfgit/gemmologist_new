@@ -8,12 +8,12 @@
                         <image
                             class="arrow"
                             v-show="!isOpen"
-                            src="../../static/images/矩形1@2x - 副本.png"
+                            :src="qiniuUrl+'矩形1@2x - 副本.png'"
                         ></image>
                         <image
                             class="arrow"
                             v-show="isOpen"
-                            src="../../static/images/矩形1@2x - 副本 - 副本.png"
+                            :src="qiniuUrl+'矩形1@2x - 副本 - 副本.png'"
                         ></image
                     ></view>
                     <view class="img">
@@ -66,20 +66,20 @@
                     <image
                         v-show="data.final_result === 1"
                         class="yinz"
-                        src="../../static/images/为真拷贝2@2x.png"
+                        :src="qiniuUrl+'为真拷贝2@2x.png'"
                     ></image>
                     <image
                         v-show="data.final_result === 0"
                         class="yinz"
-                        src="../../static/images/为假@2x.png"
+                        :src="qiniuUrl+'为假@2x.png'"
                     ></image>
                     <image
                         v-show="data.final_result === 2"
                         class="yinz"
-                        src="../../static/images/无法鉴定拷贝@2x.png"
+                        :src="qiniuUrl+'无法鉴定拷贝@2x.png'"
                     ></image>
                     <view class="cont"
-                        ><image src="../../static/images/鉴定2@2x.png"></image
+                        ><image :src="qiniuUrl+'小logo@2x.png'"></image
                         >鉴定合作鉴定师</view
                     >
                 </view>
@@ -91,7 +91,7 @@
                             <view class="right">
                                 <image
                                     class="level-img"
-                                    src="../../static/images/矢量智能对象拷贝2@2x.png"
+                                    :src="qiniuUrl+'矢量智能对象拷贝2@2x.png'"
                                 ></image>
                                 <view class="level-name">{{ item.level_name }}</view>
                             </view>
@@ -197,11 +197,11 @@
                 补充工单
             </view>
             <view v-if="isJD === 'false'" class="gdjl">
-                <image src="../../static/images/Workorderrecord@2x.png"></image>
+                <image :src="qiniuUrl+'Workorderrecord@2x.png'"></image>
             </view>
         </view>
         <view class="fixed-bottom">
-            <image src="../../static/images/鉴定2@2x.png"></image>
+            <image :src="qiniuUrl+'鉴定2@2x.png'"></image>
             <view class="text">BAN永远不会涉及销售</view>
             <view class="text2">只为提供最公正的鉴定结果</view>
             <view class="text3">
@@ -280,18 +280,18 @@
                         <image
                             v-show="!item.checked"
                             class="icon"
-                            src="../../static/images/对号-加粗@2x.png"
+                            :src="qiniuUrl+'对号-加粗@2x.png'"
                         ></image>
                         <image
                             v-show="item.checked"
                             class="icon"
-                            src="../../static/images/对号-加粗2@2x.png"
+                            :src="qiniuUrl+'对号-加粗2@2x.png'"
                         ></image>
                         <view class="left">
                             <image class="avatar" :src="item.avatar"></image>
                             <image
                                 class="level-img"
-                                src="../../static/images/矢量智能对象@2x.png"
+                                :src="qiniuUrl+'矢量智能对象@2x.png'"
                             ></image>
                         </view>
                         <view class="right">

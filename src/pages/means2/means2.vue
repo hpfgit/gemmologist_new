@@ -72,6 +72,21 @@ export default {
             uni.hideLoading();
         });
     },
+    onPullDownRefresh() {
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none'
+        });
+        newAppraiseDetails({
+            type: this.type,
+            page: 1
+        }).then(result => {
+            const { data } = result.data;
+            this.lists = data;
+            uni.hideLoading();
+            uni.stopPullDownRefresh();
+        });
+    },
     methods: {
         getPath(path) {
             return config[NODE_ENV].imgUrl + path;

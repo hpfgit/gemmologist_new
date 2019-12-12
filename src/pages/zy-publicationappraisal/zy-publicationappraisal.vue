@@ -428,7 +428,11 @@ export default {
         };
     },
     onLoad(options) {
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none',
+            mask: true
+        });
         const { brand_id, is_specialty, appraiser_id } = options;
         this.brand_id = brand_id || 22;
         this.is_specialty = is_specialty;
@@ -509,7 +513,11 @@ export default {
                 return;
             }
             if (this.keyIndex >= 5) {
-                uni.showLoading();
+                uni.showLoading({
+                    title: '加载中...',
+                    icon: 'none',
+                    mask: true
+                });
                 this.keyIndex = 5;
                 this.password[this.keyIndex].number = this.keyboard[index].key;
                 let password = "";
@@ -586,7 +594,7 @@ export default {
             let that = this;
             const res_img = [];
             images.forEach(image => {
-                if (/tmp/gi.test(image.image)) {
+                if (/tmp/gi.test(image.image) && !/appraiser/ig.test(image.image)) {
                     res_img.push(image);
                 }
             });
@@ -770,7 +778,11 @@ export default {
             this.isPopup = false;
         },
         appraisal() {
-            uni.showLoading();
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none',
+                mask: true
+            });
             const that = this;
             this.uploadImgQiniu(this.images).then(result => {
                 placeOrder({
