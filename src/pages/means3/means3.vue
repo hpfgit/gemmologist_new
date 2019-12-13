@@ -94,57 +94,20 @@ export default {
     };
   },
   onPullDownRefresh() {
-    uni.showLoading({
-      title: '加载中...',
-      icon: 'none'
-    });
     this.page = 1;
-    banzhu_appraise({
-      type: this.type,
-      page: this.page
-    }).then(result => {
-      const { data, count } = result.data;
-      this.lists = data;
-      this.count = count;
-      this.totalPage = parseFloat( count / 10 );
-      uni.hideLoading();
-      uni.stopPullDownRefresh();
-    });
+    this.getData();
   },
   onLoad(options) {
-    const {istype} = options;
-    this.istype = istype;
-    uni.showLoading({
-      title: '加载中...',
-      icon: 'none'
-    });
-    isAppraiser().then(result => {
-      console.log(result);
-      const { is_appraisal_admin } = result.data;
-      this.is_appraisal_admin = is_appraisal_admin;
-    });
-    const { type, mold } = options;
+    const {istype, type, mold} = options;
+    this.istype = istype;    
     this.type = type;
     this.mold = mold;
-    banzhu_appraise({
-      type,
-      page: this.page
-    }).then(result => {
-      const { data, count } = result.data;
-      this.lists = data;
-      this.count = count;
-      this.totalPage = parseFloat( count / 10 );
-      uni.hideLoading();
-    });
+    this.getData();
   },
   methods: {
     scrolltolower() {
-      uni.showLoading({
-        title: '加载中...',
-        icon: 'none'
-      });
       this.page ++;
-      if (this.page >= 3) {
+      if (this.page > this.totalPage) {
         uni.showToast({
           title: '已经加载全部的数据',
           icon: 'none'
@@ -152,18 +115,32 @@ export default {
         uni.hideLoading();
         return;
       }
+      this.getData();
+    },
+    getData() {
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none'
+      });
+      isAppraiser().then(result => {
+        const { is_appraisal_admin } = result.data;
+        this.is_appraisal_admin = is_appraisal_admin;
+      });
       banzhu_appraise({
         type: this.type,
         page: this.page
       }).then(result => {
-        const { data } = result.data;
-        data.forEach(element => {
-          this.lists.push(element);
-        });
-        console.log(this.lists);
+        const { data, count } = result.data;
+        if (this.page > 1) {
+            data.forEach(element => {
+                this.lists.push(element);
+            });
+        } else {
+            this.lists = data;
+        }
+        this.totalPage = parseFloat( count / 10 );
         uni.hideLoading();
       });
-      console.log('已经到底了');
     },
     getPath(path) {
       return config[NODE_ENV].imgUrl + path;

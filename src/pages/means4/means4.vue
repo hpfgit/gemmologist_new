@@ -1,85 +1,87 @@
 <template>
     <view class="container">
-        <view class="lists" v-if="lists.length">
-            <view
-                class="item"
-                v-for="(item, index) in lists"
-                :key="index"
-                @tap="gotoDetails(item)"
-            >
-                <!-- <image
-                    v-if="item.is_specialty"
-                    class="specialty-img"
-                    src="../../static/images/费用信息@2x.png"
-                    @tap="priceDetails(index)"
-                ></image> -->
-                <image
-                    v-show="item.final_result === 0"
-                    class="yinz"
-                    src="../../static/images/为假@2x.png"
-                ></image>
-                <image
-                    v-show="item.final_result === 1"
-                    class="yinz"
-                    src="../../static/images/为真拷贝2@2x.png"
-                ></image>
-                <image
-                    v-show="item.final_result === 2"
-                    class="yinz"
-                    src="../../static/images/无法鉴定拷贝@2x.png"
-                ></image>
-                <image
-                    class="left-image"
-                    :src="getPath(item.cover_image)"
-                ></image>
+        <scroll-view class="scroll-view" scroll-y="true" @scrolltolower="scrolltolower">
+            <view class="lists" v-if="lists.length">
                 <view
-                    class="item-right"
+                    class="item"
+                    v-for="(item, index) in lists"
+                    :key="index"
+                    @tap="gotoDetails(item)"
                 >
-                    <view class="top">
-                        <text>{{ item.brand_name }}</text>
-                    </view>
-                    <view class="center">
-                        <view class="jds"
-                            >鉴定师
-                            <text
-                                v-for="(ite, index) in item.user_name"
-                                :key="index"
-                                >{{ ite }}</text
-                            ></view
-                        >
-                        <view
-                            class="date"
-                            :class="{
-                                hide:
-                                    item.final_result === 10 ||
-                                    item.final_result === 12
-                            }"
-                            >{{ item.publish_at }}</view
-                        >
-                        <view
-                            class="date"
-                            :class="{
-                                block:
-                                    item.final_result === 10 ||
-                                    item.final_result === 12,
-                                hide:
-                                    item.final_result !== 10 ||
-                                    item.final_result !== 12
-                            }"
-                            >{{ item.status }}</view
-                        >
+                    <!-- <image
+                        v-if="item.is_specialty"
+                        class="specialty-img"
+                        src="../../static/images/费用信息@2x.png"
+                        @tap="priceDetails(index)"
+                    ></image> -->
+                    <image
+                        v-show="item.final_result === 0"
+                        class="yinz"
+                        src="../../static/images/为假@2x.png"
+                    ></image>
+                    <image
+                        v-show="item.final_result === 1"
+                        class="yinz"
+                        src="../../static/images/为真拷贝2@2x.png"
+                    ></image>
+                    <image
+                        v-show="item.final_result === 2"
+                        class="yinz"
+                        src="../../static/images/无法鉴定拷贝@2x.png"
+                    ></image>
+                    <image
+                        class="left-image"
+                        :src="getPath(item.cover_image)"
+                    ></image>
+                    <view
+                        class="item-right"
+                    >
+                        <view class="top">
+                            <text>{{ item.brand_name }}</text>
+                        </view>
+                        <view class="center">
+                            <view class="jds"
+                                >鉴定师
+                                <text
+                                    v-for="(ite, index) in item.user_name"
+                                    :key="index"
+                                    >{{ ite }}</text
+                                ></view
+                            >
+                            <view
+                                class="date"
+                                :class="{
+                                    hide:
+                                        item.final_result === 10 ||
+                                        item.final_result === 12
+                                }"
+                                >{{ item.created_at }}</view
+                            >
+                            <view
+                                class="date"
+                                :class="{
+                                    block:
+                                        item.final_result === 10 ||
+                                        item.final_result === 12,
+                                    hide:
+                                        item.final_result !== 10 ||
+                                        item.final_result !== 12
+                                }"
+                                >{{ item.status }}</view
+                            >
+                        </view>
                     </view>
                 </view>
             </view>
-        </view>
-        <view class="no-data" v-if="!lists.length">
-            <view>
-                <image :src="qiniuUrl + '/暂无鉴定贴@2x.png'"></image>
+            <view class="no-data" v-if="!lists.length">
+                <view>
+                    <image :src="qiniuUrl + '/暂无鉴定贴@2x.png'"></image>
+                </view>
+                <view>
+                    <image :src="qiniuUrl + '/暂时没有鉴定贴~@2x.png'"></image>
+                </view>
             </view>
-            <view>
-                <image :src="qiniuUrl + '/暂时没有鉴定贴~@2x.png'"></image>
-            </view>
-        </view>
+        </scroll-view>
     </view>
 </template>
 
@@ -95,41 +97,55 @@ export default {
             imgPath: config[NODE_ENV].imgUrl,
             qiniuUrl: config[NODE_ENV].qiniuUrl,
             type: "",
-            mold: ""
+            mold: "",
+            page: 1,
+            totalPage: ''
         };
     },
     onLoad(options) {
-        uni.showLoading({
-            title: '加载中...',
-            icon: 'none'
-        });
         const { type } = options;
         this.type = type;
-        newAppraiseDetails({
-            page: 1,
-            type
-        }).then(result => {
-            const { data } = result.data;
-            this.lists = data;
-            uni.hideLoading();
-        });
+        this.getData();
     },
     onPullDownRefresh() {
-        uni.showLoading({
-            title: '加载中...',
-            icon: 'none'
-        });
-        newAppraiseDetails({
-            page: 1,
-            type: this.type
-        }).then(result => {
-            const { data } = result.data;
-            this.lists = data;
-            uni.hideLoading();
-            uni.stopPullDownRefresh();
-        });
+        this.page = 1;
+        this.getData();
     },
     methods: {
+        scrolltolower() {
+            this.page ++;
+            if (this.page > this.totalPage) {
+                uni.showToast({
+                    title: '已经加载全部的数据',
+                    icon: 'none',
+                    mask: true
+                });
+                return;
+            }
+            this.getData();
+        },
+        getData() {
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none'
+            });
+            newAppraiseDetails({
+                page: this.page,
+                type: this.type
+            }).then(result => {
+                const { data, count } = result.data;
+                if (this.page > 1) {
+                    data.forEach(element => {
+                        this.lists.push(element);
+                    });
+                } else {
+                    this.lists = data;
+                }
+                this.totalPage = Math.floor(count / 10);
+                uni.hideLoading();
+                uni.stopPullDownRefresh();
+            });
+        },
         getPath(path) {
             if (/avatar_/gi.test(path)) {
                 return "https://stg.tosneaker.com/" + path;
@@ -155,6 +171,9 @@ export default {
 </script>
 
 <style lang="scss">
+.scroll-view {
+    height: 100vh;
+}
 .hide {
     display: none;
 }
