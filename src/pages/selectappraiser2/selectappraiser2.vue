@@ -64,7 +64,11 @@ export default {
         this.brand_id = brand_id;
         this.type = type;
         this.is_specialty = is_specialty;
-        uni.showLoading();
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none',
+            mask: true
+        });
         appraiserList({
             brand_id
         }).then(result => {

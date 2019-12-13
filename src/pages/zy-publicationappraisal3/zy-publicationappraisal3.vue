@@ -562,15 +562,47 @@ export default {
                 this.cost = cost;
                 uni.hideLoading();
             });
-            images.forEach((image, index) => {
-                console.log(image);
+            if (this.type === "clothing") {
+                images.forEach((image, index) => {
+                if (index > this.clothingImages.length - 2) return;
+                if (image.path) {
+                    this.clothingImages[index].name = image.name;
+                    this.clothingImages[index].image = image.path;
+                    this.clothingImages[index].code = image.code;
+                    this.clothingImages[index].isShow = true;
+                }
+                });
+                if (images.length > this.clothingImages.length - 1) {
+                for (let i = this.clothingImages.length - 1; i < images.length; i++) {
+                    this.clothingImages.splice(i, 0, {
+                    name: images[i].name,
+                    image: images[i].path,
+                    code: images[i].code,
+                    isShow: true
+                    });
+                }
+                }
+            } else {
+                images.forEach((image, index) => {
+                if (index > this.images.length - 2) return;
                 if (image.path) {
                     this.images[index].name = image.name;
                     this.images[index].image = image.path;
                     this.images[index].code = image.code;
                     this.images[index].isShow = true;
                 }
-            });
+                });
+                if (images.length > this.images.length) {
+                for (let i = this.images.length - 1; i < images.length; i++) {
+                    this.images.splice(i, 0, {
+                    name: images[i].name,
+                    image: images[i].path,
+                    code: images[i].code,
+                    isShow: true
+                    });
+                }
+                }
+            }
         });
     },
     methods: {

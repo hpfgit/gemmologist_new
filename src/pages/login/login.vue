@@ -49,7 +49,6 @@ export default {
                         success(loginRes) {
                             uni.getUserInfo({
                                 success(user_info) {
-                                    console.log(user_info);
                                     const { code } = loginRes;
                                     const js_code = code;
                                     const miniapp_name = "appraisal";
@@ -59,7 +58,6 @@ export default {
                                         user_info,
                                         mobile_info
                                     }).then(result => {
-                                        console.log(result);
                                         const { data } = result.data;
                                         const { token, user_info } = data;
                                         uni.setStorageSync(
@@ -114,7 +112,6 @@ export default {
                         success(loginRes) {
                             uni.getUserInfo({
                                 success(user_info) {
-                                    console.log(user_info);
                                     const { code } = loginRes;
                                     const js_code = code;
                                     const miniapp_name = "appraisal";

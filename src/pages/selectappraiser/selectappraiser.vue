@@ -57,13 +57,19 @@ export default {
             qiniuUrl: config[NODE_ENV].qiniuUrl,
             info: '',
             cover_image: '',
-            brand_id: ''
+            brand_id: '',
+            type: ''
         }
     },
     onLoad(options) {
-        const {brand_id} = options;
+        const {brand_id, type} = options;
         this.brand_id = brand_id;
-        uni.showLoading();
+        this.type = type;
+        uni.showLoading({
+            title: '加载中...',
+            icon: 'none',
+            mask: true
+        });
         appraiserList({
             brand_id
         }).then(result => {
@@ -150,7 +156,7 @@ export default {
             //     });
             // } else if (this.checkedNumber === 2) {
                 uni.navigateTo({
-                    url: '/pages/zy-publicationappraisal/zy-publicationappraisal?is_specialty=2&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id
+                    url: '/pages/zy-publicationappraisal/zy-publicationappraisal?is_specialty=2&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id + "&type=" + this.type
                 });
             // }
         }

@@ -40,7 +40,7 @@
                             <text>{{ item.brand_name }}</text>
                         </view>
                         <view class="center">
-                            <view class="jds"
+                            <view style="display: none;" class="jds"
                                 >鉴定师
                                 <text
                                     v-for="(ite, index) in item.user_name"
@@ -67,7 +67,7 @@
                                         item.final_result !== 10 ||
                                         item.final_result !== 12
                                 }"
-                                >{{ item.status }}</view
+                                >{{ item.created_at }} 发布</view
                             >
                         </view>
                     </view>
@@ -118,7 +118,6 @@ export default {
                 uni.showToast({
                     title: '已经加载全部的数据',
                     icon: 'none',
-                    mask: true
                 });
                 return;
             }
@@ -141,7 +140,7 @@ export default {
                 } else {
                     this.lists = data;
                 }
-                this.totalPage = Math.floor(count / 10);
+                this.totalPage = Math.ceil(count / 10);
                 uni.hideLoading();
                 uni.stopPullDownRefresh();
             });

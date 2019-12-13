@@ -96,7 +96,7 @@ export default {
                 } else {
                     this.lists = data;
                 }
-                this.totalPage = Math.floor(count / 10);
+                this.totalPage = Math.ceil(count / 10);
                 uni.hideLoading();
                 uni.stopPullDownRefresh();
             });

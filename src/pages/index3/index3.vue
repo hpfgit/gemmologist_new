@@ -1,206 +1,204 @@
 <template>
-    <scroll-view>
-        <view class="container">
-            <image class="con-bg-img" :src="qiniuUrl+'用户端首页渐变背景@2x.png'"></image>
-            <view class="navs">
-                <view class="nav" @tap="goNav(0)">
-                    <image :src="qiniuUrl+'考核@2x.png'"></image>
-                    <view class="text">鉴定师考核模式</view>
-                </view>
-                <view class="nav" @tap="goNav(1)">
-                    <image :src="qiniuUrl+'极速@2x.png'"></image>
-                    <view class="text">极速鉴定声明</view>
-                </view>
-                <view class="nav" @tap="goNav(2)">
-                    <image :src="qiniuUrl+'￥@2x.png'"></image>
-                    <view class="text">保价鉴定声明</view>
-                </view>
+    <view class="container">
+        <image class="con-bg-img" :src="qiniuUrl+'用户端首页渐变背景@2x.png'"></image>
+        <view class="navs">
+            <view class="nav" @tap="goNav(0)">
+                <image :src="qiniuUrl+'考核@2x.png'"></image>
+                <view class="text">鉴定师考核模式</view>
             </view>
-            <view class="infos">
-                <view class="left">
-                    <image :src="qiniuUrl+'鉴定2@2x.png'"></image>
-                    <view class="user-info">
-                        <view class="username">BAN鉴定服务</view>
-                        <view class="userinfo">只为提供最公正的鉴定结果</view>
-                    </view>
-                </view>
-                <view class="right" @tap="goTeam">
-                    <div class="text">鉴定团队</div>
-                    <image :src="qiniuUrl+'向右2@2x.png'"></image>
-                </view>
+            <view class="nav" @tap="goNav(1)">
+                <image :src="qiniuUrl+'极速@2x.png'"></image>
+                <view class="text">极速鉴定声明</view>
             </view>
-            <view class="box">
-                <image class="bg-img" :src="qiniuUrl+'有投影bg@2x.png'"></image>
-                <view class="inner">
-                    <view class="data-display">
-                        <view class="data-display-two" @tap="goToQuestion">
-                            <view>鉴定流程及常见问题</view>
-                            <image
-                                class="icon"
-                                :src="qiniuUrl+'-@2x.png'"
-                            ></image>
-                        </view>
-                        <view @tap="goToRZ">
-                            <view class="data-display-one">
-                                <text class="text">
-                                    已鉴定
-                                    <text class="number">{{ count }}</text>
-                                    次
-                                </text>
-                            </view>
-                            <view class="data-display-one">
-                                <text class="text">
-                                    假货市场占有率
-                                    <text class="number">{{ fail }}</text>
-                                    %
-                                </text>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="zm">
-                        <view class="gn">
-                            <view class="js" @tap="goTo(1)">
-                                极速鉴定
-                            </view>
-                            <view class="bj" @tap="goTo(2)">
-                                保价鉴定
-                            </view>
-                        </view>
-                        <view class="search">
-                            <input
-                                type="text"
-                                :value="jdID"
-                                placeholder="请输入您的鉴定ID"
-                                @input="changeId($event)"
-                            />
-                            <view @tap="searchTo" class="search-btn">
-                                查询鉴定
-                            </view>
-                        </view>
-                    </view>
-                </view>
+            <view class="nav" @tap="goNav(2)">
+                <image :src="qiniuUrl+'￥@2x.png'"></image>
+                <view class="text">保价鉴定声明</view>
             </view>
-            <view class="search-mask" v-show="is_bar_mask">
-                <view class="title">提示</view>
-                <!-- <image class="close-img" @tap="closeBarMask" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image> -->
-                <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
-                <view class="btn-yes" @tap="closeBarMask">确定</view>
-            </view>
-            <view class="selector-end" v-if="isLogin">
-                <view class="left" @tap="goToData(0)" v-show="isAppraiser">
-                    <image :src="qiniuUrl+'鉴定师端拷贝@2x.png'"></image>
-                </view>
-                <view class="right" @tap="goToData(1)" v-show="is_appraisal_admin">
-                    <image :src="qiniuUrl+'版主端拷贝@2x.png'"></image>
-                </view>
-            </view>
-            <view class="login" v-if="!isLogin" @tap="goToLogin">
-                <view class="login-btn">
-                    登录查看我的鉴定
-                </view>
-            </view>
-            <view class="check-type" :class="{'active': isShow}">
-                <view class="title">选择鉴定品类</view>
-                <view class="close-box"
-                    @tap="close"
-                >
-                    <image
-                        :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"
-                        class="close-img"
-                    ></image>
-                </view>
-                <view class="classList">
-                    <view class="list" @tap="goToPath(0)">
-                        <image
-                            class="shoes-img"
-                            :src="qiniuUrl+'球鞋@2x.png'"
-                        ></image>
-                        <view class="text">球鞋</view>
-                    </view>
-                    <view class="list" @tap="goToPath(1)">
-                        <image
-                            class="clothing-img"
-                            :src="qiniuUrl+'服饰@2x.png'"
-                        ></image>
-                        <view class="text">服饰</view>
-                    </view>
-                </view>
-            </view>
-            <view class="lists" v-if="lists.length">
-                <view class="item" v-for="(item, index) in lists" :key="index"
-                    @tap="goToDetail(item)"
-                >
-                    <!-- <image
-                        v-if="item.is_specialty"
-                        class="specialty-img"
-                        :src="qiniuUrl+'费用信息@2x.png'"
-                        @tap="priceDetails(index)"
-                    ></image> -->
-                    <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
-                    <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
-                    <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
-                    <image
-                        class="left-image"
-                        :src="getPath(item.cover_image)"
-                    ></image>
-                    <view
-                        class="item-right"
-                    >
-                        <view class="top">
-                            <text>{{ item.brand_name }}</text>
-                        </view>
-                        <view class="center">
-                            <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
-                            <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14}">{{ item.publish_at }}</view>
-                            <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status !== 11 || item.post_status !== 14}">{{item.status}}</view>
-                        </view>
-                    </view>
-                </view>
-                <!-- 费用详情 -->
-                <view class="price-detail" v-show="isCost">
-                    <view class="title">费用详情</view>
-                    <view class="price-box">
-                        <image
-                            class="close-img"
-                            @tap="closeDetails"
-                            :src="qiniuUrl+'关闭@2x.png'"
-                        ></image>
-                        <view class="price">
-                            <image
-                                :src="qiniuUrl+'01@2x.png'"
-                            ></image>
-                            <view class="img-number-container">
-                                <view class="number">{{
-                                    details.appraisal_cost
-                                }}</view>
-                                <view class="yuan">元</view>
-                            </view>
-                        </view>
-                        <view class="total">
-                            <image
-                                :src="qiniuUrl+'02@2x.png'"
-                            ></image>
-                            <view class="img-number-container">
-                                <view class="number">{{ details.total }}</view>
-                                <view class="yuan">元</view>
-                            </view>
-                        </view>
-                        <view class="price">
-                            <image
-                                :src="qiniuUrl+'03@2x.png'"
-                            ></image>
-                            <view class="img-number-container">
-                                <view class="number">{{ details.appr_cost }}</view>
-                                <view class="yuan">元</view>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="tip">*无法鉴定情况下费用会退还至账户余额，可随时提现。</view>
-                </view>
-            </view>
-            <view class="mask" v-show="isShow || is_bar_mask"></view>
         </view>
-    </scroll-view>
+        <view class="infos">
+            <view class="left">
+                <image :src="qiniuUrl+'鉴定2@2x.png'"></image>
+                <view class="user-info">
+                    <view class="username">BAN鉴定服务</view>
+                    <view class="userinfo">只为提供最公正的鉴定结果</view>
+                </view>
+            </view>
+            <view class="right" @tap="goTeam">
+                <div class="text">鉴定团队</div>
+                <image :src="qiniuUrl+'向右2@2x.png'"></image>
+            </view>
+        </view>
+        <view class="box">
+            <image class="bg-img" :src="qiniuUrl+'有投影bg@2x.png'"></image>
+            <view class="inner">
+                <view class="data-display">
+                    <view class="data-display-two" @tap="goToQuestion">
+                        <view>鉴定流程及常见问题</view>
+                        <image
+                            class="icon"
+                            :src="qiniuUrl+'-@2x.png'"
+                        ></image>
+                    </view>
+                    <view @tap="goToRZ">
+                        <view class="data-display-one">
+                            <text class="text">
+                                已鉴定
+                                <text class="number">{{ count }}</text>
+                                次
+                            </text>
+                        </view>
+                        <view class="data-display-one">
+                            <text class="text">
+                                假货市场占有率
+                                <text class="number">{{ fail }}</text>
+                                %
+                            </text>
+                        </view>
+                    </view>
+                </view>
+                <view class="zm">
+                    <view class="gn">
+                        <view class="js" @tap="goTo(1)">
+                            极速鉴定
+                        </view>
+                        <view class="bj" @tap="goTo(2)">
+                            保价鉴定
+                        </view>
+                    </view>
+                    <view class="search">
+                        <input
+                            type="text"
+                            :value="jdID"
+                            placeholder="请输入您的鉴定ID"
+                            @input="changeId($event)"
+                        />
+                        <view @tap="searchTo" class="search-btn">
+                            查询鉴定
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="search-mask" v-show="is_bar_mask">
+            <view class="title">提示</view>
+            <!-- <image class="close-img" @tap="closeBarMask" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image> -->
+            <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
+            <view class="btn-yes" @tap="closeBarMask">确定</view>
+        </view>
+        <view class="selector-end" v-if="isLogin">
+            <view class="left" @tap="goToData(0)" v-show="isAppraiser">
+                <image :src="qiniuUrl+'鉴定师端拷贝@2x.png'"></image>
+            </view>
+            <view class="right" @tap="goToData(1)" v-show="is_appraisal_admin">
+                <image :src="qiniuUrl+'版主端拷贝@2x.png'"></image>
+            </view>
+        </view>
+        <view class="login" v-if="!isLogin" @tap="goToLogin">
+            <view class="login-btn">
+                登录查看我的鉴定
+            </view>
+        </view>
+        <view class="check-type" :class="{'active': isShow}">
+            <view class="title">选择鉴定品类</view>
+            <view class="close-box"
+                @tap="close"
+            >
+                <image
+                    :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"
+                    class="close-img"
+                ></image>
+            </view>
+            <view class="classList">
+                <view class="list" @tap="goToPath(0)">
+                    <image
+                        class="shoes-img"
+                        :src="qiniuUrl+'球鞋@2x.png'"
+                    ></image>
+                    <view class="text">球鞋</view>
+                </view>
+                <view class="list" @tap="goToPath(1)">
+                    <image
+                        class="clothing-img"
+                        :src="qiniuUrl+'服饰@2x.png'"
+                    ></image>
+                    <view class="text">服饰</view>
+                </view>
+            </view>
+        </view>
+        <view class="lists" v-if="lists.length">
+            <view class="item" v-for="(item, index) in lists" :key="index">
+                <!-- <image
+                    v-if="item.is_specialty"
+                    class="specialty-img"
+                    :src="qiniuUrl+'费用信息@2x.png'"
+                    @tap="priceDetails(index)"
+                ></image> -->
+                <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
+                <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
+                <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
+                <image
+                    class="left-image"
+                    :src="getPath(item.cover_image)"
+                    @tap="goToDetail(item)"
+                ></image>
+                <view
+                    class="item-right"
+                >
+                    <view class="top" @tap="goToDetail(item)">
+                        <text>{{ item.brand_name }}</text>
+                    </view>
+                    <view class="center" @tap="goToDetail(item)">
+                        <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
+                        <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14}">{{ item.publish_at }}</view>
+                        <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status !== 11 || item.post_status !== 14}">{{item.status}}</view>
+                    </view>
+                    <view class="zhifu" v-show="!item.is_show" @tap="goToPay(item)">去支付</view>
+                </view>
+            </view>
+            <!-- 费用详情 -->
+            <view class="price-detail" v-show="isCost">
+                <view class="title">费用详情</view>
+                <view class="price-box">
+                    <image
+                        class="close-img"
+                        @tap="closeDetails"
+                        :src="qiniuUrl+'关闭@2x.png'"
+                    ></image>
+                    <view class="price">
+                        <image
+                            :src="qiniuUrl+'01@2x.png'"
+                        ></image>
+                        <view class="img-number-container">
+                            <view class="number">{{
+                                details.appraisal_cost
+                            }}</view>
+                            <view class="yuan">元</view>
+                        </view>
+                    </view>
+                    <view class="total">
+                        <image
+                            :src="qiniuUrl+'02@2x.png'"
+                        ></image>
+                        <view class="img-number-container">
+                            <view class="number">{{ details.total }}</view>
+                            <view class="yuan">元</view>
+                        </view>
+                    </view>
+                    <view class="price">
+                        <image
+                            :src="qiniuUrl+'03@2x.png'"
+                        ></image>
+                        <view class="img-number-container">
+                            <view class="number">{{ details.appr_cost }}</view>
+                            <view class="yuan">元</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="tip">*无法鉴定情况下费用会退还至账户余额，可随时提现。</view>
+            </view>
+        </view>
+        <view class="mask" v-show="isShow || is_bar_mask"></view>
+    </view>
 </template>
 
 <script>
@@ -224,102 +222,78 @@ export default {
             isLogin: false,
             details: {},
             is_specialty: '',
-            is_bar_mask: false
+            is_bar_mask: false,
+            page: 1,
+            totalPage: ''
         };
     },
     onLoad() {
-        if (uni.getStorageSync('user_info')) {
-            this.isLogin = true;
-        } else {
-            this.isLogin = false;
-        }
-        uni.showLoading({
-            title: '加载中...',
-            icon: 'none'
-        });
-        getCount().then(result => {
-            const { count, fail } = result.data;
-            this.count = count;
-            this.fail = fail.substring(0, fail.length - 1);
-            uni.hideLoading();
-        });
-        if (this.isLogin) {
-            isAppraiser().then(result => {
-                const { is_appraiser, is_appraisal_admin } = result.data;
-                this.isAppraiser = is_appraiser;
-                this.is_appraisal_admin = is_appraisal_admin;
-            });
-            getPost({
-                page: 1,
-                limit: 12
-            }).then(result => {
-                const { status, message } = result.data;
-                if (status !== 200) {
-                    uni.hideLoading();
-                    uni.showToast({
-                        title: message,
-                        icon: 'none',
-                        mask: true
-                    });
-                    return;
-                }
-                const { data } = result.data;
-                data.forEach(item => {
-                    item.total = item.appr_cost + item.appraisal_cost;
-                    item.isShow = false;
-                });
-                this.lists = data;
-                uni.hideLoading();
-            });
-        }
+        this.getData();
     },
     onPullDownRefresh() {
-        uni.showLoading({
-            title: '加载中...',
-            icon: 'none'
-        });
-        getCount().then(result => {
-            const { count, fail } = result.data;
-            this.count = count;
-            this.fail = fail.substring(0, fail.length - 1);
-            uni.hideLoading();
-        }).catch(error => {
-            console.log(error);
-            uni.stopPullDownRefresh();
-            uni.hideLoading();
-        });
-        if (this.isLogin) {
-            isAppraiser().then(result => {
-                const { is_appraiser, is_appraisal_admin } = result.data;
-                this.isAppraiser = is_appraiser;
-                this.is_appraisal_admin = is_appraisal_admin;
-            }).catch(error => {
-                console.log(error);
-                uni.hideLoading();
-                uni.stopPullDownRefresh();
-            });
-            getPost({
-                page: 1,
-                limit: 12
-            }).then(result => {
-                const { data } = result.data;
-                data.forEach(item => {
-                    item.total = item.appr_cost + item.appraisal_cost;
-                    item.isShow = false;
-                });
-                this.lists = data;
-                uni.stopPullDownRefresh();
-                uni.hideLoading();
-            }).catch(error => {
-                console.log(error);
-                uni.hideLoading();
-                uni.stopPullDownRefresh();
-            });
-        } else {
-            uni.stopPullDownRefresh();
-        }
+        this.getData();
     },
     methods: {
+        goToPay(item) {
+            let type = '';
+            if (item.brand_type === 1) {
+                type = 'clothing';
+            } else {
+                type = 'shoes';
+            }
+            const {is_specialty,brand_id,user_id, id} = item;
+            uni.navigateTo({
+                url: '/pages/zy-publicationappraisal4/zy-publicationappraisal4?is_specialty='+is_specialty+'&brand_id='+brand_id+'&appraiser_id='+user_id+'&id='+id+'&type='+type
+            });
+        },
+        getData() {
+            if (uni.getStorageSync('user_info')) {
+                this.isLogin = true;
+            } else {
+                this.isLogin = false;
+            }
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none'
+            });
+            getCount().then(result => {
+                const { count, fail } = result.data;
+                this.count = count;
+                this.fail = fail.substring(0, fail.length - 1);
+                uni.hideLoading();
+                uni.stopPullDownRefresh();
+            });
+            if (this.isLogin) {
+                isAppraiser().then(result => {
+                    const { is_appraiser, is_appraisal_admin } = result.data;
+                    this.isAppraiser = is_appraiser;
+                    this.is_appraisal_admin = is_appraisal_admin;
+                });
+                getPost({
+                    page: this.page,
+                    limit: 10
+                }).then(result => {
+                    const { status, message } = result.data;
+                    if (status !== 200) {
+                        uni.hideLoading();
+                        uni.showToast({
+                            title: message,
+                            icon: 'none',
+                            mask: true
+                        });
+                        return;
+                    }
+                    const { data } = result.data;
+                    data.forEach(item => {
+                        item.total = item.appr_cost + item.appraisal_cost;
+                        item.isShow = false;
+                    });
+                    this.lists = data;
+                    uni.hideLoading();
+                    uni.stopPullDownRefresh();
+                });
+            }
+        },
         goToLogin() {
             uni.navigateTo({
                 url: '/pages/login/login'

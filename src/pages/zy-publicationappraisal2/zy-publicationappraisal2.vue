@@ -281,7 +281,8 @@ import {
     blpay,
     appraiserDetail,
     placeOrder,
-    pay
+    pay,
+    postPay
 } from "../../api/publicationappraisal";
 import { upload, init } from "../../utils/qiniuUploader";
 const NODE_ENV = process.env.NODE_ENV;
@@ -916,7 +917,7 @@ export default {
                             this.falg = true;
                             const { message, status, pay_no } = result.data;
                             this.pay_no = pay_no;
-                            uni.showToast({
+                            uni.showLoading({
                                 title: message,
                                 icon: "none",
                                 success() {
@@ -924,7 +925,97 @@ export default {
                                         cash().then(result => {
                                             const { userCash } = result.data.data;
                                             that.userCash = userCash;
-                                            that.isPayShow = true;
+                                            pay({
+                                                pay_no,
+                                                method: "miniapp",
+                                                driver: "wechat",
+                                                openid: uni.getStorageSync("openid"),
+                                                miniapp_name: "appraisal"
+                                            }).then(result => {
+                                                console.log(result);
+                                                const { status, message } = result.data;
+                                                if (status !== 200) {
+                                                    uni.showToast({
+                                                    title: message,
+                                                    icon: "none",
+                                                    mask: true
+                                                    });
+                                                    return;
+                                                }
+                                                const { pay_info } = result.data.data;
+                                                uni.requestPayment({
+                                                    timeStamp: pay_info.timeStamp,
+                                                    nonceStr: pay_info.nonceStr,
+                                                    package: pay_info.package,
+                                                    signType: pay_info.signType,
+                                                    paySign: pay_info.paySign,
+                                                    success(result) {
+                                                        console.log(result);
+                                                        if (result.errMsg == "requestPayment:ok") {
+                                                            uni.showLoading({
+                                                            title: '支付中...',
+                                                            icon: 'none',
+                                                            mask: true
+                                                            });
+                                                            postPay({
+                                                            pay_no
+                                                            }).then(result => {
+                                                            console.log(result);
+                                                            const {message, status} = result.data;
+                                                            uni.hideLoading();
+                                                            if (status === 201) {
+                                                                uni.showToast({
+                                                                title: '支付成功',
+                                                                icon: 'none',
+                                                                mask: true,
+                                                                success() {
+                                                                    uni.redirectTo({
+                                                                    url: '/pages/index3/index3'
+                                                                    });
+                                                                }
+                                                                });
+                                                                return;
+                                                            }
+                                                            uni.showToast({
+                                                                title: '支付失败',
+                                                                icon: 'none',
+                                                                mask: true,
+                                                                success() {
+                                                                uni.redirectTo({
+                                                                    url: '/pages/index3/index3'
+                                                                });
+                                                                }
+                                                            })
+                                                            });
+                                                        } else {
+                                                            uni.showLoading({
+                                                                title: '支付失败',
+                                                                icon: 'none',
+                                                                mask: true,
+                                                                success() {
+                                                                    uni.redirectTo({
+                                                                    url: '/pages/index3/index3'
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    },
+                                                    fail(e) {
+                                                    if (e.errMsg == 'requestPayment:fail cancel') {
+                                                        uni.showToast({
+                                                        title: '支付失败',
+                                                        icon: 'none',
+                                                        mask: true,
+                                                        success() {
+                                                            uni.redirectTo({
+                                                            url: '/pages/index3/index3',
+                                                            })
+                                                        }
+                                                        });
+                                                    }
+                                                    }
+                                                });
+                                            });
                                             console.log(result);
                                             uni.hideLoading();
                                         });
@@ -932,10 +1023,16 @@ export default {
                                         //   url: "/pages/releasedsuccessfully/releasedsuccessfully"
                                         // });
                                     } else {
-                                        uni.showToast({
-                                            title: message,
-                                            icon: "none"
-                                        });
+                                        uni.showLoading({
+                                            title: '支付失败',
+                                            icon: 'none',
+                                            mask: true,
+                                            success() {
+                                                uni.redirectTo({
+                                                url: '/pages/index3/index3'
+                                                });
+                                            }
+                                            });
                                     }
                                 }
                             });

@@ -46,7 +46,7 @@
                 :class="{
                   hide: item.final_result === 10 || item.final_result === 12
                 }"
-                >{{ item.publish_at }}</view
+                >{{ item.created_at }}</view
               >
               <view
                 class="date"
@@ -137,7 +137,7 @@ export default {
         } else {
             this.lists = data;
         }
-        this.totalPage = parseFloat( count / 10 );
+        this.totalPage = Math.ceil( count / 10 );
         uni.hideLoading();
       });
     },

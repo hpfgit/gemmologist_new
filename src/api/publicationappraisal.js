@@ -41,3 +41,7 @@ export function placeOrder(params) {
 export function pay(params) {
     return request('POST', '/api/payment/pay', params);
 }
+
+export function postPay(params) {
+    return request('GET', '/api/appraisal/post/post-pay', params);
+}

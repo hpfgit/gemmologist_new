@@ -98,6 +98,12 @@
         {
             "path": "pages/zy-publicationappraisal3/zy-publicationappraisal3",
             "style": {
+                "navigationBarTitleText": "提交补图"
+            }
+        },
+        {
+            "path": "pages/zy-publicationappraisal4/zy-publicationappraisal4",
+            "style": {
                 "navigationBarTitleText": "发布鉴定"
             }
         },
@@ -258,7 +264,7 @@
         {
             "path": "pages/means4/means4",
             "style": {
-                "navigationBarTitleText": "鉴定记录",
+                "navigationBarTitleText": "待鉴定",
                 "enablePullDownRefresh": true
             }
         },
