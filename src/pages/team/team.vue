@@ -97,7 +97,9 @@ export default {
             icon: 'none'
         });
         let { brand_id } = options;
-        let obj = {};
+        let obj = {
+            is_list: 1
+        };
         if (brand_id) {
             obj.brand_id = brand_id;
         }

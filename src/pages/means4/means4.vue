@@ -170,7 +170,7 @@ export default {
         display: flex;
         width: 690rpx;
         height: 180rpx;
-        border-radius: 20rpx;
+        border-radius: 10rpx;
         background-color: #ffffff;
         margin: 0 auto 20rpx;
         padding: 20rpx 16rpx;

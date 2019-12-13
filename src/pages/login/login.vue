@@ -133,12 +133,13 @@ export default {
                                             that.authorize = true;
                                             return;
                                         }
-                                        const { data } = result.data;
+                                        const { data, openid } = result.data;
                                         const { token, user_info } = data;
                                         uni.setStorageSync(
                                             "token_start_time",
                                             new Date().getTime()
                                         );
+                                        uni.setStorageSync('openid', openid);
                                         that.$store.dispatch("setToken", token);
                                         that.$store.dispatch(
                                             "setUserInfo",
