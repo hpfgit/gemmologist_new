@@ -88,7 +88,6 @@ export default {
       mold: "",
       is_appraisal_admin: "",
       page: 1,
-      count: '',
       totalPage: '',
       istype: ''
     };
