@@ -39,6 +39,11 @@ export default {
     },
     methods: {
         bindgetphonenumber(e) {
+            uni.showLoading({
+                title: "登录中...",
+                icon: "none"
+            });
+            const that = this;
             const mobile_info = e.detail;
             uni.getProvider({
                 service: "oauth",

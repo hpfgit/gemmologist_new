@@ -108,7 +108,7 @@
                     <view class="desc">
                         <view>识别二维码或微信搜索小程序: BAN鉴定服务</view>
                         <view
-                            >输入<text class="number">{{ data.post_id }}</text
+                            >输入<text class="number">{{ data.id }}</text
                             >查询此鉴定贴</view
                         >
                     </view>
@@ -134,7 +134,7 @@
         </view>
         <view class="tip">
             微信小程序：BAN装备鉴定，输入
-            <text class="text">756324</text>
+            <text class="text">{{data.id}}</text>
             查询原帖
         </view>
         <view class="content">

@@ -15,7 +15,7 @@
                 <view class="text">保价鉴定声明</view>
             </view>
         </view>
-        <view class="infos">
+        <view class="infos" @tap="goTeam">
             <view class="left">
                 <image :src="qiniuUrl+'鉴定2@2x.png'"></image>
                 <view class="user-info">
@@ -23,7 +23,7 @@
                     <view class="userinfo">只为提供最公正的鉴定结果</view>
                 </view>
             </view>
-            <view class="right" @tap="goTeam">
+            <view class="right">
                 <div class="text">鉴定团队</div>
                 <image :src="qiniuUrl+'向右2@2x.png'"></image>
             </view>

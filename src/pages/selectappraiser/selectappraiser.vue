@@ -27,12 +27,12 @@
         </view>
         <view  class="btns">
             <view class="btn-box">
-                <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo(1)">
+                <!-- <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo(1)">
                     <view class="inner">
                         <view class="text">保价鉴定</view>
                         <view class="text2">请选择 {{checkedNumber}}/1 名鉴定师</view>
                     </view>
-                </view>
+                </view> -->
                 <view class="btn" :class="{active: checkedNumber === 2}"  @tap="goTo(2)">
                     <view class="inner">
                         <view class="text">保价鉴定</view>
