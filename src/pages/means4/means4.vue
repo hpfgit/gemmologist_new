@@ -151,6 +151,19 @@ export default {
         },
         gotoDetails(item) {
             const that = this;
+            if (this.type === 'djd') {
+                uni.navigateTo({
+                    url:
+                        "../Identificationdetails2/Identificationdetails2?id=" +
+                        item.id +
+                        "&type=" +
+                        this.type +
+                        "&mold=" +
+                        item.is_specialty +
+                        "&isJD=true&is_appraiser=1"
+                });
+                return;
+            }
             uni.navigateTo({
                 url:
                     "../Identificationdetails3/Identificationdetails3?id=" +
