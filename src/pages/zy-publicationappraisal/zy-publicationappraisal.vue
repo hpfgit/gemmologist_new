@@ -874,7 +874,8 @@ export default {
           is_specialty: this.is_specialty,
           price: this.bjPrice,
           brand_id: this.brand_id,
-          appraiser_list: this.appraiser_id
+          appraiser_list: this.appraiser_id,
+          openid: uni.getStorageSync('openid')
         })
           .then(result => {
             const { message, status, pay_no } = result.data;

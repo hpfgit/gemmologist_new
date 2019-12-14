@@ -871,6 +871,7 @@ export default {
             images: result,
             others: this.others,
             is_specialty: this.is_specialty,
+            openid: uni.getStorageSync('openid'),
             price:
               this.is_specialty === "1"
                 ? 0
