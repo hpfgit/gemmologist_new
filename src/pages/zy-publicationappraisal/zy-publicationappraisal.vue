@@ -43,7 +43,7 @@
             <view>上传照片</view>
             <!-- <view>图片要求 ></view> -->
           </view>
-          <view class="imgs"  v-if="type === 'shoes'">
+          <view class="imgs" v-if="type === 'shoes'">
             <view
               class="img-box"
               @tap="upImg(index)"
@@ -59,7 +59,7 @@
               </view>
             </view>
           </view>
-          <view class="imgs"  v-if="type === 'clothing'">
+          <view class="imgs" v-if="type === 'clothing'">
             <view
               class="img-box"
               @tap="upImg(index)"
@@ -338,77 +338,78 @@ export default {
         }
       ],
       clothingImages: [
-          {
-              "code": "facade",
-              "name": "外观",
-              "image": "/uploads/appraisal/post/icon/facade.png",
-              isShow: false
-          },
-          {
-              "code": "neck",
-              "name": "衣领标识",
-              "image": "/uploads/appraisal/post/icon/neck.png",
-              isShow: false
-          },
-          {
-              "code": "trademark",
-              "name": "商标",
-              "image": "/uploads/appraisal/post/icon/trademark.png",
-              isShow: false
-          },
-          {
-              "code": "trademark_chain",
-              "name": "吊牌",
-              "image": "/uploads/appraisal/post/icon/trademark_chain.png",
-              isShow: false
-          },
-          {
-              "code": "bag",
-              "name": "外包装袋",
-              "image": "/uploads/appraisal/post/icon/bag.png",
-              isShow: false
-          },
-          {
-              "code": "qr_code",
-              "name": "二维码",
-              "image": "/uploads/appraisal/post/icon/qr_code.png",
-              isShow: false
-          },
-          {
-              "code": "zipper",
-              "name": "拉链接缝",
-              "image": "/uploads/appraisal/post/icon/zipper.png",
-              isShow: false
-          },
-          {
-              "code": "receipt",
-              "name": "交易单据",
-              "image": "/uploads/appraisal/post/icon/receipt.png",
-              isShow: false
-          },
-          {
-              "code": "washing_mark_1",
-              "name": "水洗标1",
-              "image": "/uploads/appraisal/post/icon/washing_mark_1.png",
-              isShow: false
-          },
-          {
-              "code": "washing_mark_2",
-              "name": "水洗标2",
-              "image": "/uploads/appraisal/post/icon/washing_mark_2.png",
-              isShow: false
-          },
-          {
-              "code": "washing_mark_3",
-              "name": "水洗标3",
-              "image": "/uploads/appraisal/post/icon/washing_mark_3.png",
-              isShow: false
-          },
-          {
-              "code": "0",
-              "image": "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
-              "name": "补图"
-          }
+        {
+          code: "facade",
+          name: "外观",
+          image: "/uploads/appraisal/post/icon/facade.png",
+          isShow: false
+        },
+        {
+          code: "neck",
+          name: "衣领标识",
+          image: "/uploads/appraisal/post/icon/neck.png",
+          isShow: false
+        },
+        {
+          code: "trademark",
+          name: "商标",
+          image: "/uploads/appraisal/post/icon/trademark.png",
+          isShow: false
+        },
+        {
+          code: "trademark_chain",
+          name: "吊牌",
+          image: "/uploads/appraisal/post/icon/trademark_chain.png",
+          isShow: false
+        },
+        {
+          code: "bag",
+          name: "外包装袋",
+          image: "/uploads/appraisal/post/icon/bag.png",
+          isShow: false
+        },
+        {
+          code: "qr_code",
+          name: "二维码",
+          image: "/uploads/appraisal/post/icon/qr_code.png",
+          isShow: false
+        },
+        {
+          code: "zipper",
+          name: "拉链接缝",
+          image: "/uploads/appraisal/post/icon/zipper.png",
+          isShow: false
+        },
+        {
+          code: "receipt",
+          name: "交易单据",
+          image: "/uploads/appraisal/post/icon/receipt.png",
+          isShow: false
+        },
+        {
+          code: "washing_mark_1",
+          name: "水洗标1",
+          image: "/uploads/appraisal/post/icon/washing_mark_1.png",
+          isShow: false
+        },
+        {
+          code: "washing_mark_2",
+          name: "水洗标2",
+          image: "/uploads/appraisal/post/icon/washing_mark_2.png",
+          isShow: false
+        },
+        {
+          code: "washing_mark_3",
+          name: "水洗标3",
+          image: "/uploads/appraisal/post/icon/washing_mark_3.png",
+          isShow: false
+        },
+        {
+          code: "0",
+          image:
+            "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+          name: "补图"
+        }
       ],
       price: "请输入保价金额，默认1000元...",
       insuredPriceNumber: "请输入商品实际价值",
@@ -484,7 +485,7 @@ export default {
       appraisals: [],
       appraiser_id: "",
       bjPrice: 1000,
-      type: ''
+      type: ""
     };
   },
   onLoad(options) {
@@ -628,20 +629,20 @@ export default {
         success(res) {
           const { tempFilePaths } = res;
           const imgPath = tempFilePaths[0];
-          if (that.type === 'clothing') {
+          if (that.type === "clothing") {
             that.clothingImages[index].image = imgPath;
             that.clothingImages[index].isShow = true;
             if (index >= that.clothingImages.length - 1) {
-                that.clothingImages[index].code = index - 11;
-                that.clothingImages[index].image = imgPath;
-                that.clothingImages[index].name = "补充";
-                const obj = {
-                    code: index - 10,
-                    image:
-                        "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
-                    name: "补充"
-                };
-                that.clothingImages.push(obj);
+              that.clothingImages[index].code = index - 11;
+              that.clothingImages[index].image = imgPath;
+              that.clothingImages[index].name = "补充";
+              const obj = {
+                code: index - 10,
+                image:
+                  "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                name: "补充"
+              };
+              that.clothingImages.push(obj);
             }
           } else {
             that.images[index].image = imgPath;
@@ -860,10 +861,10 @@ export default {
       });
       const that = this;
       let images = [];
-      if (this.type === 'clothing') {
-          images = this.clothingImages;
+      if (this.type === "clothing") {
+        images = this.clothingImages;
       } else {
-          images = this.images;
+        images = this.images;
       }
       this.uploadImgQiniu(images).then(result => {
         placeOrder({
@@ -883,6 +884,10 @@ export default {
               icon: "none",
               success() {
                 if (status === 201) {
+                  uni.showLoading({
+                    title: '加载中...',
+                    icon: "none"
+                  });
                   cash().then(result => {
                     const { userCash } = result.data.data;
                     that.userCash = userCash;
@@ -915,12 +920,12 @@ export default {
                           console.log(result);
                           if (result.errMsg == "requestPayment:ok") {
                             uni.showLoading({
-                              title: '支付中...',
-                              icon: 'none',
+                              title: "支付中...",
+                              icon: "none",
                               mask: true,
                               success() {
                                 uni.redirectTo({
-                                  url: '/pages/index3/index3'
+                                  url: "/pages/index3/index3"
                                 });
                               }
                             });
@@ -928,55 +933,55 @@ export default {
                               pay_no
                             }).then(result => {
                               console.log(result);
-                              const {message, status} = result.data;
+                              const { message, status } = result.data;
                               uni.hideLoading();
                               if (status === 201) {
                                 uni.showToast({
-                                  title: '支付成功',
-                                  icon: 'none',
+                                  title: "支付成功",
+                                  icon: "none",
                                   mask: true,
                                   success() {
                                     uni.redirectTo({
-                                      url: '/pages/index3/index3'
+                                      url: "/pages/index3/index3"
                                     });
                                   }
                                 });
                                 return;
                               }
                               uni.showToast({
-                                title: '支付失败',
-                                icon: 'none',
+                                title: "支付失败",
+                                icon: "none",
                                 mask: true,
                                 success() {
                                   uni.redirectTo({
-                                    url: '/pages/index3/index3'
+                                    url: "/pages/index3/index3"
                                   });
                                 }
-                              })
+                              });
                             });
                           } else {
                             uni.showLoading({
-                              title: '支付失败',
-                              icon: 'none',
+                              title: "支付失败",
+                              icon: "none",
                               mask: true,
                               success() {
                                 uni.redirectTo({
-                                  url: '/pages/index3/index3'
+                                  url: "/pages/index3/index3"
                                 });
                               }
                             });
                           }
                         },
                         fail(e) {
-                          if (e.errMsg == 'requestPayment:fail cancel') {
+                          if (e.errMsg == "requestPayment:fail cancel") {
                             uni.showToast({
-                              title: '支付失败',
-                              icon: 'none',
+                              title: "支付失败",
+                              icon: "none",
                               mask: true,
                               success() {
                                 uni.redirectTo({
-                                  url: '/pages/index3/index3',
-                                })
+                                  url: "/pages/index3/index3"
+                                });
                               }
                             });
                           }

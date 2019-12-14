@@ -110,7 +110,7 @@
           </view>
         </view>
         <view class="btn-info-right" @tap="submission">
-          提交补图
+          微信支付
         </view>
       </view>
       <view class="mark" v-if="isPay"></view>
@@ -487,7 +487,7 @@ export default {
       type: "",
       falg: true,
       id: "",
-      pay_no: ''
+      pay_no: ""
     };
   },
   onLoad(options) {
@@ -990,15 +990,15 @@ export default {
               }
             },
             fail(e) {
-              if (e.errMsg == 'requestPayment:fail cancel') {
+              if (e.errMsg == "requestPayment:fail cancel") {
                 uni.showToast({
-                  title: '支付失败',
-                  icon: 'none',
+                  title: "支付失败",
+                  icon: "none",
                   mask: true,
                   success() {
                     uni.redirectTo({
-                      url: '/pages/index3/index3',
-                    })
+                      url: "/pages/index3/index3"
+                    });
                   }
                 });
               }

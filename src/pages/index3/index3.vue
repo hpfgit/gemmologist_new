@@ -59,10 +59,8 @@
                 <view class="zm">
                     <view class="gn">
                         <view class="js" @tap="goTo(1)">
-                            极速鉴定
                         </view>
                         <view class="bj" @tap="goTo(2)">
-                            保价鉴定
                         </view>
                     </view>
                     <view class="search">
@@ -86,11 +84,13 @@
             <view class="btn-yes" @tap="closeBarMask">确定</view>
         </view>
         <view class="selector-end" v-if="isLogin">
-            <view class="left" @tap="goToData(0)" v-show="isAppraiser">
-                <image :src="qiniuUrl+'鉴定师端拷贝@2x.png'"></image>
-            </view>
-            <view class="right" @tap="goToData(1)" v-show="is_appraisal_admin">
-                <image :src="qiniuUrl+'版主端拷贝@2x.png'"></image>
+            <view class="inner">
+                <view class="left" @tap="goToData(0)" v-show="isAppraiser">
+                    <image :src="qiniuUrl+'鉴定师端拷贝@2x.png'"></image>
+                </view>
+                <view class="right" @tap="goToData(1)" v-show="is_appraisal_admin">
+                    <image :src="qiniuUrl+'版主端拷贝@2x.png'"></image>
+                </view>
             </view>
         </view>
         <view class="login" v-if="!isLogin" @tap="goToLogin">
@@ -148,11 +148,11 @@
                         <text>{{ item.brand_name }}</text>
                     </view>
                     <view class="center" @tap="goToDetail(item)">
-                        <view class="jds">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
+                        <view class="jds" :class="{wait: item.post_status === 10}">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
                         <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14}">{{ item.publish_at }}</view>
                         <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status !== 11 || item.post_status !== 14}">{{item.status}}</view>
                     </view>
-                    <view class="zhifu" v-show="!item.is_show" @tap="goToPay(item)">去支付</view>
+                    <view class="zhifu" v-show="!item.is_show" @tap="goToPay(item)">立即支付</view>
                 </view>
             </view>
             <!-- 费用详情 -->
@@ -587,6 +587,7 @@ export default {
 .box {
     position: relative;
     z-index: 9;
+    background-color: #fff;
 
     .bg-img {
         padding: absolute;
@@ -681,15 +682,13 @@ export default {
         }
 
         .js {
-            color: #ffffff;
-            background-image: url("../../static/images/组1拷贝@2x.png");
+            background-image: url("../../static/images/极速鉴定@2x.png");
         }
 
         .bj {
             width: 294rpx;
             height: 102rpx;
-            color: #242528;
-            background-image: url("../../static/images/组9拷贝@2x.png");
+            background-image: url("../../static/images/保价鉴定@2x.png");
         }
     }
 
@@ -719,19 +718,23 @@ export default {
         }
     }
 
-    .jds {
-        image {
-            width: 348rpx;
-            height: 97rpx;
-        }
+}
+
+.jds {
+    &.wait {
+        opacity: 0;
     }
 }
 
 .selector-end {
-    width: 610rpx;
-    margin: 46rpx auto 50rpx;
-    display: flex;
-    justify-content: space-between;
+    .inner {
+        width: 610rpx;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    padding: 30rpx 0 50rpx 0;
+    background-color: #fff;
 
     .left,
     .right {
@@ -839,7 +842,7 @@ export default {
 
 .lists {
     // display: none;
-    margin-top: 80rpx;
+    margin-top: 46rpx;
     padding-bottom: 24rpx;
 
     .item {
@@ -860,6 +863,19 @@ export default {
             margin: auto;
             width: 193rpx;
             height: 137rpx;
+        }
+
+        .zhifu {
+            position: absolute;
+            right: 27rpx;
+            bottom: 27rpx;
+            width: 158rpx;
+            height: 54rpx;
+            line-height: 54rpx;
+            text-align: center;
+            border-radius: 27rpx;
+            border: solid 1rpx #898989;
+            color: #000;
         }
     }
 
@@ -887,7 +903,7 @@ export default {
         .top {
             display: flex;
             justify-content: space-between;
-            margin-top: 22rpx;
+            margin-top: 18rpx;
 
             text {
                 color: #000;
@@ -907,7 +923,7 @@ export default {
         }
 
         .center {
-            margin-top: 6rpx;
+            margin-top: 12rpx;
 
             view, text {
                 font-size: 22rpx;
