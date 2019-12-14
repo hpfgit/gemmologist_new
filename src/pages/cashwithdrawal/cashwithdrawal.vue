@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="balance">
-      <view class="mx">
+      <view class="mx" @tap="goto">
         明细 >
       </view>
       <view class="title">可提现余额(元)</view>
@@ -20,39 +20,109 @@
       <view class="inner">
         <view class="title">提现到我的钱包</view>
         <view class="price">
-          <text>￥</text><input placeholder="0.00" name="price" id="price" />
+          <text>￥</text><input placeholder="0.00" :value="amount" name="price" id="price" @input="change" />
         </view>
         <view class="yue">
-          <view>剩余金额￥{{appr_money - appr_blocked_money}}</view>
-          <view>全部提现</view>
+          <view>剩余金额￥{{surplus}}</view>
+          <view @tap="all">全部提现</view>
         </view>
       </view>
     </view>
-    <view class="btn">
+    <view class="btn" @tap="submit">
       确认提现
     </view>
   </view>
 </template>
 
 <script>
-import {drawCashDetail} from '../../api/cashwithdrawal';
+import {drawCashDetail, transfer} from '../../api/cashwithdrawal';
 
 export default {
   name: "cashwithdrawal",
   data() {
     return {
       appr_blocked_money: "0.00",
-      appr_money: "0.00"
+      appr_money: "0.00",
+      surplus: 0,
+      amount: ''
     }
   },
   onLoad() {
     this.getData();
   },
   onPullDownRefresh() {
+    this.amount = '';
     this.getData();
     uni.stopPullDownRefresh();
   },
   methods: {
+    change(e) {
+      this.amount = e.target.value;
+    },
+    goto() {
+      uni.navigateTo({
+        url: '/pages/detailed/detailed'
+      });
+    },
+    all() {
+      this.amount = this.surplus;
+    },
+    submit() {
+      if (this.surplus <= 0) {
+        uni.showToast({
+          title: '您当前无可提现余额',
+          icon: 'none',
+          mask: true
+        });
+        return;
+      }
+      if (this.amount === '') {
+        uni.showToast({
+          title: '请输入提现金额',
+          icon: 'none',
+          mask: true
+        });
+        return;
+      }
+      if (this.amount < 0.3) {
+        uni.showToast({
+          title: '提现金额必须大于0.3元',
+          icon: 'none',
+          mask: true
+        });
+        return;
+      }
+      uni.showLoading({
+        title: '提现中...',
+        icon: 'none',
+        mask: true
+      });
+      transfer({
+        openid: uni.getStorageSync('openid'),
+        amount: this.amount
+      }).then(result => {
+        uni.hideLoading();
+        const {message, status} = result.data;
+        if (status === 200) {
+          uni.showToast({
+            title: '提现成功',
+            icon: 'none',
+            mask: true
+          });
+          this.amount = '';
+          setTimeout(() => {
+            this.getData();
+          }, 1000);
+          return;
+        }
+        uni.showToast({
+          title: '提现失败',
+          icon: 'none',
+          mask: true
+        });
+        console.log(result);
+      });
+    },
     getData() {
       uni.showLoading({
         title: '加载中...',
@@ -60,11 +130,12 @@ export default {
         mask: true
       });
       drawCashDetail().then(result => {
-      const {appr_blocked_money, appr_money} = result.data.data;
-      this.appr_blocked_money = appr_blocked_money;
-      this.appr_money = appr_money;
-      uni.hideLoading();
-    });
+        const {appr_blocked_money, appr_money} = result.data.data;
+        this.appr_blocked_money = appr_blocked_money;
+        this.appr_money = appr_money;
+        this.surplus = appr_money - appr_blocked_money;
+        uni.hideLoading();
+      });
     }
   }
 };

@@ -28,12 +28,14 @@ export default {
             uploadPicture: [],
             content: '',
             id: '',
-            qiniuUrl: config[NODE_ENV].qiniuUrl
+            qiniuUrl: config[NODE_ENV].qiniuUrl,
+            is_appraiser: ''
         }
     },
     onLoad(options) {
-        const {id} = options;
+        const {id, is_appraiser} = options;
         this.id = id;
+        this.is_appraiser = is_appraiser;
     },
     methods: {
         upImg() {
@@ -202,7 +204,8 @@ export default {
                     workOrder({
                         post_id: this.id,
                         content: this.content,
-                        images: result
+                        images: result,
+                        is_appraiser: this.is_appraiser
                     }).then(result => {
                         console.log(result);
                         uni.hideLoading();
@@ -230,7 +233,8 @@ export default {
                 this.uploadImgQiniu(this.images).then(result => {
                     workOrder({
                         post_id: this.id,
-                        content: this.content
+                        content: this.content,
+                        is_appraiser: this.is_appraiser
                     }).then(result => {
                         console.log(result);
                         uni.hideLoading();

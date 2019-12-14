@@ -175,7 +175,7 @@
             </view>
             <view class="work-order">
                 <view class="title2">工单记录</view>
-                <div class="conte" v-show="work_order.length <= 0">
+                <div class="conte" v-show="order_show">
                     鉴定结论得出后30天内可提交工单，超出时间后无法创建
                 </div>
             </view>
@@ -194,7 +194,7 @@
                 </view>
             </view>
             <view class="make-up" @tap="make_up_order" v-if="data.post_status === 13">
-                补充工单
+                {{is_appraiser === '1' ? '回复工单' : '补充工单'}}
             </view>
             <view v-if="isJD === 'false'" class="gdjl">
                 <image :src="qiniuUrl+'Workorderrecord@2x.png'"></image>
@@ -375,7 +375,9 @@ export default {
             me: {},
             count: '',
             fail: '',
-            id: ''
+            id: '',
+            is_appraiser: '',
+            order_show: false
         };
     },
     onLoad(options) {
@@ -388,7 +390,8 @@ export default {
             this.count = count;
             this.fail = fail.substring(0, fail.length - 1);
         });
-        const { id, type, mold, isJD } = options;
+        const { id, type, mold, isJD, is_appraiser } = options;
+        this.is_appraiser = is_appraiser;
         this.type = type;
         this.mold = mold;
         this.isJD = isJD;
@@ -404,6 +407,11 @@ export default {
                 hint_top,
                 operation_name
             } = result.data;
+            if (work_order.length > 0) {
+                this.order_show = false;
+            } else {
+                this.order_show = true;
+            }
             this.images = images;
             this.user_info = user_info;
             work_order.forEach(item => {
@@ -484,7 +492,7 @@ export default {
         },
         make_up_order() {
             uni.navigateTo({
-                url: '/pages/workOrder/workOrder?id='+this.id
+                url: '/pages/workOrder/workOrder?id='+this.id+'&is_appraiser='+this.is_appraiser
             });
         },
         zj_tr() {

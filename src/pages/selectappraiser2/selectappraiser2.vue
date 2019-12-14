@@ -10,7 +10,7 @@
             </view>
         </view>
         <view class="lists">
-            <view class="list" v-for="(item, index) in appraisers" :key="index" @tap="goTo(index)">
+            <view class="list" v-for="(item, index) in appraisers" :key="index" @tap="check(index)">
                 <!-- <image v-show="!item.checked" class="icon" :src="qiniuUrl+'对号-加粗@2x.png'"></image>
                 <image v-show="item.checked" class="icon" :src="qiniuUrl+'对号-加粗2@2x.png'"></image> -->
                 <view class="left">

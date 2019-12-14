@@ -298,6 +298,13 @@
             "style": {
                 "navigationBarTitleText": "鉴定流程及常见问题"
             }
+        },
+        {
+            "path": "pages/detailed/detailed",
+            "style": {
+                "navigationBarTitleText": "提现明细",
+                "enablePullDownRefresh": true
+            }
         }
     ],
     "globalStyle": {

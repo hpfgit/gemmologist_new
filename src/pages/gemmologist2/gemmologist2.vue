@@ -7,7 +7,7 @@
                 </view>
             </view>
             <view class="inner">
-                <navigator class="box" url="/pages/means4/means4?type=djd">
+                <navigator class="box" url="/pages/means4/means4?type=djd&title=待鉴定">
                     <view class="title">
                         待鉴定
                     </view>
@@ -21,7 +21,7 @@
                         ></image>
                     </view>
                 </navigator>
-                <navigator class="box" url="/pages/means4/means4?type=dhf">
+                <navigator class="box" url="/pages/means4/means4?type=dhf&title=待回复">
                     <view class="title">
                         待回复
                     </view>
@@ -97,7 +97,7 @@
         <view class="mask" v-show="isShow"></view>
         <view class="change-status-box" v-show="isShow">
             <view class="title">切换状态</view>
-            <image class="close" src="../../static/images/圆角矩形607拷贝@2x.png"></image>
+            <image class="close" @tap="close" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image>
             <view class="status-list">
                 <view class="item" @tap="changeStatus(0)">
                     <view class="circle active"></view>
@@ -172,6 +172,9 @@ export default {
         show() {
             this.isShow = true;
         },
+        close() {
+            this.isShow = false;
+        },
         changeStatus(index) {
             this.statusIndex = index;
             uni.showLoading({
@@ -210,6 +213,10 @@ export default {
             if (index === 1) {
                 uni.navigateTo({
                     url: "/pages/faultrecord/faultrecord?type=all"
+                });
+            } else if (index === 3) {
+                uni.navigateTo({
+                    url: '/pages/assessment/assessment'
                 });
             } else if (index === 4) {
                 uni.navigateTo({

@@ -58,10 +58,8 @@
                 </view>
                 <view class="zm">
                     <view class="gn">
-                        <view class="js" @tap="goTo(1)">
-                        </view>
-                        <view class="bj" @tap="goTo(2)">
-                        </view>
+                        <view class="js" @tap="goTo(1)"></view>
+                        <view class="bj" @tap="goTo(2)"></view>
                     </view>
                     <view class="search">
                         <input
@@ -373,14 +371,14 @@ export default {
             const that = this;
             if (index) {
                 uni.navigateTo({
-                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=clothing',
+                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=clothing&title=球鞋',
                     success() {
                         that.isShow = false;
                     }
                 });
             } else {
                 uni.navigateTo({
-                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=shoes',
+                    url: '/pages/equipmentappraisal2/equipmentappraisal2?is_specialty='+this.is_specialty+'&type=shoes&title=服装',
                     success() {
                         that.isShow = false;
                     }
@@ -422,7 +420,8 @@ export default {
                         "/pages/Identificationdetails3/Identificationdetails3?id=" +
                         item.id +
                         "&type=" +
-                        item.is_specialty
+                        item.is_specialty +
+                        '&is_appraiser=0'
                 });
             }
         }

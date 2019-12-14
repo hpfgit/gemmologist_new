@@ -17,19 +17,5 @@
 </script>
 
 <style lang="scss">
-  .img {
-
-  }
-  .h-title {
-
-  }
-  .number {
-
-  }
-  .title {
-
-  }
-  .imgs {
-
-  }
+  
 </style>

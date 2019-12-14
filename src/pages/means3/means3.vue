@@ -60,14 +60,7 @@
           </view>
         </view>
       </view>
-      <view class="no-data" v-if="!lists.length">
-        <view>
-          <image :src="qiniuUrl + '/暂无鉴定贴@2x.png'"></image>
-        </view>
-        <view>
-          <image :src="qiniuUrl + '/暂时没有鉴定贴~@2x.png'"></image>
-        </view>
-      </view>
+      <nodata v-if="!lists.length"/>
     </view>
   </scroll-view>
 </template>
@@ -77,6 +70,7 @@ import { banzhu_appraise_num, banzhu_appraise } from "../../api/moderator";
 import { isAppraiser } from "../../api/index";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
+import nodata from '../../component/nodata/nodata.vue';
 
 export default {
   data() {
@@ -175,6 +169,9 @@ export default {
         });
       }
     }
+  },
+  components: {
+    nodata
   }
 };
 </script>

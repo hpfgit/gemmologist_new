@@ -9,7 +9,7 @@
                 ></image>
                 <view class="nickname">{{banzhu.name}}</view>
                 <view class="level-info">
-                    <view class="cir"></view>
+                    <image class="cir" :src="qiniuUrl+'版主icon@2x.png'"></image>
                     <text>{{banzhu.level_name}}</text>
                 </view>
                 <view class="introduce">
@@ -49,7 +49,9 @@
                 ></image>
                 <view class="nickname">{{item.name}}</view>
                 <view class="level-info">
-                    <image class="cir" :src="qiniuUrl+'矢量智能对象@2x.png'"></image>
+                    <image v-show="item.level === 4" class="cir" :class="'cir-'+item.level" :src="qiniuUrl+'鉴定顾问icon@2x.png'"></image>
+                    <image v-show="item.level === 3" class="cir" :class="'cir-'+item.level" :src="qiniuUrl+'高级鉴定师icon@2x.png'"></image>
+                    <image v-show="item.level === 2" class="cir" :class="'cir-'+item.level" :src="qiniuUrl+'鉴定师icon@2x.png'"></image>
                     <text>{{item.level_name}}</text>
                 </view>
                 <view class="introduce">
@@ -209,11 +211,14 @@ export default {
     margin-top: 12rpx;
 
     .cir {
-        width: 26rpx;
-        height: 26rpx;
-        border-radius: 26rpx;
-        background-color: #b3925f;
+        width: 40rpx;
+        height: 28rpx;
         margin-right: 8rpx;
+
+        &.cir-4,&.cir-3,&.cir-2 {
+            width: 28rpx;
+            height: 28rpx;
+        }
     }
     text {
         color: #ebeaea;

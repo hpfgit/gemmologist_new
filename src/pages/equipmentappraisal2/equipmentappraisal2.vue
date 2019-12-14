@@ -90,9 +90,9 @@ export default {
         console.log(is_specialty);
         this.type = type;
         let title = "";
-        if (type === "qx") {
+        if (type === "shoes") {
             title = "BAN鉴定 - 球鞋";
-        } else if (type === "fz") {
+        } else if (type === "clothing") {
             title = "BAN鉴定 - 服装";
         }
         uni.setNavigationBarTitle({

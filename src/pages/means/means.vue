@@ -24,14 +24,7 @@
         </view>
       </view>
     </view>
-    <view class="no-data" v-if="!lists.length">
-      <view>
-        <image :src="qiniuUrl + '/暂无鉴定贴@2x.png'"></image>
-      </view>
-      <view>
-        <image :src="qiniuUrl + '/暂时没有鉴定贴~@2x.png'"></image>
-      </view>
-    </view>
+    <nodata v-if="!lists.length"/>
   </view>
 </template>
 
@@ -39,6 +32,7 @@
 import { getStudy } from "../../api/means";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
+import nodata from '../../component/nodata/nodata.vue';
 
 export default {
   data() {
@@ -73,6 +67,9 @@ export default {
         url: "../Identificationdetails/Identificationdetails?id=" + id
       });
     }
+  },
+  components: {
+    nodata
   }
 };
 </script>

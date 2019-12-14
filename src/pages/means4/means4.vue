@@ -73,14 +73,7 @@
                     </view>
                 </view>
             </view>
-            <view class="no-data" v-if="!lists.length">
-                <view>
-                    <image :src="qiniuUrl + '/暂无鉴定贴@2x.png'"></image>
-                </view>
-                <view>
-                    <image :src="qiniuUrl + '/暂时没有鉴定贴~@2x.png'"></image>
-                </view>
-            </view>
+            <nodata v-if="!lists.length" />
         </scroll-view>
     </view>
 </template>
@@ -89,6 +82,7 @@
 import { work_order, all, newAppraiseDetails } from "../../api/means2";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
+import nodata from '../../component/nodata/nodata.vue';
 
 export default {
     data() {
@@ -103,7 +97,10 @@ export default {
         };
     },
     onLoad(options) {
-        const { type } = options;
+        const { type, title } = options;
+        uni.setNavigationBarTitle({
+            title
+        });
         this.type = type;
         this.getData();
     },
@@ -156,15 +153,18 @@ export default {
             const that = this;
             uni.navigateTo({
                 url:
-                    "../Identificationdetails2/Identificationdetails2?id=" +
+                    "../Identificationdetails3/Identificationdetails3?id=" +
                     item.id +
                     "&type=" +
                     this.type +
                     "&mold=" +
                     item.is_specialty +
-                    "&isJD=true"
+                    "&isJD=true&is_appraiser=1"
             });
         }
+    },
+    components: {
+        nodata
     }
 };
 </script>

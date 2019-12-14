@@ -889,6 +889,11 @@ export default {
                 icon: "none",
                 success() {
                   if (status === 201) {
+                    uni.showLoading({
+                        title: "加载中...",
+                        icon: "none",
+                        mask: true
+                      });
                     cash().then(result => {
                       const { userCash } = result.data.data;
                       that.userCash = userCash;
