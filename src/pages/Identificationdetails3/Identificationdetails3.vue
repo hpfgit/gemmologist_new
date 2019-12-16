@@ -150,7 +150,7 @@
                         {{ data.description ? data.description : "暂无备注" }}
                     </view>
                 </div>
-                <image v-if="data.is_quicken_pay === 0 && data.post_status === 10" @tap="accelerate" :src="qiniuUrl+'加速鉴定@2x.png'"></image>
+                <image v-if="data.is_quicken_pay === 0 && data.post_status === 10 && data.is_show === 1" @tap="accelerate" :src="qiniuUrl+'加速鉴定@2x.png'"></image>
                 <view class="accelerate_yes" v-if="data.is_quicken_pay === 1 && data.post_status !== 13">
                     <image class="accelerate_icon" :src="qiniuUrl+'加速鉴定中@2x.png'"></image>
                     <view class="accelerate_text">加速鉴定中</view>
@@ -264,17 +264,17 @@
                     >{{ item.text }}
                 </view>
             </view>
-            <view class="mark" :class="{ bz_fw_mark: checks[3].checked }">
+            <view class="mark" :class="{ bz_fw_mark: checks[2].checked }">
                 <view
                     class="bz-fw"
-                    v-show="checks[3].checked"
+                    v-show="checks[2].checked"
                     :class="{ active: bzFw }"
                     @tap="bz_fw"
                     >不在鉴定范围</view
                 >
                 <input
                     type="text"
-                    :class="{ bz_fw: checks[3].checked }"
+                    :class="{ bz_fw: checks[2].checked }"
                     :placeholder="markPlace"
                     :value="markContent"
                     @change="markText($event)"
@@ -336,10 +336,10 @@ import {
     post,
     changeAppraiser,
     get_wx_code,
-    pay_appraisal_quicken
+    pay_appraisal_quicken,
 } from "../../api/Identificationdetails";
 import { appraiserList } from "../../api/selectappraiser";
-import { pay } from '../../api/publicationappraisal';
+import { pay, postPay } from '../../api/publicationappraisal';
 import { getCount } from "../../api";
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
@@ -517,6 +517,7 @@ export default {
             this.is_accelerate = !this.is_accelerate;
         },
         accelerate_yes() {
+            const that = this;
             uni.showLoading({
                 title: '加载中...',
                 icon: 'none',
@@ -550,7 +551,7 @@ export default {
                     paySign: pay_info.paySign,
                     success(result) {
                         console.log(result);
-                        if (result.errMsg == "requestPayment:ok") {
+                        // if (result.errMsg == "requestPayment:ok") {
                         uni.showLoading({
                             title: "支付中...",
                             icon: "none",
@@ -592,18 +593,18 @@ export default {
                             }
                             });
                         });
-                        } else {
-                        uni.showLoading({
-                            title: "支付失败",
-                            icon: "none",
-                            mask: true,
-                            success() {
-                            uni.redirectTo({
-                                url: "/pages/index3/index3"
-                            });
-                            }
-                        });
-                        }
+                        // } else {
+                        // uni.showLoading({
+                        //     title: "支付失败",
+                        //     icon: "none",
+                        //     mask: true,
+                        //     success() {
+                        //     uni.redirectTo({
+                        //         url: "/pages/index3/index3"
+                        //     });
+                        //     }
+                        // });
+                        // }
                     },
                     fail(e) {
                         if (e.errMsg == "requestPayment:fail cancel") {

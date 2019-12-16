@@ -200,26 +200,26 @@ export default {
       details: {},
       markContent: "",
       checks: [
-        {
-          text: "真",
-          checked: true,
-          number: 1
-        },
-        {
-          text: "假",
-          checked: false,
-          number: 0
-        },
-        {
-          text: "需要补图",
-          checked: false,
-          number: 10
-        },
-        {
-          text: "无法鉴定",
-          checked: false,
-          number: 2
-        }
+          {
+              text: "真",
+              checked: true,
+              number: 1
+          },
+          {
+              text: "假",
+              checked: false,
+              number: 0
+          },
+          {
+              text: "需要补图",
+              checked: false,
+              number: 10
+          },
+          {
+              text: "无法鉴定",
+              checked: false,
+              number: 2
+          }
       ],
       images: [],
       user_info: {},

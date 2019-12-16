@@ -924,7 +924,7 @@ export default {
                           paySign: pay_info.paySign,
                           success(result) {
                             console.log(result);
-                            if (result.errMsg == "requestPayment:ok") {
+                            // if (result.errMsg == "requestPayment:ok") {
                               uni.showLoading({
                                 title: "支付中...",
                                 icon: "none",
@@ -960,18 +960,18 @@ export default {
                                   }
                                 });
                               });
-                            } else {
-                              uni.showLoading({
-                                title: "支付失败",
-                                icon: "none",
-                                mask: true,
-                                success() {
-                                  uni.redirectTo({
-                                    url: "/pages/index3/index3"
-                                  });
-                                }
-                              });
-                            }
+                            // } else {
+                              // uni.showLoading({
+                              //   title: "支付失败",
+                              //   icon: "none",
+                              //   mask: true,
+                              //   success() {
+                              //     uni.redirectTo({
+                              //       url: "/pages/index3/index3"
+                              //     });
+                              //   }
+                              // });
+                            // }
                           },
                           fail(e) {
                             if (e.errMsg == "requestPayment:fail cancel") {
