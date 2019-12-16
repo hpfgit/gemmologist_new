@@ -25,6 +25,7 @@
                 </view>
             </view>
         </view>
+        <nodata v-if="!appraisers.length" />
         <view class="btns">
             <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo(1)">
                 <view class="inner">
@@ -44,8 +45,10 @@
 
 <script>
 import {appraiserList} from '../../api/selectappraiser';
+import nodata from '../../component/nodata/nodata.vue';
 import config from '../../config/index';
 const NODE_ENV = process.env.NODE_ENV;
+let brand_id = '';
 
 export default {
     data() {
@@ -55,15 +58,14 @@ export default {
             qiniuUrl: config[NODE_ENV].qiniuUrl,
             info: '',
             cover_image: '',
-            brand_id: '',
             type: ''
         }
     },
     onLoad(options) {
-        const {brand_id, is_specialty, type} = options;
-        this.brand_id = brand_id;
+        const {is_specialty, type} = options;
         this.type = type;
         this.is_specialty = is_specialty;
+        brand_id = options.brand_id;
         uni.showLoading({
             title: '加载中...',
             icon: 'none',
@@ -114,40 +116,23 @@ export default {
                 }
             });
             return arr.length;
-        },
-        checkedArr() {
-            const arr = [];
-            this.appraisers.forEach(appraiser => {
-                if (appraiser.checked) {
-                    arr.push(appraiser);
-                }
-            });
-            return arr;
         }
     },
     methods: {
         see() {
             uni.navigateTo({
-                url: '/pages/team/team?brand_id='+this.brand_id
+                url: '/pages/team/team'
             });
-        },
-        check(index) {
-            if (this.checkedNumber >= 2) {
-                this.checkedArr.forEach(item => {
-                    if (index === item.index) {
-                        this.appraisers[index].checked = !this.appraisers[index].checked;
-                    }
-                });
-                return;
-            }
-            this.appraisers[index].checked = !this.appraisers[index].checked;
         },
         goTo(index) {
             let appraiser_id = this.appraisers[index].id;
             uni.navigateTo({
-                url: '/pages/zy-publicationappraisal2/zy-publicationappraisal2?is_specialty='+this.is_specialty+'&brand_id='+this.brand_id + '&appraiser_id=' + appraiser_id + "&type=" + this.type
+                url: '/pages/zy-publicationappraisal2/zy-publicationappraisal2?is_specialty=' + this.is_specialty + '&appraiser_id=' + appraiser_id + "&type=" + this.type + '&brand_id=' + brand_id
             });
         }
+    },
+    components: {
+        nodata
     }
 }
 </script>

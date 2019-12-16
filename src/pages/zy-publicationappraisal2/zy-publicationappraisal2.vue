@@ -257,6 +257,8 @@ import {
 import { upload, init } from "../../utils/qiniuUploader";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
+let brand_id = "";
+let appraiser_id = "";
 
 export default {
   data() {
@@ -418,7 +420,6 @@ export default {
       description: "",
       others: [],
       is_specialty: "",
-      brand_id: "",
       upload_token: "",
       uploadPicture: {},
       isPay: false,
@@ -483,7 +484,6 @@ export default {
       pay_no: "",
       isAgree: true,
       appraisals: [],
-      appraiser_id: "",
       bjPrice: 1000,
       type: "",
       falg: true
@@ -494,10 +494,10 @@ export default {
       title: "加载中...",
       icon: "none"
     });
-    const { brand_id, is_specialty, appraiser_id, type } = options;
-    this.brand_id = brand_id || 22;
+    const { is_specialty, type } = options;
+    brand_id = options.brand_id;
     this.is_specialty = is_specialty;
-    this.appraiser_id = appraiser_id;
+    appraiser_id = options.appraiser_id;
     this.type = type;
     let price = "";
     if (is_specialty === "1") {
@@ -878,8 +878,8 @@ export default {
                 : this.price === "请输入保价金额，默认1000元..."
                 ? 1000
                 : this.price,
-            brand_id: this.brand_id,
-            appraiser_list: this.appraiser_id
+            brand_id,
+            appraiser_list: appraiser_id
           })
             .then(result => {
               this.falg = true;

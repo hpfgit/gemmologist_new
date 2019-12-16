@@ -125,7 +125,9 @@
     <view class="mask" v-show="isHandOver"></view>
     <view class="start-jd" v-show="is_start">
       <div class="title">开始鉴定</div>
-      <view class="close" @tap="close">关闭</view>
+      <view class="close" @tap="close">
+        <image :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image>
+      </view>
       <view class="progress">
         <view
           v-for="(item, index) in checks"
@@ -136,17 +138,17 @@
           >{{ item.text }}
         </view>
       </view>
-      <view class="mark" :class="{ bz_fw_mark: checks[3].checked }">
+      <view class="mark" :class="{ bz_fw_mark: checks[2].checked }">
         <view
           class="bz-fw"
-          v-show="checks[3].checked"
+          v-show="checks[2].checked"
           :class="{ active: bzFw }"
           @tap="bz_fw"
           >不在鉴定范围</view
         >
         <input
           type="text"
-          :class="{ bz_fw: checks[3].checked }"
+          :class="{ bz_fw: checks[2].checked }"
           :placeholder="markPlace"
           :value="markContent"
           @change="markText($event)"
@@ -191,6 +193,7 @@ import { appraise, post, changeAppraiser } from "../../api/Identificationdetails
 import {appraiserList} from '../../api/selectappraiser';
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
+let result = 1;
 
 export default {
   data() {
@@ -205,11 +208,6 @@ export default {
           number: 1
         },
         {
-          text: "假",
-          checked: false,
-          number: 0
-        },
-        {
           text: "需要补图",
           checked: false,
           number: 10
@@ -218,18 +216,26 @@ export default {
           text: "无法鉴定",
           checked: false,
           number: 2
+        },
+        {
+          text: "建议退货",
+          checked: false,
+          number: 3
+        },
+        {
+          text: "假",
+          checked: false,
+          number: 0
         }
       ],
       images: [],
       user_info: {},
       work_order: [],
       data: {},
-      hint_bottom: "",
       hint_top: "",
       appraiser: [],
       operation_name: "",
       is_start: false,
-      result: "",
       avatar: "",
       type: "",
       markPlace: "可添加备注以便以后查看（仅鉴定师可见）",
@@ -252,14 +258,12 @@ export default {
     this.type = type;
     this.mold = mold;
     this.isJD = isJD;
-    this.result = 1;
     post({ id }).then(result => {
       const {
         images,
         user_info,
         work_order,
         data,
-        hint_bottom,
         hint_top,
         appraiser,
         operation_name
@@ -268,7 +272,6 @@ export default {
       this.user_info = user_info;
       this.work_order = work_order;
       this.data = data;
-      this.hint_bottom = hint_bottom;
       this.hint_top = hint_top;
       this.appraiser = appraiser;
       this.operation_name = operation_name;
@@ -340,15 +343,6 @@ export default {
         }
       });
       return arr.length;
-    },
-    checkedArr() {
-      const arr = [];
-      this.appraisers.forEach(appraiser => {
-        if (appraiser.checked) {
-          arr.push(appraiser);
-        }
-      });
-      return arr;
     }
   },
   methods: {
@@ -381,9 +375,15 @@ export default {
         });
         return;
       }
+      let new_appraiser_id = '';
+      this.appraisers.forEach(appraiser => {
+        if (appraiser.checked) {
+          new_appraiser_id = appraiser;
+        }
+      });
       changeAppraiser({
         post_id: this.data.id,
-        new_appraiser_id: this.checkedArr[0].appr_id
+        new_appraiser_id
       }).then(result => {
         const that = this;
         const {message, status} = result.data;
@@ -428,11 +428,11 @@ export default {
         check.checked = false;
       });
       this.markPlace = "可添加备注以便以后查看（仅鉴定师可见）";
-      if (index === 2) {
+      if (index === 1) {
         this.markPlace = "请输入补图位置";
       }
       this.checks[index].checked = true;
-      this.result = this.checks[index].number;
+      result = this.checks[index].number;
     },
     markText(e) {
       this.markContent = e.target.value;
@@ -448,6 +448,13 @@ export default {
       this.bzFw = !this.bzFw;
     },
     submit() {
+      if (this.markContent === '') {
+        uni.showToast({
+          title: '请输入备注',
+          icon: 'none'
+        });
+        return;
+      }
       uni.showLoading({
         title: '加载中...',
         icon: 'none',
@@ -455,18 +462,17 @@ export default {
       });
       const that = this;
       const params = {
-        result: this.result,
+        result: result,
         brand_id: this.data.brand_id,
         id: this.data.id,
-        add_status: this.result === 10 ? 1 : 0
+        add_status: result === 10 ? 1 : 0
       };
-      if (this.result === 10) {
+      if (result === 10) {
         params.need_image = this.markContent;
       } else {
         params.result_reason = this.markContent;
       }
       appraise(params).then(result => {
-        console.log(result);
         uni.hideLoading();
         uni.showToast({
           title: "提交成功",
@@ -949,9 +955,14 @@ export default {
     height: 40rpx;
     border-radius: 40rpx;
     border: 1rpx solid #666;
-    font-size: 16rpx;
-    text-align: center;
-    line-height: 40rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    image {
+      width: 24rpx;
+      height: 23rpx;
+    }
   }
 
   .progress {

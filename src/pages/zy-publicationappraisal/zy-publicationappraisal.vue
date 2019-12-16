@@ -257,6 +257,7 @@ import {
 import { upload, init } from "../../utils/qiniuUploader";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
+let appraiser_id = '';
 
 export default {
   data() {
@@ -483,7 +484,6 @@ export default {
       pay_no: "",
       isAgree: true,
       appraisals: [],
-      appraiser_id: "",
       bjPrice: 1000,
       type: ""
     };
@@ -494,10 +494,10 @@ export default {
       icon: "none",
       mask: true
     });
-    const { brand_id, is_specialty, appraiser_id, type } = options;
+    const { brand_id, is_specialty, type } = options;
     this.brand_id = brand_id;
     this.is_specialty = is_specialty;
-    this.appraiser_id = appraiser_id;
+    appraiser_id = options.appraiser_id;
     this.type = type;
     let price = "";
     if (is_specialty === "1") {
@@ -874,7 +874,7 @@ export default {
           is_specialty: this.is_specialty,
           price: this.bjPrice,
           brand_id: this.brand_id,
-          appraiser_list: this.appraiser_id,
+          appraiser_list: appraiser_id,
           openid: uni.getStorageSync('openid')
         })
           .then(result => {
@@ -923,12 +923,7 @@ export default {
                             uni.showLoading({
                               title: "支付中...",
                               icon: "none",
-                              mask: true,
-                              success() {
-                                uni.redirectTo({
-                                  url: "/pages/index3/index3"
-                                });
-                              }
+                              mask: true
                             });
                             postPay({
                               pay_no
@@ -942,7 +937,7 @@ export default {
                                   icon: "none",
                                   mask: true,
                                   success() {
-                                    uni.redirectTo({
+                                    uni.reLaunch({
                                       url: "/pages/index3/index3"
                                     });
                                   }
@@ -954,7 +949,7 @@ export default {
                                 icon: "none",
                                 mask: true,
                                 success() {
-                                  uni.redirectTo({
+                                  uni.reLaunch({
                                     url: "/pages/index3/index3"
                                   });
                                 }
@@ -966,7 +961,7 @@ export default {
                               icon: "none",
                               mask: true,
                               success() {
-                                uni.redirectTo({
+                                uni.reLaunch({
                                   url: "/pages/index3/index3"
                                 });
                               }
@@ -980,7 +975,7 @@ export default {
                               icon: "none",
                               mask: true,
                               success() {
-                                uni.redirectTo({
+                                uni.reLaunch({
                                   url: "/pages/index3/index3"
                                 });
                               }

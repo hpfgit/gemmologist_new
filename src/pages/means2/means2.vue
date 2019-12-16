@@ -40,6 +40,8 @@ import { appraise, newAppraiseDetails } from "../../api/means2";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 import nodata from '../../component/nodata/nodata.vue';
+let totalPage = '';
+
 
 export default {
     data() {
@@ -50,7 +52,6 @@ export default {
             type: "",
             mold: "",
             page: 1,
-            totalPage: ''
         };
     },
     onLoad(options) {
@@ -68,7 +69,7 @@ export default {
         },
         scrolltolower() {
             this.page ++;
-            if (this.page > this.totalPage) {
+            if (this.page > totalPage) {
                 return;
             }
             this.getData();
@@ -90,7 +91,7 @@ export default {
                 } else {
                     this.lists = data;
                 }
-                this.totalPage = Math.ceil(count / 10);
+                totalPage = Math.ceil(count / 10);
                 uni.hideLoading();
                 uni.stopPullDownRefresh();
             });

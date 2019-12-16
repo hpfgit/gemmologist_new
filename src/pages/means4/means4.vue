@@ -83,6 +83,8 @@ import { work_order, all, newAppraiseDetails } from "../../api/means2";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 import nodata from '../../component/nodata/nodata.vue';
+let totalPage = '';
+
 
 export default {
     data() {
@@ -92,8 +94,7 @@ export default {
             qiniuUrl: config[NODE_ENV].qiniuUrl,
             type: "",
             mold: "",
-            page: 1,
-            totalPage: ''
+            page: 1
         };
     },
     onLoad(options) {
@@ -111,7 +112,7 @@ export default {
     methods: {
         scrolltolower() {
             this.page ++;
-            if (this.page > this.totalPage) {
+            if (this.page > totalPage) {
                 uni.showToast({
                     title: '已经加载全部的数据',
                     icon: 'none',
@@ -137,7 +138,7 @@ export default {
                 } else {
                     this.lists = data;
                 }
-                this.totalPage = Math.ceil(count / 10);
+                totalPage = Math.ceil(count / 10);
                 uni.hideLoading();
                 uni.stopPullDownRefresh();
             });

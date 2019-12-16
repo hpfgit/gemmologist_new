@@ -191,6 +191,7 @@ import { appraise, post, changeAppraiser, banzhuAppraise } from "../../api/Ident
 import {appraiserList} from '../../api/selectappraiser';
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
+let  result = 1;
 
 export default {
   data() {
@@ -224,12 +225,10 @@ export default {
       user_info: {},
       work_order: [],
       data: {},
-      hint_bottom: "",
       hint_top: "",
       appraiser: [],
       operation_name: "",
       is_start: false,
-      result: "",
       avatar: "",
       type: "",
       markPlace: "可添加备注以便以后查看（仅鉴定师可见）",
@@ -260,14 +259,12 @@ export default {
     this.type = type;
     this.mold = mold;
     this.isJD = isJD;
-    this.result = 1;
     post({ id }).then(result => {
       const {
         images,
         user_info,
         work_order,
         data,
-        hint_bottom,
         hint_top,
         appraiser,
         operation_name
@@ -276,7 +273,6 @@ export default {
       this.user_info = user_info;
       this.work_order = work_order;
       this.data = data;
-      this.hint_bottom = hint_bottom;
       this.hint_top = hint_top;
       this.appraiser = appraiser;
       this.operation_name = operation_name;
@@ -348,15 +344,6 @@ export default {
         }
       });
       return arr.length;
-    },
-    checkedArr() {
-      const arr = [];
-      this.appraisers.forEach(appraiser => {
-        if (appraiser.checked) {
-          arr.push(appraiser);
-        }
-      });
-      return arr;
     }
   },
   methods: {
@@ -389,9 +376,15 @@ export default {
         });
         return;
       }
+      let new_appraiser_id = '';
+      this.appraisers.forEach(appraiser => {
+        if (appraiser.checked) {
+          new_appraiser_id = appraiser;
+        }
+      });
       changeAppraiser({
         post_id: this.data.id,
-        new_appraiser_id: this.checkedArr[0].appr_id
+        new_appraiser_id
       }).then(result => {
         const that = this;
         const {message, status} = result.data;
@@ -440,7 +433,7 @@ export default {
         this.markPlace = "请输入补图位置";
       }
       this.checks[index].checked = true;
-      this.result = this.checks[index].number;
+      result = this.checks[index].number;
     },
     markText(e) {
       this.markContent = e.target.value;
@@ -462,12 +455,12 @@ export default {
       });
       const that = this;
       const params = {
-        result: this.result,
+        result: result,
         brand_id: this.data.brand_id,
         id: this.data.id,
-        add_status: this.result === 10 ? 1 : 0
+        add_status: result === 10 ? 1 : 0
       };
-      if (this.result === 10) {
+      if (result === 10) {
         params.need_image = this.markContent;
       } else {
         params.result_reason = this.markContent;

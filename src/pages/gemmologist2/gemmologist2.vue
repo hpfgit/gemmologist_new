@@ -235,11 +235,10 @@ export default {
             });
             newAppraise().then(result => {
                 const { data } = result.data;
-                const { all, dhf, djd, jdz } = data;
+                const { all, dhf, djd } = data;
                 this.all = all;
                 this.dhf = dhf;
                 this.djd = djd;
-                this.jdz = jdz;
                 uni.hideLoading();
                 uni.stopPullDownRefresh();
             });

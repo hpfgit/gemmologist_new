@@ -27,3 +27,11 @@ export function banzhuAppraise(params) {
     const {id} = params;
     return request('PUT', `/api/appraisal/post/${id}/banzhu-appraise`, params);
 }
+
+export function get_wx_code(params) {
+    return request('GET', '/api/appraisal/post/get_wx_code', params);
+}
+
+export function pay_appraisal_quicken(params) {
+    return request('POST', '/api/payment/pay-appraisal-quicken', params);
+}

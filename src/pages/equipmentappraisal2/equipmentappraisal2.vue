@@ -297,6 +297,7 @@ export default {
                     color: #000000;
                     position: relative;
                     z-index: 3;
+                    font-weight: bold;
                 }
 
                 &::after {
@@ -320,6 +321,8 @@ export default {
         align-items: center;
         padding-left: 40rpx;
         padding-right: 40rpx;
+        margin-top: 15rpx;
+        margin-bottom: 15rpx;
 
         .left {
             display: flex;
@@ -331,8 +334,8 @@ export default {
         }
 
         .cover_image {
-            width: 150rpx;
-            height: 150rpx;
+            width: 120rpx;
+            height: 120rpx;
         }
 
         .arrow {

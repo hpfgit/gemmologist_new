@@ -6,7 +6,8 @@ const NODE_ENV = process.env.NODE_ENV;
 function request(method = 'GET', url, params, isToken = true) {
     const apiUrl = getUrl(url);
     const headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Cache-Control': 'max-age=60'
     };
     let token = uni.getStorageSync('token');
     if (token) {

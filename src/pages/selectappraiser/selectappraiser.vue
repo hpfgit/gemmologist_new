@@ -25,6 +25,7 @@
                 </view>
             </view>
         </view>
+        <nodata v-if="!appraisers.length" />
         <view  class="btns">
             <view class="btn-box">
                 <!-- <view class="btn" :class="{active: checkedNumber === 1}"  @tap="goTo(1)">
@@ -34,9 +35,12 @@
                     </view>
                 </view> -->
                 <view class="btn" :class="{active: checkedNumber === 2}"  @tap="goTo(2)">
-                    <view class="inner">
+                    <view class="inner" v-show="checkedNumber < 2">
                         <view class="text">保价鉴定</view>
                         <view class="text2">请选择 {{checkedNumber}}/2 名鉴定师</view>
+                    </view>
+                    <view class="inner" v-show="checkedNumber === 2">
+                        <view class="text">下一步</view>
                     </view>
                 </view>
             </view>
@@ -46,6 +50,7 @@
 
 <script>
 import {appraiserList} from '../../api/selectappraiser';
+import nodata from '../../component/nodata/nodata.vue';
 import config from '../../config/index';
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -160,6 +165,9 @@ export default {
                 });
             // }
         }
+    },
+    components: {
+        nodata
     }
 }
 </script>
@@ -274,6 +282,7 @@ export default {
             align-items: center;
             justify-content: center;
             margin-bottom: 30rpx;
+            transition: all .5s;
             
             .inner {
                 text-align: center;
@@ -294,6 +303,8 @@ export default {
 
             &.active {
                 background-color: #7186f1;
+                height: 80rpx;
+                transition: all .5s;
                 .text,.text2 {
                     color: #ffffff;
                 }

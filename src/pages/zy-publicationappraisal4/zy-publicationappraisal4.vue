@@ -256,6 +256,7 @@ import {
 import { upload, init } from "../../utils/qiniuUploader";
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
+let pay_no = "";
 
 export default {
   data() {
@@ -417,7 +418,6 @@ export default {
       description: "",
       others: [],
       is_specialty: "",
-      brand_id: "",
       upload_token: "",
       uploadPicture: {},
       isPay: false,
@@ -479,15 +479,12 @@ export default {
         }
       ],
       userCash: "",
-      pay_no: "",
       isAgree: true,
       appraisals: [],
-      appraiser_id: "",
       bjPrice: 1000,
       type: "",
       falg: true,
-      id: "",
-      pay_no: ""
+      id: ""
     };
   },
   onLoad(options) {
@@ -496,9 +493,7 @@ export default {
       icon: "none"
     });
     const { brand_id, is_specialty, appraiser_id, type, id } = options;
-    this.brand_id = brand_id;
     this.is_specialty = is_specialty;
-    this.appraiser_id = appraiser_id;
     this.id = id;
     this.type = type;
     appraiserDetail({
@@ -528,7 +523,7 @@ export default {
       const { images, user_info, data } = result.data;
       this.price = user_info.price;
       let price = user_info.price;
-      this.pay_no = user_info.pay_no;
+      pay_no = user_info.pay_no;
       this.markText = data.description ? data.description : "";
       cost({ appr_cost: 5, appr_goods_scale: 0.03, price }).then(result => {
         const { cost } = result.data;
@@ -631,7 +626,7 @@ export default {
         });
         blpay({
           password,
-          pay_no: this.pay_no,
+          pay_no: pay_no,
           driver: "wallet",
           method: "miniapp"
         }).then(result => {
@@ -912,7 +907,7 @@ export default {
       if (this.falg) {
         this.falg = false;
         pay({
-          pay_no: this.pay_no,
+          pay_no: pay_no,
           method: "miniapp",
           driver: "wechat",
           openid: uni.getStorageSync("openid"),
@@ -945,7 +940,7 @@ export default {
                   mask: true
                 });
                 postPay({
-                  pay_no: that.pay_no
+                  pay_no: pay_no
                 }).then(result => {
                   console.log(result);
                   const { message, status } = result.data;

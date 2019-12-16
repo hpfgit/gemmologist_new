@@ -80,7 +80,7 @@
                     ></image>
                     <view class="cont"
                         ><image :src="qiniuUrl+'小logo@2x.png'"></image
-                        >鉴定合作鉴定师</view
+                        >BAN鉴定合作鉴定师</view
                     >
                 </view>
                 <view class="bottom" v-for="(item, index) in appraiser" :key="index">
@@ -89,22 +89,25 @@
                         <view class="right2">
                             <view class="nickname">{{ item.name }}</view>
                             <view class="right">
-                                <image
+                                <!-- <image
                                     class="level-img"
                                     :src="qiniuUrl+'矢量智能对象拷贝2@2x.png'"
-                                ></image>
+                                ></image> -->
+                                <image v-show="item.level === 4" class="level-img" :class="'cir-'+item.level" :src="qiniuUrl+'鉴定顾问icon@2x.png'"></image>
+                                <image v-show="item.level === 3" class="level-img" :class="'cir-'+item.level" :src="qiniuUrl+'高级鉴定师icon@2x.png'"></image>
+                                <image v-show="item.level === 2" class="level-img" :class="'cir-'+item.level" :src="qiniuUrl+'鉴定师icon@2x.png'"></image>
                                 <view class="level-name">{{ item.level_name }}</view>
                             </view>
                         </view>
                     </view>
                     <view class="right">
-                        <view class="text">{{ appraiser.result_reason }}</view>
+                        <view class="text">鉴定提示：{{ item.result_reason ? item.result_reason : '暂无留言' }}</view>
                     </view>
                 </view>
             </view>
             <view class="ewm">
                 <view class="left">
-                    <image src=data:image/png;base64,eyJlcnJjb2RlIjo0MTAzMCwiZXJybXNnIjoiaW52YWxpZCBwYWdlIGhpbnQ6IFtRdnRmMzAyMzMzMDY0XSJ9></image>
+                    <image :src="qr_code"></image>
                     <view class="desc">
                         <view>识别二维码或微信搜索小程序: BAN鉴定服务</view>
                         <view
@@ -138,11 +141,27 @@
             查询原帖
         </view>
         <view class="content">
-            <view class="title">
-                {{ data.brand_name }}
+            <view class="top">
+                <div class="left">
+                    <view class="title">
+                        {{ data.brand_name }}
+                    </view>
+                    <view class="beizhu">
+                        {{ data.description ? data.description : "暂无备注" }}
+                    </view>
+                </div>
+                <image v-if="data.is_quicken_pay === 0 && data.post_status === 10" @tap="accelerate" :src="qiniuUrl+'加速鉴定@2x.png'"></image>
+                <view class="accelerate_yes" v-if="data.is_quicken_pay === 1 && data.post_status !== 13">
+                    <image class="accelerate_icon" :src="qiniuUrl+'加速鉴定中@2x.png'"></image>
+                    <view class="accelerate_text">加速鉴定中</view>
+                </view>
             </view>
-            <view class="beizhu">
-                {{ data.description ? data.description : "暂无备注" }}
+            <view class="accelerate" v-show="is_accelerate">
+                <view class="title">加速鉴定</view>
+                <image class="close" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'" @tap="accelerate"></image>
+                <view class="text">加速鉴定需要额外收费3元</view>
+                <view class="text">同时您的鉴定工单将会在30分钟内受理</view>
+                <view class="btn" @tap="accelerate_yes">确认加速</view>
             </view>
             <view class="imgs">
                 <view
@@ -231,8 +250,7 @@
                 转交他人
             </view>
         </view>
-        <view class="mask" v-show="is_start"></view>
-        <view class="mask" v-show="isHandOver"></view>
+        <view class="mask" v-show="is_start || is_accelerate || isHandOver"></view>
         <view class="start-jd" v-show="is_start">
             <div class="title">开始鉴定</div>
             <view class="close" @tap="close">关闭</view>
@@ -316,9 +334,12 @@
 import {
     appraise,
     post,
-    changeAppraiser
+    changeAppraiser,
+    get_wx_code,
+    pay_appraisal_quicken
 } from "../../api/Identificationdetails";
 import { appraiserList } from "../../api/selectappraiser";
+import { pay } from '../../api/publicationappraisal';
 import { getCount } from "../../api";
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
@@ -327,6 +348,7 @@ export default {
     data() {
         return {
             qiniuUrl: config[NODE_ENV].qiniuUrl,
+            imgUrl: config[NODE_ENV].imgUrl,
             details: {},
             markContent: "",
             checks: [
@@ -377,18 +399,15 @@ export default {
             fail: '',
             id: '',
             is_appraiser: '',
-            order_show: false
+            order_show: false,
+            qr_code: '',
+            is_accelerate: false
         };
     },
     onLoad(options) {
         uni.showLoading({
             title: '加载中...',
             icon: 'none'
-        });
-        getCount().then(result => {
-            const { count, fail } = result.data;
-            this.count = count;
-            this.fail = fail.substring(0, fail.length - 1);
         });
         const { id, type, mold, isJD, is_appraiser } = options;
         this.is_appraiser = is_appraiser;
@@ -397,6 +416,18 @@ export default {
         this.isJD = isJD;
         this.id = id;
         this.result = 1;
+        get_wx_code({
+            id,type,is_appraiser
+        }).then(result => {
+            const {path} = result.data;
+            this.qr_code = this.imgUrl + '/' + path;
+            console.log(result);
+        });
+        getCount().then(result => {
+            const { count, fail } = result.data;
+            this.count = count;
+            this.fail = fail.substring(0, fail.length - 1);
+        });
         post({ id }).then(result => {
             const {
                 images,
@@ -482,6 +513,115 @@ export default {
         }
     },
     methods: {
+        accelerate() {
+            this.is_accelerate = !this.is_accelerate;
+        },
+        accelerate_yes() {
+            uni.showLoading({
+                title: '加载中...',
+                icon: 'none',
+                mask: true
+            });
+            pay_appraisal_quicken({
+                post_id: this.data.id,
+                amount: 3,
+                method: "miniapp",
+                driver: "wechat",
+                openid: uni.getStorageSync("openid"),
+                miniapp_name: "appraisal"
+            }).then(result => {
+                console.log(result);
+                const { status, message } = result.data;
+                this.is_accelerate = false;
+                if (status !== 200) {
+                    uni.showToast({
+                        title: message,
+                        icon: "none",
+                        mask: true
+                    });
+                    return;
+                }
+                const { pay_info } = result.data.data;
+                uni.requestPayment({
+                    timeStamp: pay_info.timeStamp,
+                    nonceStr: pay_info.nonceStr,
+                    package: pay_info.package,
+                    signType: pay_info.signType,
+                    paySign: pay_info.paySign,
+                    success(result) {
+                        console.log(result);
+                        if (result.errMsg == "requestPayment:ok") {
+                        uni.showLoading({
+                            title: "支付中...",
+                            icon: "none",
+                            mask: true,
+                            success() {
+                            uni.reLaunch({
+                                url: "/pages/index3/index3"
+                            });
+                            }
+                        });
+                        postPay({
+                            pay_no: that.user_info.pay_no,
+                            pay_type: 0
+                        }).then(result => {
+                            console.log(result);
+                            const { message, status } = result.data;
+                            uni.hideLoading();
+                            if (status === 201) {
+                                uni.showToast({
+                                    title: "支付成功",
+                                    icon: "none",
+                                    mask: true,
+                                    success() {
+                                    uni.reLaunch({
+                                        url: "/pages/index3/index3"
+                                    });
+                                    }
+                                });
+                                return;
+                            }
+                            uni.showToast({
+                            title: "支付失败",
+                            icon: "none",
+                            mask: true,
+                            success() {
+                                uni.reLaunch({
+                                url: "/pages/index3/index3"
+                                });
+                            }
+                            });
+                        });
+                        } else {
+                        uni.showLoading({
+                            title: "支付失败",
+                            icon: "none",
+                            mask: true,
+                            success() {
+                            uni.redirectTo({
+                                url: "/pages/index3/index3"
+                            });
+                            }
+                        });
+                        }
+                    },
+                    fail(e) {
+                        if (e.errMsg == "requestPayment:fail cancel") {
+                        uni.showToast({
+                            title: "支付失败",
+                            icon: "none",
+                            mask: true,
+                            success() {
+                            uni.redirectTo({
+                                url: "/pages/index3/index3"
+                            });
+                            }
+                        });
+                        }
+                    }
+                });
+            });
+        },
         copy() {
             uni.setClipboardData({
                 data: this.id,
@@ -841,6 +981,13 @@ export default {
             }
         }
 
+        .right {
+            display: flex;
+            align-items: center;
+            font-size: 24rpx;
+            color: #000;
+        }
+
         .right2 {
             .right {
                 display: flex;
@@ -1035,6 +1182,70 @@ export default {
             color: #4b525b;
             line-height: 36rpx;
         }
+    }
+}
+
+.accelerate {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    width: 750rpx;
+	height: 423rpx;
+	background-color: #ffffff;
+    border-radius: 40rpx 40rpx 0rpx 0rpx;
+    margin: auto;
+    overflow: hidden;
+
+    .title {
+        font-size: 32rpx;
+        text-align: center;
+        margin-top: 40rpx;
+        margin-bottom: 50rpx;
+    }
+
+    .close {
+        width: 24rpx;
+        height: 23rpx;
+        position: absolute;
+        right: 46rpx;
+        top: 46rpx;
+    }
+
+    .text {
+        font-size: 30rpx;
+        color: #000;
+        line-height: 44rpx;
+        text-align: center;
+    }
+
+    .btn {
+        width: 670rpx;
+        height: 86rpx;
+        line-height: 86rpx;
+        background-color: #7186f1;
+        border-radius: 16rpx;
+        margin: 70rpx auto 0;
+        text-align: center;
+        color: #fff;
+        font-size: 32rpx;
+    }
+
+}
+
+.accelerate_yes {
+    display: flex;
+    align-items: center;
+
+    image.accelerate_icon {
+        width: 68rpx !important;
+        height: 68rpx !important;
+        margin-right: 20rpx;
+    }
+
+    .accelerate_text {
+        color: #666;
     }
 }
 
@@ -1256,13 +1467,24 @@ export default {
     background-color: #ffffff;
     border-radius: 8rpx;
 
+    .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        image {
+            width: 187rpx;
+            height: 68rpx;
+        }
+    }
+
     .title {
         font-size: 40rpx;
     }
 
     .beizhu {
         font-size: 26rpx;
-        margin-top: 22rpx;
+        margin-top: 12rpx;
         margin-bottom: 36rpx;
         color: #898989;
     }

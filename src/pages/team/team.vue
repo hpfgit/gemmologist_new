@@ -2,7 +2,10 @@
     <view class="container">
         <view class="head">
             <view class="box">
-                <image class="bg-img" :src="qiniuUrl+'组14@2x.png'"></image>
+                <image class="bg-img" :src="qiniuUrl+'版主头像背景@2x.png'"></image>
+                <image class="left-img" :src="qiniuUrl+'版主左上@2x.png'"></image>
+                <image class="right-img" :src="qiniuUrl+'版主右上@2x.png'"></image>
+                <image class="ban" :src="qiniuUrl+'版主BAN@2x.png'"></image>
                 <image
                     class="head-img"
                     :src="banzhu.avatar"
@@ -13,14 +16,14 @@
                     <text>{{banzhu.level_name}}</text>
                 </view>
                 <view class="introduce">
-                    个人介绍：{{banzhu.bio}}
+                    <text class="bold-font">个人介绍：</text>{{banzhu.bio}}
                 </view>
                 <view class="requirement">
-                    <text class="text">鉴定要求：</text>
+                    <text class="text bold-font">鉴定要求：</text>
                     <text class="text2">{{banzhu.appr_ask ? banzhu.appr_ask : '无'}}</text>
                 </view>
                 <view class="range">
-                    <view class="text">鉴定范围：</view>
+                    <view class="text bold-font">鉴定范围：</view>
                     <view class="imgs">
                         <scroll-view scroll-x="true">
                             <image
@@ -41,8 +44,14 @@
                 v-for="(item, index) in appraisers"
                 :key="index"
             >
-                <image v-show="item.level === 4" class="bg-img" :src="qiniuUrl+'组142@2x.png'"></image>
-                <image v-show="item.level === 3" class="bg-img" :src="qiniuUrl+'组143@2x.png'"></image>
+                <image class="bg-img" v-if="item.level === 4" :src="qiniuUrl+'鉴定顾问头像bg@2x.png'"></image>
+                <image class="left-img" v-if="item.level === 4" :src="qiniuUrl+'鉴定顾问左上@2x.png'"></image>
+                <image class="right-img" v-if="item.level === 4" :src="qiniuUrl+'鉴定顾问右上@2x.png'"></image>
+                <image class="ban" v-if="item.level === 4" :src="qiniuUrl+'鉴定顾问BAN@2x.png'"></image>
+                <image class="bg-img" v-if="item.level === 3" :src="qiniuUrl+'高级鉴定师头像bg@2x.png'"></image>
+                <image class="left-img" v-if="item.level === 3" :src="qiniuUrl+'鉴定师左上@2x.png'"></image>
+                <image class="right-img" v-if="item.level === 3" :src="qiniuUrl+'鉴定师右上@2x.png'"></image>
+                <image class="ban" v-if="item.level === 3" :src="qiniuUrl+'鉴定师BAN@2x.png'"></image>
                 <image
                     class="head-img"
                     :src="item.avatar"
@@ -55,7 +64,7 @@
                     <text>{{item.level_name}}</text>
                 </view>
                 <view class="introduce">
-                    个人介绍：{{item.bio}}
+                    个人介绍：{{item.bio ? item.bio : '无'}}
                 </view>
                 <view class="requirement">
                     <text class="text">鉴定要求：</text>
@@ -169,19 +178,53 @@ export default {
 
 .box {
     position: relative;
-    border-radius: 16rpx;
     width: 690rpx;
-    height: 453rpx;
-    box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.04);
     margin: 0 auto;
+    background-image: linear-gradient(120deg, 
+		#666261 0%, 
+		#595654 50%, 
+		#4b4947 100%), 
+	linear-gradient(
+		#ffffff, 
+		#ffffff);
+	background-blend-mode: normal, 
+		normal;
+	border-radius: 16rpx;
+}
+
+.left-img,.right-img,.bg-img,.ban {
+    position: absolute;
 }
 
 .bg-img {
-    width: 690rpx;
-    height: 453rpx;
-    position: absolute;
+    width: 160rpx;
+    height: 59rpx;
+}
+
+.bg-img,.ban {
     left: 0;
+    right: 0;
     top: 0;
+    margin: 0 auto;
+}
+
+.left-img,.right-img {
+    top: 4rpx;
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.left-img {
+    left: 4rpx;
+}
+
+.right-img {
+    right: 4rpx;
+}
+
+.ban {
+    width: 313rpx;
+    height: 89rpx;
 }
 
 .head-img {
@@ -225,11 +268,11 @@ export default {
         font-size: 24rpx;
     }
 }
-.introduce {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+// .introduce {
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     white-space: nowrap;
+// }
 .box {
     .introduce {
         margin-top: 40rpx;
@@ -249,6 +292,10 @@ export default {
     }
 }
 
+.range {
+    padding-bottom: 36rpx;
+}
+
 .nickname,.introduce,.requirement,.range,.level-info {
     position: relative;
     z-index: 2;
@@ -260,6 +307,10 @@ export default {
     margin-bottom: 20rpx;
     margin-left: 38rpx;
     margin-right: 38rpx;
+
+    // .bold-font {
+    //     font-weight: bold;
+    // }
 
     .text,
     .text2 {
@@ -301,27 +352,38 @@ export default {
 .lists {
     .list {
         width: 690rpx;
-        height: 453rpx;
-        margin: 0 auto;
-        margin-bottom: 62rpx;
-        background-color: #ffffff;
-        background-size: cover;
-        box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.04);
+        margin: 22rpx auto 62rpx;
+        background-image: linear-gradient(120deg, 
+		#f3ebda 0%, 
+            #edddc6 50%, 
+            #e6ceb2 100%), 
+        linear-gradient(
+            #ffffff, 
+            #ffffff);
+        background-blend-mode: normal, 
+            normal;
         border-radius: 16rpx;
-        margin-top: 22rpx;
         position: relative;
 
         text,view {
             color: #252320;
         }
 
-        // &.level-2 {
-        //     background-image: url("../../static/images/组142@2x.png");
-        // }
+        &.level-2 {
+            background-color: #ffffff;
+            box-shadow: 0rpx 2rpx 24rpx 0rpx 
+                rgba(7, 24, 53, 0.12);
+            background-image: none;
+        }
 
-        // &.level-3 {
-        //     background-image: url("../../static/images/组143@2x.png");
-        // }
+        &.level-3 {
+            background-image: linear-gradient(120deg, 
+            #eaedef 0%, 
+                #d8d5d5 100%), 
+            linear-gradient(
+                #ffffff, 
+                #ffffff);
+        }
 
         // &:last-child {
         //     margin-bottom: 20rpx;
