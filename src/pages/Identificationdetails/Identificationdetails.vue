@@ -136,17 +136,17 @@
           >{{ item.text }}
         </view>
       </view>
-      <view class="mark" :class="{ bz_fw_mark: checks[3].checked }">
+      <view class="mark" :class="{ bz_fw_mark: checks[2].checked }">
         <view
           class="bz-fw"
-          v-show="checks[3].checked"
+          v-show="checks[2].checked"
           :class="{ active: bzFw }"
           @tap="bz_fw"
           >不在鉴定范围</view
         >
         <input
           type="text"
-          :class="{ bz_fw: checks[3].checked }"
+          :class="{ bz_fw: checks[2].checked }"
           :placeholder="markPlace"
           :value="markContent"
           @change="markText($event)"
@@ -205,11 +205,6 @@ export default {
           number: 1
         },
         {
-          text: "假",
-          checked: false,
-          number: 0
-        },
-        {
           text: "需要补图",
           checked: false,
           number: 10
@@ -218,6 +213,16 @@ export default {
           text: "无法鉴定",
           checked: false,
           number: 2
+        },
+        {
+          text: "建议退货",
+          checked: false,
+          number: 3
+        },
+        {
+          text: "假",
+          checked: false,
+          number: 0
         }
       ],
       images: [],

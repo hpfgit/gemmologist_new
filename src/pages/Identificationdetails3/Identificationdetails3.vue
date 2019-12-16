@@ -532,7 +532,8 @@ export default {
                 miniapp_name: "appraisal"
             }).then(result => {
                 console.log(result);
-                const { status, message } = result.data;
+                const { status, message, data } = result.data;
+                const pay_no = data.pay_no;
                 this.is_accelerate = false;
                 if (status !== 200) {
                     uni.showToast({
@@ -563,7 +564,7 @@ export default {
                             }
                         });
                         postPay({
-                            pay_no: that.user_info.pay_no,
+                            pay_no: pay_no,
                             pay_type: 0
                         }).then(result => {
                             console.log(result);
