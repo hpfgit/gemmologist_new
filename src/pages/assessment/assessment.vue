@@ -36,6 +36,34 @@
       <text class="icon">+</text>
       添加品牌
     </view>
+    <view class="mask" v-show="isShow"></view>
+    <view class="check-type" :class="{'active': isShow}">
+        <view class="title">选择鉴定品类</view>
+        <view class="close-box"
+            @tap="addBrand"
+        >
+            <image
+                :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"
+                class="close-img"
+            ></image>
+        </view>
+        <view class="classList">
+            <view class="list" @tap="goToPath(0)">
+                <image
+                    class="shoes-img"
+                    :src="qiniuUrl+'球鞋@2x.png'"
+                ></image>
+                <view class="text">球鞋</view>
+            </view>
+            <view class="list" @tap="goToPath(1)">
+                <image
+                    class="clothing-img"
+                    :src="qiniuUrl+'服饰@2x.png'"
+                ></image>
+                <view class="text">服饰</view>
+            </view>
+        </view>
+    </view>
   </view>
 </template>
 
@@ -49,7 +77,8 @@ export default {
     return {
       brand_list: [],
       imgPath: config[NODE_ENV].imgUrl,
-      qiniuUrl: config[NODE_ENV].qiniuUrl
+      qiniuUrl: config[NODE_ENV].qiniuUrl,
+      isShow: false
     };
   },
   onLoad() {
@@ -70,6 +99,24 @@ export default {
     });
   },
   methods: {
+    goToPath(index) {
+        const that = this;
+        if (index) {
+            uni.navigateTo({
+                url: '/pages/equipmentappraisal3/equipmentappraisal3?is_specialty='+this.is_specialty+'&type=clothing&title=球鞋',
+                success() {
+                    that.isShow = false;
+                }
+            });
+        } else {
+            uni.navigateTo({
+                url: '/pages/equipmentappraisal3/equipmentappraisal3?is_specialty='+this.is_specialty+'&type=shoes&title=服装',
+                success() {
+                    that.isShow = false;
+                }
+            });
+        }
+    },
     goTo(item) {
       if (item.level === 4) {
         uni.showToast({
@@ -99,15 +146,103 @@ export default {
       return level_obj[level];
     },
     addBrand() {
-      uni.navigateTo({
-        url: '/pages/equipmentappraisal3/equipmentappraisal3'
-      });
+      this.isShow = !this.isShow;
+      // uni.navigateTo({
+      //   url: '/pages/equipmentappraisal3/equipmentappraisal3'
+      // });
     }
   }
 };
 </script>
 
 <style lang="scss">
+.close-img, .close-box {
+    width: 24rpx;
+    height: 23rpx;
+    position: absolute;
+}
+
+.close-img {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.close-box {
+    top: 60rpx;
+    right: 50rpx;
+    width: 48rpx;
+    height: 48rpx;
+}
+.check-type {
+    position: fixed;
+    bottom: -454rpx;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    width: 750rpx;
+    height: 454rpx;
+    background-color: #ffffff;
+    border-radius: 40rpx 40rpx 0rpx 0rpx;
+    transition: all .3s;
+    overflow: hidden;
+
+    &.active {
+        bottom: 0;
+    }
+
+    .title {
+        text-align: center;
+        margin-top: 56rpx;
+        margin-bottom: 94rpx;
+    }
+
+    .classList {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 36rpx;
+        padding-right: 36rpx;
+    }
+
+    .list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 314rpx;
+        height: 160rpx;
+        border: solid 2rpx #ededed;
+        margin-bottom: 70rpx;
+
+        image {
+            margin-right: 36rpx;
+        }
+    }
+
+
+    .shoes-img {
+        width: 97rpx;
+        height: 50rpx;
+    }
+
+    .clothing-img {
+        width: 63rpx;
+        height: 74rpx;
+    }
+}
+
+.mask {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 998;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
 .container {
   .box-container {
     .box {

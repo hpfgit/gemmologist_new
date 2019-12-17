@@ -72,7 +72,7 @@
     </view>
     <view class="tip">
       微信小程序：BAN装备鉴定，输入
-      <text class="text">756324</text>
+      <text class="text">{{data.id}}</text>
       查询原帖
     </view>
     <view class="content">
@@ -83,7 +83,7 @@
         {{ data.description ? data.description : '暂无备注' }}
       </view>
       <view class="imgs">
-        <view class="img-box" v-for="(item, index) in images" :key="index" @tap="previewImage">
+        <view class="img-box" v-for="(item, index) in images" :key="index" @tap="previewImage(index)">
           <view class="img">
             <image :src="getPath(item.path, item.image)"></image>
             <view class="mark">
@@ -274,7 +274,7 @@ export default {
       previewImages = [];
       images.forEach(image => {
         if (image.path) {
-          previewImages.push(image.path);
+          previewImages.push(this.getPath(image.path));
         }
       });
       this.user_info = user_info;
@@ -354,6 +354,12 @@ export default {
     }
   },
   methods: {
+    previewImage(index) {
+          uni.previewImage({
+              current: index,
+              urls: previewImages
+          });
+      },
     goto(index) {
       if (index === 0) {
         uni.navigateTo({

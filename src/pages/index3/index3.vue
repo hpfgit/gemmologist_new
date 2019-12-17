@@ -340,6 +340,7 @@ export default {
             this.jdID = e.target.value;
         },
         searchTo() {
+            const that = this;
             if (!this.jdID || !/\d/.test(this.jdID)) {
                 uni.showToast({
                     title: '请输入鉴定贴id',
@@ -354,11 +355,11 @@ export default {
                 if (status === 404) {
                     this.is_bar_mask = true;
                 } else {
-                    this.jdID = '';
+                    let id = that.jdID;
+                    that.jdID = '';
                     uni.navigateTo({
                         url:
-                            "/pages/Identificationdetails3/Identificationdetails3?id=" +
-                            this.jdID
+                            "/pages/Identificationdetails3/Identificationdetails3?id=" + id
                     });
                 }
             });

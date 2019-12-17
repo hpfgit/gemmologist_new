@@ -77,11 +77,15 @@ export default {
     };
   },
   onLoad(options) {
-    uni.showLoading();
+    uni.showLoading({
+      title: '加载中...',
+      icon: 'none',
+      mask: true
+    });
     const { brand_id } = options;
     this.brand_id = brand_id;
     examine_history({ brand_id }).then(result => {
-      const { has_exam, data } = result.data;
+      const { has_exam, data } = result;
       if (has_exam) {
         const exam_id = data.id;
         this.exam_id = exam_id;

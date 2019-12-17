@@ -432,7 +432,7 @@ export default {
             this.count = count;
             this.fail = fail.substring(0, fail.length - 1);
         });
-        post({ id }).then(result => {
+        post({ id }).then(result2 => {
             const {
                 images,
                 user_info,
@@ -441,7 +441,8 @@ export default {
                 hint_bottom,
                 hint_top,
                 operation_name
-            } = result.data;
+            } = result2.data;
+            console.log(result2);
             if (work_order.length > 0) {
                 this.order_show = false;
             } else {
@@ -451,7 +452,7 @@ export default {
             previewImages = [];
             images.forEach(image => {
                 if (image.path) {
-                    previewImages.push(image.path);
+                    previewImages.push(this.getPath(image.path));
                 }
             });
             this.user_info = user_info;
@@ -621,14 +622,14 @@ export default {
                                 return;
                             }
                             uni.showToast({
-                            title: "支付失败",
-                            icon: "none",
-                            mask: true,
-                            success() {
-                                uni.redirectTo({
-                                url: "/pages/index3/index3"
-                                });
-                            }
+                                title: "支付失败",
+                                icon: "none",
+                                mask: true,
+                                success() {
+                                    uni.redirectTo({
+                                        url: "/pages/index3/index3"
+                                    });
+                                }
                             });
                         });
                         // } else {
@@ -646,16 +647,16 @@ export default {
                     },
                     fail(e) {
                         if (e.errMsg == "requestPayment:fail cancel") {
-                        uni.showToast({
-                            title: "支付失败",
-                            icon: "none",
-                            mask: true,
-                            success() {
-                            uni.redirectTo({
-                                url: "/pages/index3/index3"
+                            uni.showToast({
+                                title: "支付失败",
+                                icon: "none",
+                                mask: true,
+                                success() {
+                                    uni.redirectTo({
+                                        url: "/pages/index3/index3"
+                                    });
+                                }
                             });
-                            }
-                        });
                         }
                     }
                 });
