@@ -26,7 +26,7 @@
 			<view>3. 建议退货情况大致如下:</view>
 			<view>(1) 鞋盒不匹配</view>
 			<view>(2) 商品本身存在潜在问题</view>
-			<view>3. 对于鉴定结论有任何疑义可进行专业鉴定或者实物鉴定。</view>
+			<view>4. 对于鉴定结论有任何疑义可进行专业鉴定或者实物鉴定。</view>
 		</view>
 		<view class="regulations">
 			<view>四、用户的权利和责任</view>
