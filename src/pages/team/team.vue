@@ -128,7 +128,7 @@ export default {
                     let avatar = "";
                     if (/avatar_/gi.test(result.data[key].avatar)) {
                         avatar =
-                            "https://stg.tosneaker.com/" +
+                            "https://stg.tosneaker.com" +
                             result.data[key].avatar;
                     } else {
                         avatar = this.imgUrl + result.data[key].avatar;

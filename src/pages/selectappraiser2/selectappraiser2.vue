@@ -84,7 +84,7 @@ export default {
                 if (/[0-9]/ig.test(key)) {
                     let avatar = '';
                     if (/avatar_/ig.test(result.data[key].avatar)) {
-                        avatar = 'https://stg.tosneaker.com/' + result.data[key].avatar;
+                        avatar = 'https://stg.tosneaker.com' + result.data[key].avatar;
                     } else {
                         avatar = this.imgUrl + result.data[key].avatar;
                     }

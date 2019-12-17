@@ -275,6 +275,8 @@ export default {
       images.forEach(image => {
         if (image.path) {
           previewImages.push(this.getPath(image.path));
+        } else {
+          previewImages.push('http://static.tosneaker.com'+image.image);
         }
       });
       this.user_info = user_info;
@@ -285,7 +287,7 @@ export default {
       this.appraiser = appraiser;
       this.operation_name = operation_name;
       if (/avatar_/ig.test(user_info.avatar)) {
-        this.avatar = "https://stg.tosneaker.com/" + user_info.avatar;
+        this.avatar = "https://stg.tosneaker.com" + user_info.avatar;
       }
       this.JDstatus = data.result;
       appraiserList({
@@ -301,7 +303,7 @@ export default {
           if (/[0-9]/ig.test(key)) {
             let avatar = '';
             if (/avatar_/ig.test(result.data[key].avatar)) {
-              avatar = 'https://stg.tosneaker.com/' + result.data[key].avatar;
+              avatar = 'https://stg.tosneaker.com' + result.data[key].avatar;
             } else {
               avatar = config[NODE_ENV].imgUrl + result.data[key].avatar;
             }

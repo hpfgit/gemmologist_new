@@ -453,12 +453,14 @@ export default {
             images.forEach(image => {
                 if (image.path) {
                     previewImages.push(this.getPath(image.path));
+                } else {
+                    previewImages.push('http://static.tosneaker.com'+image.image);
                 }
             });
             this.user_info = user_info;
             work_order.forEach(item => {
                 if (/avatar_/ig.test(item.avatar)) {
-                    item.avatar = 'https://stg.tosneaker.com/' + item.avatar;
+                    item.avatar = 'https://stg.tosneaker.com' + item.avatar;
                 } else {
                     item.avatar = config[NODE_ENV].imgUrl + item.avatar;
                 }
@@ -468,13 +470,13 @@ export default {
             this.hint_bottom = hint_bottom;
             this.hint_top = hint_top;
             this.operation_name = operation_name;
-            this.avatar = "https://stg.tosneaker.com/" + user_info.avatar;
+            this.avatar = "https://stg.tosneaker.com" + user_info.avatar;
             const keys = Object.keys(data.appraiser);
             const arr = [];
             keys.forEach(key => {
                 if (/[0-9]/g.test(key)) {
                     if (/avatar_/ig.test(data.appraiser[key].avatar)) {
-                        data.appraiser[key].avatar = "https://stg.tosneaker.com/" + data.appraiser[key].avatar;
+                        data.appraiser[key].avatar = "https://stg.tosneaker.com" + data.appraiser[key].avatar;
                     } else {
                         data.appraiser[key].avatar = config[NODE_ENV].imgUrl + data.appraiser[key].avatar;
                     }
@@ -725,7 +727,7 @@ export default {
         },
         getPath(path, image) {
             if (path) {
-                return "http://static-stg.tosneaker.com/" + path;
+                return "http://static-stg.tosneaker.com" + path;
             } else {
                 return config[NODE_ENV].imgUrl + image;
             }

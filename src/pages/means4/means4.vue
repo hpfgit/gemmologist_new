@@ -147,7 +147,7 @@ export default {
         },
         getPath(path) {
             if (/avatar_/gi.test(path)) {
-                return "https://stg.tosneaker.com/" + path;
+                return "https://stg.tosneaker.com" + path;
             } else {
                 return config[NODE_ENV].imgUrl + path;
             }
