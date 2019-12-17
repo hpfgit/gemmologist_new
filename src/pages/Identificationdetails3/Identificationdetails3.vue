@@ -161,7 +161,7 @@
                 <image class="close" :src="qiniuUrl+'圆角矩形607拷贝@2x.png'" @tap="accelerate"></image>
                 <view class="text">加速鉴定需要额外收费3元</view>
                 <view class="text">同时您的鉴定工单将会在30分钟内受理</view>
-                <view class="btn" @tap="accelerate_yes">确认加速</view>
+                <view class="btn" @tap="accelerate_yes">￥3  确认支付</view>
             </view>
             <view class="imgs">
                 <view
@@ -558,7 +558,7 @@ export default {
                             icon: "none",
                             mask: true,
                             success() {
-                            uni.reLaunch({
+                            uni.redirectTo({
                                 url: "/pages/index3/index3"
                             });
                             }
@@ -576,7 +576,7 @@ export default {
                                     icon: "none",
                                     mask: true,
                                     success() {
-                                    uni.reLaunch({
+                                    uni.redirectTo({
                                         url: "/pages/index3/index3"
                                     });
                                     }
@@ -588,7 +588,7 @@ export default {
                             icon: "none",
                             mask: true,
                             success() {
-                                uni.reLaunch({
+                                uni.redirectTo({
                                 url: "/pages/index3/index3"
                                 });
                             }

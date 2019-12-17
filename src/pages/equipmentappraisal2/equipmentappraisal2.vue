@@ -321,8 +321,8 @@ export default {
         align-items: center;
         padding-left: 40rpx;
         padding-right: 40rpx;
-        margin-top: 15rpx;
-        margin-bottom: 15rpx;
+        margin-top: 33rpx;
+        margin-bottom: 35rpx;
 
         .left {
             display: flex;
@@ -331,11 +331,12 @@ export default {
 
         .name {
             margin-left: 40rpx;
+            font-size: 30rpx;
         }
 
         .cover_image {
-            width: 120rpx;
-            height: 120rpx;
+            width: 90rpx;
+            height: 90rpx;
         }
 
         .arrow {

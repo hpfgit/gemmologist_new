@@ -937,7 +937,7 @@ export default {
                                   icon: "none",
                                   mask: true,
                                   success() {
-                                    uni.reLaunch({
+                                    uni.redirectTo({
                                       url: "/pages/index3/index3"
                                     });
                                   }
@@ -949,7 +949,7 @@ export default {
                                 icon: "none",
                                 mask: true,
                                 success() {
-                                  uni.reLaunch({
+                                  uni.redirectTo({
                                     url: "/pages/index3/index3"
                                   });
                                 }
@@ -961,7 +961,7 @@ export default {
                             //   icon: "none",
                             //   mask: true,
                             //   success() {
-                            //     uni.reLaunch({
+                            //     uni.redirectTo({
                             //       url: "/pages/index3/index3"
                             //     });
                             //   }
@@ -975,7 +975,7 @@ export default {
                               icon: "none",
                               mask: true,
                               success() {
-                                uni.reLaunch({
+                                uni.redirectTo({
                                   url: "/pages/index3/index3"
                                 });
                               }
