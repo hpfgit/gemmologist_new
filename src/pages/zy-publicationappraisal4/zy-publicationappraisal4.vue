@@ -916,14 +916,14 @@ export default {
           console.log(result);
           this.falg = true;
           const { status, message } = result.data;
-          if (status !== 200) {
-            uni.showToast({
-              title: message,
-              icon: "none",
-              mask: true
-            });
-            return;
-          }
+          // if (status !== 200) {
+          //   uni.showToast({
+          //     title: message,
+          //     icon: "none",
+          //     mask: true
+          //   });
+          //   return;
+          // }
           const { pay_info } = result.data.data;
           uni.requestPayment({
             timeStamp: pay_info.timeStamp,
