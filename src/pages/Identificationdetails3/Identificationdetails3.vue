@@ -168,6 +168,7 @@
                     class="img-box"
                     v-for="(item, index) in images"
                     :key="index"
+                    @tap="previewImage(index)"
                 >
                     <view class="img">
                         <image :src="getPath(item.path, item.image)"></image>
@@ -345,6 +346,7 @@ import { pay, postPay } from '../../api/publicationappraisal';
 import { getCount } from "../../api";
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
+let previewImages = [];
 
 export default {
     data() {
@@ -446,6 +448,12 @@ export default {
                 this.order_show = true;
             }
             this.images = images;
+            previewImages = [];
+            images.forEach(image => {
+                if (image.path) {
+                    previewImages.push(image.path);
+                }
+            });
             this.user_info = user_info;
             work_order.forEach(item => {
                 if (/avatar_/ig.test(item.avatar)) {
@@ -515,6 +523,12 @@ export default {
         }
     },
     methods: {
+        previewImage(index) {
+            uni.previewImage({
+                current: index,
+                urls: previewImages
+            });
+        },
         accelerate() {
             this.is_accelerate = !this.is_accelerate;
         },
@@ -537,7 +551,7 @@ export default {
                 const { status, message, data } = result.data;
                 const pay_no = data.pay_no;
                 this.is_accelerate = false;
-                if (status === 'Get Wechat API Error:OK该订单已支付') {
+                if (message === 'Get Wechat API Error:OK该订单已支付') {
                     postPay({
                         pay_no: pay_no,
                         pay_type: 0

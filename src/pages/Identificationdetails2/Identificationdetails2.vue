@@ -83,7 +83,7 @@
         {{ data.description ? data.description : '暂无备注' }}
       </view>
       <view class="imgs">
-        <view class="img-box" v-for="(item, index) in images" :key="index">
+        <view class="img-box" v-for="(item, index) in images" :key="index" @tap="previewImage">
           <view class="img">
             <image :src="getPath(item.path, item.image)"></image>
             <view class="mark">
@@ -194,6 +194,7 @@ import {appraiserList} from '../../api/selectappraiser';
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
 let result = 1;
+let previewImages = [];
 
 export default {
   data() {
@@ -270,6 +271,12 @@ export default {
         operation_name
       } = result.data;
       this.images = images;
+      previewImages = [];
+      images.forEach(image => {
+        if (image.path) {
+          previewImages.push(image.path);
+        }
+      });
       this.user_info = user_info;
       this.work_order = work_order;
       this.data = data;

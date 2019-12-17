@@ -924,7 +924,7 @@ export default {
           //   });
           //   return;
           // }
-          if (status === 'Get Wechat API Error:OK该订单已支付') {
+          if (message === 'Get Wechat API Error:OK该订单已支付') {
             postPay({
               pay_no
             }).then(result => {
