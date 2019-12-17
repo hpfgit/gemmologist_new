@@ -72,7 +72,7 @@
     </view>
     <view class="tip">
       微信小程序：BAN装备鉴定，输入
-      <text class="text">756324</text>
+      <text class="text">{{data.id}}</text>
       查询原帖
     </view>
     <view class="content">
@@ -83,7 +83,7 @@
         {{ data.description ? data.description : '暂无备注' }}
       </view>
       <view class="imgs">
-        <view class="img-box" v-for="(item, index) in images" :key="index">
+        <view class="img-box" v-for="(item, index) in images" :key="index" @tap="previewImage(index)">
           <view class="img">
             <image :src="getPath(item.path, item.image)"></image>
             <view class="mark">
@@ -125,7 +125,9 @@
     <view class="mask" v-show="isHandOver"></view>
     <view class="start-jd" v-show="is_start">
       <div class="title">开始鉴定</div>
-      <view class="close" @tap="close">关闭</view>
+      <view class="close" @tap="close">
+        <image :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image>
+      </view>
       <view class="progress">
         <view
           v-for="(item, index) in checks"
@@ -191,7 +193,8 @@ import { appraise, post, changeAppraiser, banzhuAppraise } from "../../api/Ident
 import {appraiserList} from '../../api/selectappraiser';
 import config from "../../config";
 const NODE_ENV = process.env.NODE_ENV;
-let  result = 1;
+let result = 1;
+let previewImages = [];
 
 export default {
   data() {
@@ -250,6 +253,7 @@ export default {
     };
   },
   onLoad(options) {
+    result = 1;
     console.log(options);
     const {post_status, istype} = options;
     this.istype = istype;
@@ -275,6 +279,12 @@ export default {
         operation_name
       } = result.data;
       this.images = images;
+      previewImages = [];
+      images.forEach(image => {
+        if (image.path) {
+          previewImages.push(this.getPath( image.path ));
+        }
+      });
       this.user_info = user_info;
       this.work_order = work_order;
       this.data = data;
@@ -352,6 +362,12 @@ export default {
     }
   },
   methods: {
+    previewImage(index) {
+      uni.previewImage({
+        current: index,
+        urls: previewImages
+      });
+    },
     goto(index) {
       if (index === 0) {
         uni.navigateTo({
@@ -434,7 +450,7 @@ export default {
         check.checked = false;
       });
       this.markPlace = "可添加备注以便以后查看（仅鉴定师可见）";
-      if (index === 2) {
+      if (index === 1) {
         this.markPlace = "请输入补图位置";
       }
       this.checks[index].checked = true;
@@ -1009,9 +1025,14 @@ export default {
     height: 40rpx;
     border-radius: 40rpx;
     border: 1rpx solid #666;
-    font-size: 16rpx;
-    text-align: center;
-    line-height: 40rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    image {
+      width: 24rpx;
+      height: 23rpx;
+    }
   }
 
   .progress {

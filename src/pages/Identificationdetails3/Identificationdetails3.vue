@@ -253,7 +253,9 @@
         <view class="mask" v-show="is_start || is_accelerate || isHandOver"></view>
         <view class="start-jd" v-show="is_start">
             <div class="title">开始鉴定</div>
-            <view class="close" @tap="close">关闭</view>
+            <view class="close" @tap="close">
+                <image :src="qiniuUrl+'圆角矩形607拷贝@2x.png'"></image>
+            </view>
             <view class="progress">
                 <view
                     v-for="(item, index) in checks"
@@ -535,11 +537,37 @@ export default {
                 const { status, message, data } = result.data;
                 const pay_no = data.pay_no;
                 this.is_accelerate = false;
-                if (status !== 200) {
-                    uni.showToast({
-                        title: message,
+                if (status === 'Get Wechat API Error:OK该订单已支付') {
+                    postPay({
+                        pay_no: pay_no,
+                        pay_type: 0
+                    }).then(result => {
+                        console.log(result);
+                        const { message, status } = result.data;
+                        uni.hideLoading();
+                        if (status === 201) {
+                            uni.showToast({
+                                title: "支付成功",
+                                icon: "none",
+                                mask: true,
+                                success() {
+                                uni.redirectTo({
+                                    url: "/pages/index3/index3"
+                                });
+                                }
+                            });
+                            return;
+                        }
+                        uni.showToast({
+                        title: "支付失败",
                         icon: "none",
-                        mask: true
+                        mask: true,
+                        success() {
+                            uni.redirectTo({
+                            url: "/pages/index3/index3"
+                            });
+                        }
+                        });
                     });
                     return;
                 }
@@ -556,12 +584,7 @@ export default {
                         uni.showLoading({
                             title: "支付中...",
                             icon: "none",
-                            mask: true,
-                            success() {
-                            uni.redirectTo({
-                                url: "/pages/index3/index3"
-                            });
-                            }
+                            mask: true
                         });
                         postPay({
                             pay_no: pay_no,
@@ -697,7 +720,7 @@ export default {
                 check.checked = false;
             });
             this.markPlace = "可添加备注以便以后查看（仅鉴定师可见）";
-            if (index === 2) {
+            if (index === 1) {
                 this.markPlace = "请输入补图位置";
             }
             this.checks[index].checked = true;
@@ -1550,9 +1573,14 @@ export default {
         height: 40rpx;
         border-radius: 40rpx;
         border: 1rpx solid #666;
-        font-size: 16rpx;
-        text-align: center;
-        line-height: 40rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        image {
+        width: 24rpx;
+        height: 23rpx;
+        }
     }
 
     .progress {

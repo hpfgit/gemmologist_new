@@ -249,6 +249,7 @@ export default {
     };
   },
   onLoad(options) {
+    result = 1;
     uni.showLoading({
       title: '加载中...',
       icon: 'none',
@@ -449,6 +450,7 @@ export default {
     },
     submit() {
       console.log(result);
+      return;
       if (this.markContent === '') {
         uni.showToast({
           title: '请输入备注',
