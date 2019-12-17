@@ -924,6 +924,39 @@ export default {
           //   });
           //   return;
           // }
+          if (status === 20000) {
+            postPay({
+              pay_no
+            }).then(result => {
+              console.log(result);
+              const { message, status } = result.data;
+              uni.hideLoading();
+              if (status === 201) {
+                uni.showToast({
+                  title: "支付成功",
+                  icon: "none",
+                  mask: true,
+                  success() {
+                    uni.redirectTo({
+                      url: "/pages/index3/index3"
+                    });
+                  }
+                });
+                return;
+              }
+              uni.showToast({
+                title: "支付失败",
+                icon: "none",
+                mask: true,
+                success() {
+                  uni.redirectTo({
+                    url: "/pages/index3/index3"
+                  });
+                }
+              });
+            });
+            return;
+          }
           const { pay_info } = result.data.data;
           uni.requestPayment({
             timeStamp: pay_info.timeStamp,
