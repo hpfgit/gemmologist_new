@@ -448,6 +448,7 @@ export default {
       this.bzFw = !this.bzFw;
     },
     submit() {
+      console.log(result);
       if (this.markContent === '') {
         uni.showToast({
           title: '请输入备注',
