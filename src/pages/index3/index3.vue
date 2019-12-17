@@ -341,6 +341,7 @@ export default {
         },
         searchTo() {
             const that = this;
+            const id = that.jdID;
             if (!this.jdID || !/\d/.test(this.jdID)) {
                 uni.showToast({
                     title: '请输入鉴定贴id',
@@ -348,15 +349,14 @@ export default {
                 });
                 return;
             }
+            that.jdID = '';
             post({
-                id: this.jdID
+                id
             }).then(result => {
                 const {message, status} = result.data;
                 if (status === 404) {
                     this.is_bar_mask = true;
                 } else {
-                    let id = that.jdID;
-                    that.jdID = '';
                     uni.navigateTo({
                         url:
                             "/pages/Identificationdetails3/Identificationdetails3?id=" + id

@@ -198,6 +198,7 @@ export default {
                 title: '加载中...',
                 icon: 'none'
             });
+            console.log(this.images.length);
             if (this.images.length > 0) {
                 this.uploadImgQiniu(this.images).then(result => {
                     console.log(result);
@@ -230,33 +231,31 @@ export default {
                     });
                 });
             } else {
-                this.uploadImgQiniu(this.images).then(result => {
-                    workOrder({
-                        post_id: this.id,
-                        content: this.content,
-                        is_appraiser: this.is_appraiser
-                    }).then(result => {
-                        console.log(result);
-                        uni.hideLoading();
-                        const {message, status} = result.data;
-                        if (status === 403) {
-                            uni.showToast({
-                                title: message,
-                                icon: 'none'
-                            });
-                            return;
-                        } else {
-                            uni.showToast({
-                                title: message,
-                                icon: 'none',
-                                success() {
-                                    uni.navigateTo({
-                                        url: '/pages/index3/index3'
-                                    });
-                                }
-                            });
-                        }
-                    });
+                workOrder({
+                    post_id: this.id,
+                    content: this.content,
+                    is_appraiser: this.is_appraiser
+                }).then(result => {
+                    console.log(result);
+                    uni.hideLoading();
+                    const {message, status} = result.data;
+                    if (status === 403) {
+                        uni.showToast({
+                            title: message,
+                            icon: 'none'
+                        });
+                        return;
+                    } else {
+                        uni.showToast({
+                            title: message,
+                            icon: 'none',
+                            success() {
+                                uni.navigateTo({
+                                    url: '/pages/index3/index3'
+                                });
+                            }
+                        });
+                    }
                 });
             }
         }
