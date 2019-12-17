@@ -463,7 +463,6 @@ export default {
     },
     submit() {
       console.log(result);
-      return;
       if (this.markContent === '') {
         uni.showToast({
           title: '请输入备注',
