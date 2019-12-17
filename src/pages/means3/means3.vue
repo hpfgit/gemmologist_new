@@ -29,6 +29,8 @@
             class="yinz"
             :src="qiniuUrl+'无法鉴定拷贝@2x.png'"
           ></image>
+          <image v-show="item.final_result === 3" class="yinz" :src="qiniuUrl+'建议退货@2x.png'"></image>
+          <image v-show="item.is_quicken_pay === 1" class="yinz" :src="qiniuUrl+'#加速鉴定中@2x.png'"></image>
           <image class="left-image" :src="getPath(item.cover_image)"></image>
           <view class="item-right">
             <view class="top">
