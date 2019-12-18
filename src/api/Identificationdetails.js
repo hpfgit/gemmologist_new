@@ -35,3 +35,7 @@ export function get_wx_code(params) {
 export function pay_appraisal_quicken(params) {
     return request('POST', '/api/payment/pay-appraisal-quicken', params);
 }
+
+export function user_post_list(params) {
+    return request('GET', '/api/appraisal/post/user-post-list', params);
+}

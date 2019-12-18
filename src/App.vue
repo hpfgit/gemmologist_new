@@ -26,6 +26,7 @@ text {
 
 image {
   vertical-align: middle;
+  max-width: 100%;
 }
 
 .navigator-hover {

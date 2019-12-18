@@ -137,11 +137,14 @@
                 <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
                 <image v-show="item.final_result === 3" class="yinz" :src="qiniuUrl+'建议退货@2x.png'"></image>
                 <image v-show="item.is_quicken_pay === 1 && item.post_status !== 13" class="yinz jiasu" :src="qiniuUrl+'加速鉴定中@2x.png'"></image>
-                <image
-                    class="left-image"
-                    :src="getPath(item.cover_image)"
-                    @tap="goToDetail(item)"
-                ></image>
+                <view class="img-box">
+                    <image
+                        class="left-image"
+                        :src="getPath(item.cover_image)"
+                        mode="widthFix"
+                        @tap="goToDetail(item)"
+                    ></image>
+                </view>
                 <view
                     class="item-right"
                 >
@@ -228,7 +231,7 @@ export default {
             totalPage: ''
         };
     },
-    onLoad() {
+    onReady() {
         this.getData();
     },
     onPullDownRefresh() {
@@ -899,6 +902,9 @@ export default {
         margin: auto;
     }
 
+    .img-box {
+        overflow: hidden;
+    }
     .left-image {
         width: 144rpx;
 	    height: 144rpx;

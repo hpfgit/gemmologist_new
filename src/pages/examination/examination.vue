@@ -123,7 +123,11 @@ export default {
   },
   methods: {
     get_ids(brand_id) {
-      uni.showLoading();
+      uni.showLoading({
+        title: '加载中...',
+        icon: 'none',
+        mask: true
+      });
       getIds({ brand_id }).then(result => {
         const { id, status, message } = result.data;
         this.exam_id = id;
@@ -225,7 +229,11 @@ export default {
         result
       });
       if (this.currentIndex >= 10) {
-        uni.showLoading();
+        uni.showLoading({
+          title: '加载中...',
+          icon: 'none',
+          mask: true
+        });
         examine_save({ result: this.answers, exam_id: this.exam_id })
           .then(result => {
             this.answers = [];

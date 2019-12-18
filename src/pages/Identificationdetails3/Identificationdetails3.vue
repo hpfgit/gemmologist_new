@@ -47,15 +47,15 @@
                 </view>
                 <view class="bottom">
                     <view class="tab">
-                        <image :src="qiniuUrl + '/个人主页2@2x.png'"></image>
+                        <image :src="qiniuUrl + '/个人主页2@2x.png'" @tap="goto(0)"></image>
                         <text>查看主页</text>
                     </view>
                     <view class="tab">
-                        <image :src="qiniuUrl + '/记录@2x.png'"></image>
+                        <image :src="qiniuUrl + '/记录@2x.png'" @tap="goto(2)"></image>
                         <text>查看记录</text>
                     </view>
                     <view class="tab">
-                        <image :src="qiniuUrl + '/备注@2x.png'"></image>
+                        <image :src="qiniuUrl + '/备注@2x.png'" @tap="goto(2)"></image>
                         <text>备注标签</text>
                     </view>
                 </view>
@@ -171,10 +171,10 @@
                     @tap="previewImage(index)"
                 >
                     <view class="img">
-                        <image :src="getPath(item.path, item.image)"></image>
-                        <view class="mark">
-                            {{ item.name }}
-                        </view>
+                        <image :src="getPath(item.path, item.image)" mode="widthFix"></image>
+                    </view>
+                    <view class="mark">
+                        {{ item.name }}
                     </view>
                 </view>
             </view>
@@ -526,6 +526,21 @@ export default {
         }
     },
     methods: {
+        goto() {
+            if (index === 0) {
+                uni.navigateTo({
+                url: ''
+                });
+            } else if (index === 1) {
+                uni.navigateTo({
+                url: '/pages/means5/means5?user_id='+ this.user_info.user_id
+                });
+            } else if (index === 2) {
+                uni.navigateTo({
+                url: ''
+                });
+            }
+        },
         previewImage(index) {
             uni.previewImage({
                 current: index,
@@ -1011,6 +1026,10 @@ export default {
         padding-top: 46rpx;
         overflow: hidden;
 
+        &:nth-of-type(3) {
+            padding-top: 26rpx;
+        }
+
         .left {
             display: flex;
             align-items: center;
@@ -1091,6 +1110,7 @@ export default {
     image {
         width: 104rpx;
         height: 104rpx;
+        border-radius: 6rpx;
         margin: 5px;
         margin-right: 28rpx;
     }
@@ -1450,6 +1470,14 @@ export default {
     }
 }
 
+.desc {
+    view {
+        &:nth-of-type(2) {
+            margin-top: 5rpx;
+        }
+    }
+}
+
 .imgs {
     display: flex;
     flex-wrap: wrap;
@@ -1462,41 +1490,51 @@ export default {
         width: 314rpx;
         height: 314rpx;
         background-color: #ffffff;
-        border-radius: 16rpx;
         display: inline-block;
-        margin-bottom: 40rpx;
+        position: relative;
+        margin-bottom: 28rpx;
+        border-radius: 16rpx;
+        overflow: hidden;
+        border: dashed 2rpx #e5e5e6;
 
         .img {
             position: relative;
             width: 314rpx;
             height: 314rpx;
-            display: inline-block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
 
             image {
                 width: 314rpx;
-                height: 314rpx;
-                background-color: #f3f0ef;
-                border-radius: 8rpx;
-                position: absolute;
-                left: 0;
-                top: 0;
+                // height: 314rpx;
+                background-color: #ffffff;
+                border-radius: 16rpx;
+                // position: absolute;
+                // left: 0;
+                // top: 0;
             }
+        }
 
-            .mark {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                height: 60rpx;
-                line-height: 60rpx;
-                background-color: rgba($color: #000000, $alpha: 0.3);
-                z-index: 3;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #ffffff;
-                font-size: 26rpx;
-            }
+        .mark {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            height: 60rpx;
+            line-height: 60rpx;
+            background-color: rgba($color: #000000, $alpha: 0.3);
+            z-index: 3;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 26rpx;
+            border-bottom-right-radius: 16rpx;
+            border-bottom-left-radius: 16rpx;
         }
     }
 }

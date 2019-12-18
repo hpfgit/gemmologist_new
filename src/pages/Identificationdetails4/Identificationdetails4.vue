@@ -85,10 +85,10 @@
       <view class="imgs">
         <view class="img-box" v-for="(item, index) in images" :key="index" @tap="previewImage(index)">
           <view class="img">
-            <image :src="getPath(item.path, item.image)"></image>
-            <view class="mark">
-              {{ item.name }}
-            </view>
+            <image :src="getPath(item.path, item.image)" mode="widthFix"></image>
+          </view>
+          <view class="mark">
+            {{ item.name }}
           </view>
         </view>
       </view>
@@ -378,7 +378,7 @@ export default {
         });
       } else if (index === 1) {
         uni.navigateTo({
-          url: ''
+          url: '/pages/means5/means5?user_id='+ this.user_info.user_id
         });
       } else if (index === 2) {
         uni.navigateTo({
@@ -443,7 +443,7 @@ export default {
     },
     getPath(path, image) {
       if (path) {
-        return "http://static-stg.tosneaker.com/" + path;
+        return "http://static-stg.tosneaker.com" + path;
       } else {
         return config[NODE_ENV].imgUrl + image;
       }
@@ -917,39 +917,60 @@ export default {
     color: #ffffff;
     width: 25%;
     display: inline-block;
+    position: relative;
+    border-radius: 8rpx;
+    overflow: hidden;
+    margin-bottom: 28rpx;
 
     .img {
       position: relative;
-      height: 150rpx;
+      height: 154rpx;
       width: 150rpx;
-      display: inline-block;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      border: dashed 2rpx #e5e5e6;
+      border-radius: 8rpx;
+      overflow: hidden;
 
       image {
         width: 150rpx;
-        height: 150rpx;
-        background-color: #f3f0ef;
-        border-radius: 8rpx;
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-
-      .mark {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 40%;
-        background-color: rgba($color: #000000, $alpha: 0.5);
-        z-index: 3;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ffffff;
-        font-size: 22rpx;
+        // height: 150rpx;
+        background-color: #ffffff;
+        // position: absolute;
+        // left: 0;
+        // top: 0;
       }
     }
+    
+    .mark {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      height: 40%;
+      background-color: rgba($color: #000000, $alpha: 0.5);
+      z-index: 3;
+      width: 150rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 22rpx;
+      border-bottom-right-radius: 8rpx;
+      border-bottom-left-radius: 8rpx;
+    }
   }
+}
+
+.desc {
+    view {
+        &:nth-of-type(2) {
+            margin-top: 5rpx;
+        }
+    }
 }
 
 .content {

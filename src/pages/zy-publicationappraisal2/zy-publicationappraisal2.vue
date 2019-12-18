@@ -50,13 +50,15 @@
               v-for="(item, index) in images"
               :key="index"
             >
-              <view class="img">
-                <image :src="getPath(item.image)"></image>
-                <text v-show="item.isShow">{{
-                  item.name ? item.name : ""
-                }}</text>
-                <view class="mark2" v-show="item.isShow"></view>
+              <view class="inner">
+                <view class="img">
+                  <image :src="getPath(item.image)" mode="widthFix"></image>
+                </view>
               </view>
+              <text v-show="item.isShow">{{
+                item.name ? item.name : ""
+              }}</text>
+              <view class="mark2" v-show="item.isShow"></view>
             </view>
           </view>
           <view class="imgs" v-if="type === 'clothing'">
@@ -66,13 +68,15 @@
               v-for="(item, index) in clothingImages"
               :key="index"
             >
-              <view class="img">
-                <image :src="getPath(item.image)"></image>
-                <text v-show="item.isShow">{{
-                  item.name ? item.name : ""
-                }}</text>
-                <view class="mark2" v-show="item.isShow"></view>
+              <view class="inner">
+                <view class="img">
+                  <image :src="getPath(item.image)" mode="widthFix"></image>
+                </view>
               </view>
+              <text v-show="item.isShow">{{
+                item.name ? item.name : ""
+              }}</text>
+              <view class="mark2" v-show="item.isShow"></view>
             </view>
           </view>
         </view>
@@ -864,8 +868,8 @@ export default {
         images = this.images;
       }
       this.uploadImgQiniu(images).then(result => {
-        if (this.falg) {
-          this.falg = true;
+        // if (this.falg) {
+          // this.falg = true;
           placeOrder({
             description: this.description,
             images: result,
@@ -1050,7 +1054,7 @@ export default {
               });
               console.log(error);
             });
-        }
+        // }
       });
     },
     submission() {
@@ -1217,41 +1221,51 @@ export default {
       width: 25%;
       text-align: center;
       margin-bottom: 28rpx;
+      position: relative;
+    }
+
+    .inner {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .img {
       background-color: #ffffff;
       border-radius: 8rpx;
       border: dashed 2rpx #e5e5e6;
-      display: inline-block;
-      text-align: center;
       position: relative;
-      width: 150rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 150rpx;
+      overflow: hidden;
 
       image {
         width: 146rpx;
-        height: 146rpx;
+        // height: 146rpx;
       }
+    }
 
-      text {
-        width: 100%;
-        font-size: 22rpx;
-        position: absolute;
-        bottom: 20rpx;
-        left: 0;
-        z-index: 2;
-        color: #fff;
-      }
+    text {
+      width: 100%;
+      font-size: 22rpx;
+      position: absolute;
+      bottom: 20rpx;
+      left: 0;
+      z-index: 2;
+      color: #fff;
+    }
 
-      .mark2 {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 98%;
-        height: 40%;
-        background-color: rgba($color: #000000, $alpha: 0.4);
-        z-index: 1;
-      }
+    .mark2 {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 146rpx;
+      height: 40%;
+      background-color: rgba($color: #000000, $alpha: 0.4);
+      z-index: 1;
     }
   }
 }

@@ -305,6 +305,12 @@
                 "navigationBarTitleText": "提现明细",
                 "enablePullDownRefresh": true
             }
+        },
+        {
+            "path": "pages/means5/means5",
+            "style": {
+                "navigationBarTitleText": "我的记录"
+            }
         }
     ],
     "globalStyle": {

@@ -43,12 +43,12 @@
           <view class="imgs" v-if="type === 'shoes'">
             <view class="img-box" v-for="(item, index) in images" :key="index">
               <view class="img">
-                <image :src="getPath(item.image)"></image>
-                <text v-show="item.isShow">{{
-                  item.name ? item.name : ""
-                }}</text>
-                <view class="mark2" v-show="item.isShow"></view>
+                <image :src="getPath(item.image)" mode="widthFix"></image>
               </view>
+              <text v-show="item.isShow">{{
+                item.name ? item.name : ""
+              }}</text>
+              <view class="mark2" v-show="item.isShow"></view>
             </view>
           </view>
           <view class="imgs" v-if="type === 'clothing'">
@@ -58,12 +58,12 @@
               :key="index"
             >
               <view class="img">
-                <image :src="getPath(item.image)"></image>
-                <text v-show="item.isShow">{{
-                  item.name ? item.name : ""
-                }}</text>
-                <view class="mark2" v-show="item.isShow"></view>
+                <image :src="getPath(item.image)" mode="widthFix"></image>
               </view>
+              <text v-show="item.isShow">{{
+                item.name ? item.name : ""
+              }}</text>
+              <view class="mark2" v-show="item.isShow"></view>
             </view>
           </view>
         </view>
@@ -904,8 +904,8 @@ export default {
       } else {
         images = this.images;
       }
-      if (this.falg) {
-        this.falg = false;
+      // if (this.falg) {
+        // this.falg = false;
         pay({
           pay_no: pay_no,
           method: "miniapp",
@@ -1033,7 +1033,7 @@ export default {
             }
           });
         });
-      }
+      // }
     },
     submission() {
       if (!this.isAgree) {
@@ -1199,41 +1199,48 @@ export default {
       width: 25%;
       text-align: center;
       margin-bottom: 28rpx;
+      position: relative;
     }
 
     .img {
       background-color: #ffffff;
       border-radius: 8rpx;
       border: dashed 2rpx #e5e5e6;
-      display: inline-block;
-      text-align: center;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 150rpx;
+      height: 154rpx;
+      margin: 0 auto;
+      overflow: hidden;
 
       image {
         width: 146rpx;
-        height: 146rpx;
+        // height: 146rpx;
       }
+    }
 
-      text {
-        width: 100%;
-        font-size: 22rpx;
-        position: absolute;
-        bottom: 20rpx;
-        left: 0;
-        z-index: 2;
-        color: #fff;
-      }
+    text {
+      width: 100%;
+      font-size: 22rpx;
+      position: absolute;
+      bottom: 20rpx;
+      left: 0;
+      z-index: 2;
+      color: #fff;
+    }
 
-      .mark2 {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 98%;
-        height: 40%;
-        background-color: rgba($color: #000000, $alpha: 0.4);
-        z-index: 1;
-      }
+    .mark2 {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0 auto;
+      width: 150rpx;
+      height: 40%;
+      background-color: rgba($color: #000000, $alpha: 0.4);
+      z-index: 1;
     }
   }
 }
