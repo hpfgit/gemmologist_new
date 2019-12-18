@@ -1239,6 +1239,8 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 146rpx;
+      margin: 0 auto;
       height: 150rpx;
       overflow: hidden;
 
@@ -1254,6 +1256,8 @@ export default {
       position: absolute;
       bottom: 20rpx;
       left: 0;
+      right: 0;
+      margin: 0 auto;
       z-index: 2;
       color: #fff;
     }
@@ -1262,6 +1266,8 @@ export default {
       position: absolute;
       left: 0;
       bottom: 0;
+      right: 0;
+      margin: 0 auto;
       width: 146rpx;
       height: 40%;
       background-color: rgba($color: #000000, $alpha: 0.4);

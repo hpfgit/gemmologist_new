@@ -1125,10 +1125,10 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 146rpx;
       height: 150rpx;
       overflow: hidden;
       
-
       image {
         width: 146rpx;
         // height: 146rpx;
@@ -1148,7 +1148,9 @@ export default {
     .mark2 {
       position: absolute;
       left: 0;
+      right: 0;
       bottom: 0;
+      margin: 0 auto;
       width: 146rpx;
       height: 40%;
       background-color: rgba($color: #000000, $alpha: 0.4);

@@ -1210,8 +1210,8 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 150rpx;
-      height: 154rpx;
+      width: 146rpx;
+      height: 150rpx;
       margin: 0 auto;
       overflow: hidden;
 
@@ -1237,7 +1237,7 @@ export default {
       right: 0;
       bottom: 0;
       margin: 0 auto;
-      width: 150rpx;
+      width: 146rpx;
       height: 40%;
       background-color: rgba($color: #000000, $alpha: 0.4);
       z-index: 1;
