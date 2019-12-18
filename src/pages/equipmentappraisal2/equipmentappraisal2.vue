@@ -104,7 +104,7 @@ export default {
             uni.hideLoading();
             console.log(result);
         });
-        clothing({ page: 1, type: 1, limit: 1000 }).then(result => {
+        clothing({ page: 1, type: 1, limit: 1000, is_sport: 1 }).then(result => {
             const { data } = result.data;
             this.clothing = data;
             uni.hideLoading();
@@ -128,7 +128,7 @@ export default {
                     }
                 );
             } else {
-                clothing({ page: 1, type: 1, limit: 1000 }).then(result => {
+                clothing({ page: 1, type: 1, limit: 1000, is_sport: 1 }).then(result => {
                     const { data } = result.data;
                     this.clothing = data;
                     uni.hideLoading();
@@ -272,6 +272,7 @@ export default {
         box-shadow: 0rpx 0rpx 20rpx 0rpx rgba(0, 0, 0, 0.04);
         border-radius: 16rpx 16rpx 0rpx 0rpx;
         height: 100%;
+        overflow: hidden;
     }
 
     .tabs {

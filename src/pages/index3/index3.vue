@@ -17,7 +17,7 @@
         </view>
         <view class="infos" @tap="goTeam">
             <view class="left">
-                <image :src="qiniuUrl+'鉴定2@2x.png'"></image>
+                <image :src="qiniuUrl+'首页logo@2x.png'"></image>
                 <view class="user-info">
                     <view class="username">BAN鉴定服务</view>
                     <view class="userinfo">只为提供最公正的鉴定结果</view>

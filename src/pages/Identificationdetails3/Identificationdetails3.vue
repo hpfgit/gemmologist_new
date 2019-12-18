@@ -79,7 +79,7 @@
                         :src="qiniuUrl+'无法鉴定拷贝@2x.png'"
                     ></image>
                     <view class="cont"
-                        ><image :src="qiniuUrl+'小logo@2x.png'"></image
+                        ><image :src="qiniuUrl+'鉴定贴详情底部BANlogo@2x.png'"></image
                         >BAN鉴定合作鉴定师</view
                     >
                 </view>
@@ -221,9 +221,9 @@
             </view>
         </view>
         <view class="fixed-bottom">
-            <image :src="qiniuUrl+'鉴定2@2x.png'"></image>
-            <view class="text">BAN永远不会涉及销售</view>
-            <view class="text2">只为提供最公正的鉴定结果</view>
+            <image :src="qiniuUrl+'底部logo说明@2x.png'"></image>
+            <!-- <view class="text">BAN永远不会涉及销售</view>
+            <view class="text2">只为提供最公正的鉴定结果</view> -->
             <view class="text3">
                 <view class="left">
                     <view class="cir"></view>已鉴定{{count}}次
@@ -1133,16 +1133,18 @@ export default {
 }
 
 .fixed-bottom {
-    background-image: url("../../static/images/BAN@2x.png");
-    background-size: cover;
     text-align: center;
     overflow: hidden;
+    width: 750rpx;
+    height: 410rpx;
+    position: relative;
 
     image {
-        width: 90rpx;
-        height: 90rpx;
-        margin-top: 72rpx;
-        margin-bottom: 28rpx;
+        width: 750rpx;
+        height: 410rpx;
+        position: absolute;
+        left: 0;
+        top: 0;
     }
 
     .text {
@@ -1159,10 +1161,12 @@ export default {
 
     .text3 {
         display: flex;
-        justify-content: space-between;
-        width: 460rpx;
-        margin: 40rpx auto 60rpx;
-        text-align: center;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        bottom: 58rpx;
+        left: 0;
+        right: 0;
 
         .cir {
             width: 10rpx;
@@ -1170,6 +1174,9 @@ export default {
             background-color: #cdcdcd;
             border-radius: 3rpx;
             margin-right: 12rpx;
+        }
+        .right {
+            margin-left: 24rpx;
         }
         .right,
         .left {
