@@ -12,6 +12,8 @@
                     <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
                     <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
                     <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
+                    <image v-show="item.final_result === 3" class="yinz" :src="qiniuUrl+'建议退货@2x.png'"></image>
+                    <image v-show="item.is_quicken_pay === 1 && item.post_status !== 13" class="yinz jiasu" :src="qiniuUrl+'加速鉴定中@2x.png'"></image>
                     <image
                         class="left-image"
                         :src="getPath(item.cover_image)"
@@ -56,6 +58,7 @@ export default {
     },
     onLoad(options) {
         const { type } = options;
+        totalPage = 0;
         this.type = type;
         this.getData();
     },
@@ -70,6 +73,10 @@ export default {
         scrolltolower() {
             this.page ++;
             if (this.page > totalPage) {
+                uni.showToast({
+                    title: '已经加载全部数据',
+                    icon: 'none'
+                });
                 return;
             }
             this.getData();
@@ -83,7 +90,7 @@ export default {
                 type: this.type,
                 page: this.page
             }).then(result => {
-                const { data,count } = result.data;
+                const { data, count } = result.data;
                 if (this.page > 1) {
                     data.forEach(element => {
                         this.lists.push(element);
@@ -105,7 +112,7 @@ export default {
                         "&type=" +
                         this.type +
                         "&mold=" +
-                        this.mold +
+                        item.is_specialty +
                         "&isJD=true" +
                         "&post_status=" +
                         item.post_status
@@ -133,6 +140,10 @@ export default {
 </script>
 
 <style lang="scss">
+.scroll-view {
+    height: 100vh;
+    overflow: hidden;
+}
 .hide {
     display: none;
 }
@@ -162,6 +173,12 @@ export default {
             margin: auto;
             width: 193rpx;
             height: 137rpx;
+
+            &.jiasu {
+                width: 68rpx;
+                height: 68rpx;
+                right: 40rpx;
+            }
         }
     }
 
@@ -236,25 +253,6 @@ export default {
 
             .zy {
                 color: #5e95f4;
-            }
-        }
-    }
-}
-.no-data {
-    overflow: hidden;
-    view {
-        text-align: center;
-        &:nth-of-type(1) {
-            margin-top: 200rpx;
-            image {
-                width: 300rpx;
-                height: 298rpx;
-            }
-        }
-        &:nth-of-type(2) {
-            image {
-                width: 192rpx;
-                height: 34rpx;
             }
         }
     }

@@ -103,7 +103,7 @@
       <view class="text">鉴定结论得出后30天内可提交工单</view>
       <view class="text">超出时间后无法创建</view>
     </view>
-    <view class="btns">
+    <view class="btns" :class="{'hide': is_faultrecord === '1'}">
       <view
         class="button"
         v-show="!is_start"
@@ -249,13 +249,15 @@ export default {
       isHandOver: false,
       is_appraisal_admin: '',
       post_status: '',
-      istype: ''
+      istype: '',
+      is_faultrecord: ''
     };
   },
   onLoad(options) {
     result = 1;
-    console.log(options);
-    const {post_status, istype} = options;
+    console.log(options.is_faultrecord === '1');
+    const {post_status, istype, is_faultrecord} = options;
+    this.is_faultrecord = is_faultrecord;
     this.istype = istype;
     this.post_status = post_status;
     uni.showLoading({
@@ -264,7 +266,6 @@ export default {
     });
     const { id, type, mold, isJD, is_appraisal_admin } = options;
     this.is_appraisal_admin = is_appraisal_admin;
-    console.log(type);
     this.type = type;
     this.mold = mold;
     this.isJD = isJD;
@@ -295,7 +296,7 @@ export default {
       this.appraiser = appraiser;
       this.operation_name = operation_name;
       if (/avatar_/ig.test(user_info.avatar)) {
-        this.avatar = "https://stg.tosneaker.com" + user_info.avatar;
+        this.avatar = config[NODE_ENV].imgUrl + user_info.avatar;
       }
       this.JDstatus = data.result;
       appraiserList({
@@ -311,7 +312,7 @@ export default {
           if (/[0-9]/ig.test(key)) {
             let avatar = '';
             if (/avatar_/ig.test(result.data[key].avatar)) {
-              avatar = 'https://stg.tosneaker.com' + result.data[key].avatar;
+              avatar = config[NODE_ENV].imgUrl + result.data[key].avatar;
             } else {
               avatar = config[NODE_ENV].imgUrl + result.data[key].avatar;
             }
@@ -564,6 +565,10 @@ export default {
 <style lang="scss">
 .container {
   background-color: #fff;
+}
+
+.hide {
+  display: none !important;
 }
 
 .handover {

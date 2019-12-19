@@ -84,7 +84,7 @@ export default {
                 if (/[0-9]/ig.test(key)) {
                     let avatar = '';
                     if (/avatar_/ig.test(result.data[key].avatar)) {
-                        avatar = 'https://stg.tosneaker.com' + result.data[key].avatar;
+                        avatar = config[NODE_ENV].imgUrl + result.data[key].avatar;
                     } else {
                         avatar = this.imgUrl + result.data[key].avatar;
                     }
@@ -95,15 +95,20 @@ export default {
                         bio: result.data[key].bio,
                         avatar: avatar,
                         apprs: result.data[key].data,
-                        id: result.data[key].user_id
+                        id: result.data[key].user_id,
+                        level: result.data[key].level
                     });
                 }
             });
-            arr.forEach((item, index) => {
+            const sortArr = arr.sort((a, b) => {
+                console.log(a,b);
+                return b.level - a.level;
+            });
+            sortArr.forEach((item, index) => {
                 item.checked = false;
                 item.index = index;
             });
-            this.appraisers = arr;
+            this.appraisers = sortArr;
             uni.hideLoading();
         });
     },

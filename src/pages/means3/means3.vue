@@ -298,23 +298,4 @@ export default {
     }
   }
 }
-.no-data {
-  overflow: hidden;
-  view {
-    text-align: center;
-    &:nth-of-type(1) {
-      margin-top: 200rpx;
-      image {
-        width: 300rpx;
-        height: 298rpx;
-      }
-    }
-    &:nth-of-type(2) {
-      image {
-        width: 192rpx;
-        height: 34rpx;
-      }
-    }
-  }
-}
 </style>

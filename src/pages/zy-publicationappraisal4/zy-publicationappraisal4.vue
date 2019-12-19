@@ -525,7 +525,13 @@ export default {
       let price = user_info.price;
       pay_no = user_info.pay_no;
       this.markText = data.description ? data.description : "";
-      cost({ appr_cost: 5, appr_goods_scale: 0.03, price }).then(result => {
+	  let appr_cost = '';
+	  if (type === 'clothing') {
+		  appr_cost = 8;
+	  } else {
+		  appr_cost = 5;
+	  }
+      cost({ appr_cost, appr_goods_scale: 0.03, price }).then(result => {
         const { cost } = result.data;
         this.cost = cost;
         uni.hideLoading();

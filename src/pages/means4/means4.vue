@@ -147,7 +147,7 @@ export default {
         },
         getPath(path) {
             if (/avatar_/gi.test(path)) {
-                return "https://stg.tosneaker.com" + path;
+                return config[NODE_ENV].imgUrl + path;
             } else {
                 return config[NODE_ENV].imgUrl + path;
             }
@@ -299,25 +299,6 @@ export default {
 
             .zy {
                 color: #5e95f4;
-            }
-        }
-    }
-}
-.no-data {
-    overflow: hidden;
-    view {
-        text-align: center;
-        &:nth-of-type(1) {
-            margin-top: 200rpx;
-            image {
-                width: 300rpx;
-                height: 298rpx;
-            }
-        }
-        &:nth-of-type(2) {
-            image {
-                width: 192rpx;
-                height: 34rpx;
             }
         }
     }

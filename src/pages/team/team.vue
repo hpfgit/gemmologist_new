@@ -28,7 +28,7 @@
                         <scroll-view scroll-x="true">
                             <image
                                 class="img"
-                                v-for="(item, index) in banzhu.data"
+                                v-for="(item, index) in banzhu.imgs"
                                 :key="index"
                                 :src="path(item.cover_image)"
                             ></image>
@@ -43,6 +43,7 @@
                 :class="'level-' + item.level"
                 v-for="(item, index) in appraisers"
                 :key="index"
+                v-show="item.level !== 5"
             >
                 <image class="bg-img" v-if="item.level === 4" :src="qiniuUrl+'鉴定顾问头像bg@2x.png'"></image>
                 <image class="left-img" v-if="item.level === 4" :src="qiniuUrl+'鉴定顾问左上@2x.png'"></image>
@@ -120,15 +121,13 @@ export default {
             this.cover_image = cover_image;
             this.info = info;
             const arr = [];
-            const keys = Object.keys(result.data);
-            result.data.banzhu.avatar = "https://stg.tosneaker.com" + result.data.banzhu.avatar;
-            this.banzhu = result.data.banzhu;
+            const keys = Object.keys(result.data);            
             keys.forEach(key => {
                 if (/[0-9]/gi.test(key)) {
                     let avatar = "";
                     if (/avatar_/gi.test(result.data[key].avatar)) {
                         avatar =
-                            "https://stg.tosneaker.com" +
+                            config[NODE_ENV].imgUrl +
                             result.data[key].avatar;
                     } else {
                         avatar = this.imgUrl + result.data[key].avatar;
@@ -154,7 +153,12 @@ export default {
             sortArr.forEach((item, index) => {
                 item.checked = false;
                 item.index = index;
+                if (item.level > 4) {
+                    item.avatar = config[NODE_ENV].imgUrl + item.avatar;
+                    this.banzhu = item;
+                }
             });
+            console.log(this.banzhu);
             this.appraisers = sortArr;
         });
     },

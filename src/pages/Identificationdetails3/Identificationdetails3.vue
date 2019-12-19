@@ -454,13 +454,13 @@ export default {
                 if (image.path) {
                     previewImages.push(this.getPath(image.path));
                 } else {
-                    previewImages.push('http://static.tosneaker.com'+image.image);
+                    previewImages.push(config[NODE_ENV].imgUrl+image.image);
                 }
             });
             this.user_info = user_info;
             work_order.forEach(item => {
                 if (/avatar_/ig.test(item.avatar)) {
-                    item.avatar = 'https://stg.tosneaker.com' + item.avatar;
+                    item.avatar = config[NODE_ENV].imgUrl + item.avatar;
                 } else {
                     item.avatar = config[NODE_ENV].imgUrl + item.avatar;
                 }
@@ -470,13 +470,13 @@ export default {
             this.hint_bottom = hint_bottom;
             this.hint_top = hint_top;
             this.operation_name = operation_name;
-            this.avatar = "https://stg.tosneaker.com" + user_info.avatar;
+            this.avatar = config[NODE_ENV].imgUrl + user_info.avatar;
             const keys = Object.keys(data.appraiser);
             const arr = [];
             keys.forEach(key => {
                 if (/[0-9]/g.test(key)) {
                     if (/avatar_/ig.test(data.appraiser[key].avatar)) {
-                        data.appraiser[key].avatar = "https://stg.tosneaker.com" + data.appraiser[key].avatar;
+                        data.appraiser[key].avatar = config[NODE_ENV].imgUrl + data.appraiser[key].avatar;
                     } else {
                         data.appraiser[key].avatar = config[NODE_ENV].imgUrl + data.appraiser[key].avatar;
                     }

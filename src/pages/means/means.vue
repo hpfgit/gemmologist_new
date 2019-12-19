@@ -5,7 +5,7 @@
         class="item"
         v-for="(item, index) in lists"
         :key="index"
-        @tap="gotoDetails(item.id)"
+        @tap="gotoDetails(item)"
       >
         <image class="left-image" :src="getPath(item.cover_image)"></image>
         <view class="item-right">
@@ -62,9 +62,9 @@ export default {
     getPath(path) {
       return this.imgPath + path;
     },
-    gotoDetails(id) {
+    gotoDetails(item) {
       uni.navigateTo({
-        url: "../Identificationdetails/Identificationdetails?id=" + id
+        url: "../Identificationdetails/Identificationdetails?id=" + item.id + '&is_specialty=' + item.is_specialty
       });
     }
   },
@@ -173,25 +173,6 @@ export default {
       }
       .zy {
         color: #5e95f4;
-      }
-    }
-  }
-}
-.no-data {
-  overflow: hidden;
-  view {
-    text-align: center;
-    &:nth-of-type(1) {
-      margin-top: 200rpx;
-      image {
-        width: 300rpx;
-        height: 298rpx;
-      }
-    }
-    &:nth-of-type(2) {
-      image {
-        width: 192rpx;
-        height: 34rpx;
       }
     }
   }

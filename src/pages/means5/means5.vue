@@ -1,88 +1,93 @@
 <template>
     <view class="container">
-        <view class="lists" v-if="lists.length">
-            <view class="item" v-for="(item, index) in lists" :key="index">
-                <!-- <image
-                    v-if="item.is_specialty"
-                    class="specialty-img"
-                    :src="qiniuUrl+'费用信息@2x.png'"
-                    @tap="priceDetails(index)"
-                ></image> -->
-                <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
-                <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
-                <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
-                <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
-                <image v-show="item.final_result === 3" class="yinz" :src="qiniuUrl+'建议退货@2x.png'"></image>
-                <image v-show="item.is_quicken_pay === 1 && item.post_status !== 13" class="yinz jiasu" :src="qiniuUrl+'加速鉴定中@2x.png'"></image>
-                <image
-                    class="left-image"
-                    :src="getPath(item.cover_image)"
-                    @tap="goToDetail(item)"
-                ></image>
-                <view
-                    class="item-right"
-                >
-                    <view class="top" @tap="goToDetail(item)">
-                        <text>{{ item.brand_name }}</text>
-                    </view>
-                    <view class="center" @tap="goToDetail(item)">
-                        <view class="jds" :class="{wait: item.post_status === 10}">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
-                        <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14}">{{ item.publish_at }}</view>
-                        <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status !== 11 || item.post_status !== 14}">{{item.status}}</view>
-                    </view>
-                    <view class="zhifu" v-show="!item.is_show" @tap="goToPay(item)">立即支付</view>
-                </view>
-            </view>
-            <!-- 费用详情 -->
-            <view class="price-detail" v-show="isCost">
-                <view class="title">费用详情</view>
-                <view class="price-box">
+        <scroll-view scroll-y="true" class="scroll-view" @scrolltolower="scrolltolower">
+            <view class="lists" v-if="lists.length">
+                <view class="item" v-for="(item, index) in lists" :key="index">
+                    <!-- <image
+                        v-if="item.is_specialty"
+                        class="specialty-img"
+                        :src="qiniuUrl+'费用信息@2x.png'"
+                        @tap="priceDetails(index)"
+                    ></image> -->
+                    <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
+                    <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
+                    <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
+                    <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
+                    <image v-show="item.final_result === 3" class="yinz" :src="qiniuUrl+'建议退货@2x.png'"></image>
+                    <image v-show="item.is_quicken_pay === 1 && item.post_status !== 13" class="yinz jiasu" :src="qiniuUrl+'加速鉴定中@2x.png'"></image>
                     <image
-                        class="close-img"
-                        @tap="closeDetails"
-                        :src="qiniuUrl+'关闭@2x.png'"
+                        class="left-image"
+                        :src="getPath(item.cover_image)"
+                        @tap="goToDetail(item)"
                     ></image>
-                    <view class="price">
-                        <image
-                            :src="qiniuUrl+'01@2x.png'"
-                        ></image>
-                        <view class="img-number-container">
-                            <view class="number">{{
-                                details.appraisal_cost
-                            }}</view>
-                            <view class="yuan">元</view>
+                    <view
+                        class="item-right"
+                    >
+                        <view class="top" @tap="goToDetail(item)">
+                            <text>{{ item.brand_name }}</text>
                         </view>
-                    </view>
-                    <view class="total">
-                        <image
-                            :src="qiniuUrl+'02@2x.png'"
-                        ></image>
-                        <view class="img-number-container">
-                            <view class="number">{{ details.total }}</view>
-                            <view class="yuan">元</view>
+                        <view class="center" @tap="goToDetail(item)">
+                            <view class="jds" :class="{wait: item.post_status === 10}">鉴定师 <text v-for="(ite, index) in item.user_name" :key="index">{{ite}}</text></view>
+                            <view class="date" :class="{hide: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14}">{{ item.publish_at }}</view>
+                            <view class="date" :class="{block: item.post_status === 10 || item.post_status === 12 || item.post_status === 11 || item.post_status === 14, hide: item.post_status !== 10 || item.post_status !== 12 || item.post_status !== 11 || item.post_status !== 14}">{{item.status}}</view>
                         </view>
-                    </view>
-                    <view class="price">
-                        <image
-                            :src="qiniuUrl+'03@2x.png'"
-                        ></image>
-                        <view class="img-number-container">
-                            <view class="number">{{ details.appr_cost }}</view>
-                            <view class="yuan">元</view>
-                        </view>
+                        <view class="zhifu" v-show="!item.is_show" @tap="goToPay(item)">立即支付</view>
                     </view>
                 </view>
-                <view class="tip">*无法鉴定情况下费用会退还至账户余额，可随时提现。</view>
+                <!-- 费用详情 -->
+                <view class="price-detail" v-show="isCost">
+                    <view class="title">费用详情</view>
+                    <view class="price-box">
+                        <image
+                            class="close-img"
+                            @tap="closeDetails"
+                            :src="qiniuUrl+'关闭@2x.png'"
+                        ></image>
+                        <view class="price">
+                            <image
+                                :src="qiniuUrl+'01@2x.png'"
+                            ></image>
+                            <view class="img-number-container">
+                                <view class="number">{{
+                                    details.appraisal_cost
+                                }}</view>
+                                <view class="yuan">元</view>
+                            </view>
+                        </view>
+                        <view class="total">
+                            <image
+                                :src="qiniuUrl+'02@2x.png'"
+                            ></image>
+                            <view class="img-number-container">
+                                <view class="number">{{ details.total }}</view>
+                                <view class="yuan">元</view>
+                            </view>
+                        </view>
+                        <view class="price">
+                            <image
+                                :src="qiniuUrl+'03@2x.png'"
+                            ></image>
+                            <view class="img-number-container">
+                                <view class="number">{{ details.appr_cost }}</view>
+                                <view class="yuan">元</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="tip">*无法鉴定情况下费用会退还至账户余额，可随时提现。</view>
+                </view>
             </view>
-        </view>
+            <nodata v-if="!lists.length" />
+        </scroll-view>
     </view>
 </template>
 
 <script>
 import { getCount, getPost, isAppraiser } from "../../api";
 import { post, user_post_list } from "../../api/Identificationdetails";
+import nodata from '../../component/nodata/nodata.vue';
 import config from "../../config/index";
 const NODE_ENV = process.env.NODE_ENV;
+let user_id = '';
 
 export default {
     data() {
@@ -105,12 +110,24 @@ export default {
         };
     },
     onLoad(options) {
-        this.getData(options.user_id);
+        user_id = options.user_id;
+        this.getData(user_id);
     },
     onPullDownRefresh() {
-        this.getData();
+        this.getData(user_id);
     },
     methods: {
+        scrolltolower() {
+            if (this.page > this.totalPage) {
+                uni.showToast({
+                    title: '已经加载全部的数据',
+                    icon: 'none'
+                });
+                return;
+            }
+            this.page ++;
+            this.getData(user_id);
+        },
         goToPay(item) {
             let type = '';
             if (item.brand_type === 1) {
@@ -126,15 +143,23 @@ export default {
         getData(user_id) {
             uni.showLoading({
                 title: '加载中...',
-                icon: 'none'
+                icon: 'none',
+                mask: true
             });
             user_post_list({
-                user_id
+                user_id,
+                page: this.page
             }).then(result => {
-                const {data} = result.data;
-                this.lists = data;
+                const {data, count} = result.data;
+                if (this.page > 1) {
+                    data.forEach(item => {
+                        this.lists.push(item);
+                    });
+                } else {
+                    this.lists = data;
+                }
+                this.totalPage = Math.ceil(count / 10);
                 uni.hideLoading();
-                console.log(result);
             });
         },
         goToLogin() {
@@ -271,6 +296,9 @@ export default {
                 });
             }
         }
+    },
+    components: {
+        nodata
     }
 };
 </script>
@@ -278,6 +306,11 @@ export default {
 <style lang="scss">
 .container {
     background-color: #f8f8f8;
+}
+
+.scroll-view {
+    height: 100vh;
+    overflow: hidden;
 }
 
 .hide {
@@ -290,7 +323,7 @@ export default {
 
 .lists {
     // display: none;
-    margin-top: 46rpx;
+    margin-top: 24rpx;
     padding-bottom: 24rpx;
 
     .item {
