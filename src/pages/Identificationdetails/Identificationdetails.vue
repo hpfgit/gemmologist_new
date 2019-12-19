@@ -276,7 +276,7 @@ export default {
         if (image.path) {
           previewImages.push(this.getPath(image.path));
         } else {
-          previewImages.push(config[NODE_ENV].imgUrl+image.image);
+          previewImages.push(config[NODE_ENV].qiniuUrl+image.image);
         }
       });
       this.user_info = user_info;
@@ -438,7 +438,7 @@ export default {
     },
     getPath(path, image) {
       if (path) {
-        return "http://static-stg.tosneaker.com" + path;
+        return config[NODE_ENV].imgUrl + path;
       } else {
         return config[NODE_ENV].imgUrl + image;
       }

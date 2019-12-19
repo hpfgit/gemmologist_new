@@ -214,6 +214,7 @@ const NODE_ENV = process.env.NODE_ENV;
 export default {
     data() {
         return {
+            jdID: '',
             count: "",
             fail: "",
             lists: [],
@@ -231,7 +232,7 @@ export default {
             totalPage: ''
         };
     },
-    onReady() {
+    onLoad() {
         this.getData();
     },
     onPullDownRefresh() {
@@ -344,7 +345,6 @@ export default {
         },
         searchTo() {
             const that = this;
-            const id = that.jdID;
             if (!this.jdID || !/\d/.test(this.jdID)) {
                 uni.showToast({
                     title: '请输入鉴定贴id',
@@ -352,9 +352,8 @@ export default {
                 });
                 return;
             }
-            that.jdID = '';
             post({
-                id
+                id: that.jdID
             }).then(result => {
                 const {message, status} = result.data;
                 if (status === 404) {
@@ -362,7 +361,7 @@ export default {
                 } else {
                     uni.navigateTo({
                         url:
-                            "/pages/Identificationdetails3/Identificationdetails3?id=" + id
+                            "/pages/Identificationdetails3/Identificationdetails3?id=" + that.jdID
                     });
                 }
             });
@@ -431,6 +430,9 @@ export default {
                         '&is_appraiser=0'
                 });
             }
+        },
+        onShow() {
+            this.jdID = "";
         }
     }
 };
@@ -904,6 +906,9 @@ export default {
 
     .img-box {
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .left-image {
         width: 144rpx;

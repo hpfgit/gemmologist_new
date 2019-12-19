@@ -46,7 +46,7 @@
 				</view>
 			</view> -->
 			<view class="question">
-				<view class="title">5.对于鉴定结论有疑问如何处理？</view>
+				<view class="title">4.对于鉴定结论有疑问如何处理？</view>
 				<view class="content">答：对于鉴定结论有疑问可通过鉴定结论页下方提交工单处理，BAN将派专员1对1跟踪服务。</view>
 			</view>
 			<view class="question">

@@ -742,7 +742,7 @@ export default {
         },
         getPath(path, image) {
             if (path) {
-                return "http://static-stg.tosneaker.com" + path;
+                return config[NODE_ENV].imgUrl + path;
             } else {
                 return config[NODE_ENV].imgUrl + image;
             }
