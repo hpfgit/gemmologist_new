@@ -494,7 +494,7 @@ export default {
         }
         return {
             title: "鉴定贴详情",
-            path: "/pages/Identificationdetails/Identificationdetails",
+            path: "/pages/Identificationdetails3/Identificationdetails3?id="+this.id+"&type="+this.type+"&is_appraiser="+this.is_appraiser,
             imageUrl: "",
             desc: "",
             success() {

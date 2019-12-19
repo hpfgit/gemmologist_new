@@ -332,18 +332,18 @@ export default {
     if (result.from === 'button') {
       console.log(result.target);
     }
-    return {
-      title: '鉴定贴详情',
-      path: '/pages/Identificationdetails/Identificationdetails',
-      imageUrl: '',
-      desc: '',
-      success() {
-        uni.showToast({
-          title: '分享成功',
-          icon: 'none'
-        });
-      }
-    }
+    // return {
+    //   title: '鉴定贴详情',
+    //   path: '/pages/Identificationdetails/Identificationdetails',
+    //   imageUrl: '',
+    //   desc: '',
+    //   success() {
+    //     uni.showToast({
+    //       title: '分享成功',
+    //       icon: 'none'
+    //     });
+    //   }
+    // }
   },
   computed: {
     checkedNumber() {

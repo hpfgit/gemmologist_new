@@ -111,7 +111,7 @@
             <image v-show="!isAgree" :src="qiniuUrl + '/未同意@2x.png'"></image>
             <image v-show="isAgree" :src="qiniuUrl + '同意(1)@2x.png'"></image>
             我同意《
-            <text>专业鉴定契约条款</text>
+            <text>保价鉴定契约条款</text>
             》
           </view>
         </view>
@@ -728,7 +728,6 @@ export default {
           icon: "none"
         });
         Promise.resolve();
-        uni.hideLoading();
         return;
       }
       return new Promise((resolve, reject) => {
@@ -849,6 +848,23 @@ export default {
     mark(e) {
       this.markText = e.target.value;
       this.description = e.target.value;
+    },
+    onShareAppMessage(result) {
+      if (result.from === 'button') {
+        console.log(result.target);
+      }
+      // return {
+      //   title: '鉴定贴详情',
+      //   path: '/pages/Identificationdetails/Identificationdetails',
+      //   imageUrl: '',
+      //   desc: '',
+      //   success() {
+      //     uni.showToast({
+      //       title: '分享成功',
+      //       icon: 'none'
+      //     });
+      //   }
+      // }
     },
     insuredPrice(e) {
       const number = e.target.value;
@@ -1118,6 +1134,8 @@ export default {
       text-align: center;
       margin-bottom: 28rpx;
       position: relative;
+      display: flex;
+      justify-content: center;
     }
 
     .img {

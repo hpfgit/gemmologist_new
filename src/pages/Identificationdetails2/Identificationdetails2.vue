@@ -248,7 +248,8 @@ export default {
       isJD: '',
       isOpen: false,
       appraisers: [],
-      isHandOver: false
+      isHandOver: false,
+      post_status: ''
     };
   },
   onLoad(options) {
@@ -258,7 +259,8 @@ export default {
       icon: 'none',
       mask: true
     });
-    const { id, type, mold, isJD } = options;
+    const { id, type, mold, isJD, post_status } = options;
+    this.post_status = post_status;
     this.type = type;
     this.mold = mold;
     this.isJD = isJD;
@@ -336,7 +338,7 @@ export default {
     }
     return {
       title: '鉴定贴详情',
-      path: '/pages/Identificationdetails/Identificationdetails',
+      path: '/pages/Identificationdetails2/Identificationdetails2?id='+this.id+'&type='+this.type+'&isJD=true&post_status='+this.post_status,
       imageUrl: '',
       desc: '',
       success() {

@@ -117,7 +117,7 @@
             <image v-show="!isAgree" :src="qiniuUrl + '/未同意@2x.png'"></image>
             <image v-show="isAgree" :src="qiniuUrl + '同意(1)@2x.png'"></image>
             我同意《
-            <text>专业鉴定契约条款</text>
+            <text>极速鉴定契约条款</text>
             》
           </view>
         </view>
