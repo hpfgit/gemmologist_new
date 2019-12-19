@@ -154,7 +154,6 @@ export default {
                 item.checked = false;
                 item.index = index;
                 if (item.level > 4) {
-                    item.avatar = config[NODE_ENV].imgUrl + item.avatar;
                     this.banzhu = item;
                 }
             });
