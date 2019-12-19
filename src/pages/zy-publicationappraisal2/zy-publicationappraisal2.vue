@@ -339,7 +339,7 @@ export default {
           code: "0",
           name: "补图",
           image:
-            "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+            config[NODE_ENV].qiniuUrl+"圆角矩形1拷贝@2x.png",
           isShow: false
         }
       ],
@@ -413,7 +413,7 @@ export default {
         {
           code: "0",
           image:
-            "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+            config[NODE_ENV].qiniuUrl+"圆角矩形1拷贝@2x.png",
           name: "补图"
         }
       ],
@@ -511,7 +511,13 @@ export default {
         this.price === "请输入保价金额，默认1000元..." ? 1000 : this.price;
     }
     console.log(is_specialty, price);
-    cost({ appr_cost: 5, appr_goods_scale: 0.03, price }).then(result => {
+	let appr_cost = '';
+	if (type === 'clothing') {
+		appr_cost = 8;
+	} else {
+		appr_cost = 5;
+	}
+    cost({ appr_cost, appr_goods_scale: 0.03, price }).then(result => {
       const { cost } = result.data;
       this.cost = cost;
       uni.hideLoading();
@@ -617,6 +623,9 @@ export default {
       this.isPayShow = false;
     },
     getPath(path) {
+		if (/圆角矩形1拷贝@2x/.test(path)) {
+			return path;
+		}
       if (/\.\./gi.test(path)) {
         return path;
       }
@@ -642,7 +651,7 @@ export default {
               const obj = {
                 code: index - 10,
                 image:
-                  "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                  that.qiniuUrl+ "圆角矩形1拷贝@2x.png",
                 name: "补充"
               };
               that.clothingImages.push(obj);
@@ -657,7 +666,7 @@ export default {
               const obj = {
                 code: index - 10,
                 image:
-                  "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                  that.qiniuUrl + "圆角矩形1拷贝@2x.png",
                 name: "补充"
               };
               that.images.push(obj);
@@ -1241,7 +1250,7 @@ export default {
       align-items: center;
       width: 146rpx;
       margin: 0 auto;
-      height: 150rpx;
+      height: 146rpx;
       overflow: hidden;
 
       image {

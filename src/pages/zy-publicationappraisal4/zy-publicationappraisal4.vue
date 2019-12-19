@@ -333,7 +333,7 @@ export default {
           code: "0",
           name: "补图",
           image:
-            "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+            config[NODE_ENV].qiniuUrl + "圆角矩形1拷贝@2x.png",
           isShow: false
         }
       ],
@@ -407,7 +407,7 @@ export default {
         {
           code: "0",
           image:
-            "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+            config[NODE_ENV].qiniuUrl + "圆角矩形1拷贝@2x.png",
           name: "补图"
         }
       ],
@@ -654,6 +654,9 @@ export default {
       this.isPayShow = false;
     },
     getPath(path) {
+		if (/圆角矩形1拷贝@2x/.test(path)) {
+			return path;
+		}
       if (/\.\./gi.test(path)) {
         return path;
       }
@@ -679,7 +682,7 @@ export default {
               const obj = {
                 code: index - 10,
                 image:
-                  "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                  that.qiniuUrl + "圆角矩形1拷贝@2x.png",
                 name: "补充"
               };
               that.clothingImages.push(obj);
@@ -694,7 +697,7 @@ export default {
               const obj = {
                 code: index - 10,
                 image:
-                  "../../static/images/publicationappraisal/球鞋鉴定位置/更多@2x.png",
+                  that.qiniuUrl + "圆角矩形1拷贝@2x.png",
                 name: "补充"
               };
               that.images.push(obj);
@@ -898,7 +901,7 @@ export default {
         icon: "none"
       });
       const that = this;
-      let images = "";
+      let images = [];
       if (this.type === "clothing") {
         images = this.clothingImages;
       } else {
@@ -1211,7 +1214,7 @@ export default {
       justify-content: center;
       align-items: center;
       width: 146rpx;
-      height: 150rpx;
+      height: 146rpx;
       margin: 0 auto;
       overflow: hidden;
 
