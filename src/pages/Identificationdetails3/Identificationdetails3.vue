@@ -1213,7 +1213,7 @@ export default {
     padding-left: 10rpx;
     padding-right: 10rpx;
 
-    .order-list { 
+    .order-list {
         display: flex;
         justify-content: space-between;
         margin-bottom: 30rpx;
@@ -1221,7 +1221,7 @@ export default {
         &:last-child {
             margin-bottom: 0;
         }
-        
+
         .left {
             margin-right: 20rpx;
         }
@@ -1245,7 +1245,7 @@ export default {
                 font-size: 26rpx;
             }
         }
-        
+
         .contents {
             font-size: 22rpx;
             color: #4b525b;

@@ -101,7 +101,6 @@ export default {
                 }
             });
             const sortArr = arr.sort((a, b) => {
-                console.log(a,b);
                 return b.level - a.level;
             });
             sortArr.forEach((item, index) => {

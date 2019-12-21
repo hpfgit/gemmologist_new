@@ -81,17 +81,17 @@
             <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
             <view class="btn-yes" @tap="closeBarMask">确定</view>
         </view>
-        <view class="selector-end" v-if="isLogin">
+        <view class="selector-end" :class="{hide: !isAppraiser && !is_appraisal_admin, block: isAppraiser || is_appraisal_admin}">
             <view class="inner">
-                <view class="left" @tap="goToData(0)" v-show="isAppraiser">
+                <view class="left" @tap="goToData(0)" :class="{hide: !isAppraiser, block: isAppraiser}">
                     <image :src="qiniuUrl+'鉴定师端拷贝@2x.png'"></image>
                 </view>
-                <view class="right" @tap="goToData(1)" v-show="is_appraisal_admin">
+                <view class="right" @tap="goToData(1)" :class="{hide: !is_appraisal_admin, block: is_appraisal_admin}">
                     <image :src="qiniuUrl+'版主端拷贝@2x.png'"></image>
                 </view>
             </view>
         </view>
-        <view class="login" v-if="!isLogin" @tap="goToLogin">
+        <view class="login" @tap="goToLogin" :class="{hide: isLogin, block: !isLogin}">
             <view class="login-btn">
                 登录查看我的鉴定
             </view>
@@ -123,6 +123,7 @@
                 </view>
             </view>
         </view>
+
         <view class="lists" v-if="lists.length">
             <view class="item" v-for="(item, index) in lists" :key="index">
                 <!-- <image
@@ -234,12 +235,27 @@ export default {
     },
     onLoad() {
         this.getData();
+
     },
     onPullDownRefresh() {
         this.getData();
     },
     methods: {
+        isLoginFn() {
+            if (!uni.getStorageSync('openid') && !uni.getStorageSync('token') && !uni.getStorageSync('user_info')) {
+                uni.showToast({
+                    title: '请先登录',
+                    icon: 'none'
+                });
+                return true;
+            } else {
+                return false;
+            }
+        },
         goToPay(item) {
+            if (this.isLoginFn()) {
+                return;
+            }
             let type = '';
             if (item.brand_type === 1) {
                 type = 'clothing';
@@ -252,11 +268,7 @@ export default {
             });
         },
         getData() {
-            if (uni.getStorageSync('user_info')) {
-                this.isLogin = true;
-            } else {
-                this.isLogin = false;
-            }
+            this.isLogin = !!uni.getStorageSync('token');
             uni.showLoading({
                 title: '加载中...',
                 icon: 'none'
@@ -280,7 +292,6 @@ export default {
                 }).then(result => {
                     const { status, message } = result.data;
                     if (status !== 200) {
-                        uni.hideLoading();
                         uni.showToast({
                             title: message,
                             icon: 'none',
@@ -300,11 +311,15 @@ export default {
             }
         },
         goToLogin() {
-            uni.navigateTo({
+            uni.redirectTo({
                 url: '/pages/login/login'
             });
+
         },
         goToData(index) {
+            if (this.isLoginFn()) {
+                return;
+            }
             if (index) {
                 uni.navigateTo({
                     url: '/pages/moderator/moderator?istype=banzhu'
@@ -316,6 +331,9 @@ export default {
             }
         },
         goTeam() {
+            if (this.isLoginFn()) {
+                return;
+            }
             uni.navigateTo({
                 url: '/pages/team/team'
             });
@@ -344,6 +362,9 @@ export default {
             this.jdID = e.target.value;
         },
         searchTo() {
+            if (this.isLoginFn()) {
+                return;
+            }
             const that = this;
             if (!this.jdID || !/\d/.test(this.jdID)) {
                 uni.showToast({
@@ -370,10 +391,16 @@ export default {
             this.is_bar_mask = false;
         },
         goTo(index) {
+            if (this.isLoginFn()) {
+                return;
+            }
             this.isShow = true;
             this.is_specialty = index;
         },
         goToPath(index) {
+            if (this.isLoginFn()) {
+                return;
+            }
             const that = this;
             if (index) {
                 uni.navigateTo({
@@ -401,6 +428,9 @@ export default {
                     url: '/pages/professionalidentificationagreement/professionalidentificationagreement'
                 });
             } else {
+                if (this.isLoginFn()) {
+                    return;
+                }
                 uni.navigateTo({
                     url: '/pages/assessment/assessment'
                 });
@@ -410,6 +440,9 @@ export default {
             this.isShow = false;
         },
         goToDetail(item) {
+            if (this.isLoginFn()) {
+                return;
+            }
             let type = '';
             if (item.brand_type === 0) {
                 type = 'shoes';

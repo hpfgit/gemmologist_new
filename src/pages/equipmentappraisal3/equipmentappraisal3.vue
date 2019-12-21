@@ -87,7 +87,6 @@ export default {
         });
         const { is_specialty, type } = options;
         this.is_specialty = is_specialty;
-        console.log(is_specialty);
         this.type = type;
         let title = "";
         if (type === "shoes") {
@@ -102,13 +101,11 @@ export default {
             const { data } = result.data;
             this.xie = data;
             uni.hideLoading();
-            console.log(result);
         });
         clothing({ page: 1, type: 1, limit: 1000 }).then(result => {
             const { data } = result.data;
             this.clothing = data;
             uni.hideLoading();
-            console.log(result);
         });
     },
     methods: {
@@ -124,7 +121,6 @@ export default {
                         const { data } = result.data;
                         this.clothing = data;
                         uni.hideLoading();
-                        console.log(result);
                     }
                 );
             } else {
@@ -132,7 +128,6 @@ export default {
                     const { data } = result.data;
                     this.clothing = data;
                     uni.hideLoading();
-                    console.log(result);
                 });
             }
         },
@@ -149,7 +144,6 @@ export default {
         },
         goTo(id) {
             const that = this;
-            console.log(this.is_specialty);
             if (this.is_specialty === '2') {
                 uni.navigateTo({
                     url:

@@ -31,7 +31,7 @@
         </view>
         <view class="box2">
           <view class="left">
-            <image src="../../static/images/examinationresults/正确@2x.png"></image>
+            <image :src="qiniuUrl+'/正确@2x.png'"></image>
           </view>
           <view class="right">
             <view>以下为答错题目的正确答案</view>

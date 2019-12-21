@@ -1,7 +1,7 @@
 import request from "../utils/request";
 
-export function getCount() {
-    return request('GET', '/api/appraisal/count');
+export function getCount(params) {
+    return request('GET', '/api/appraisal/count', params, false);
 }
 
 export function getPost(params) {

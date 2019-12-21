@@ -21,60 +21,35 @@ function request(method = 'GET', url, params, isToken = true) {
                 uni.setStorageSync('token_start_time', new Date().getTime());
                 store.dispatch('setToken', token);
                 token = uni.getStorageSync('token');
-                if (isToken) {
-                    params = Object.assign({}, {token}, params);
-                }
-                return new Promise((resolve, reject) => {
-                    uni.request({
-                        url: apiUrl,
-                        method: method.toUpperCase(),
-                        data: params,
-                        header: headers,
-                        success(res) {
-                            resolve(res);
-                        },
-                        fail(error) {
-                            console.log(error);
-                            reject(error);
-                        }
-                    });
-                });
+                return commonRequest(isToken, apiUrl, method, params, token, headers);
             });
         } else {
-            params = Object.assign({}, {token}, params);
-            return new Promise((resolve, reject) => {
-                uni.request({
-                    url: apiUrl,
-                    method: method.toUpperCase(),
-                    data: params,
-                    header: headers,
-                    success(res) {
-                        resolve(res);
-                    },
-                    fail(error) {
-                        console.log(error);
-                        reject(error);
-                    }
-                })
-            });
+            return commonRequest(isToken, apiUrl, method, params, token, headers);
         }
     } else {
-        return new Promise((resolve, reject) => {
-            uni.request({
-                url: apiUrl,
-                method: method.toUpperCase(),
-                data: params,
-                header: headers,
-                success(res) {
-                    resolve(res);
-                },
-                fail(error) {
-                    console.log(error);
-                    reject(error);
-                }
-            })
-        });
+        return commonRequest(isToken, apiUrl, method, params, token, headers);
     }
+}
+
+function commonRequest(isToken, apiUrl, method, params, token, headers) {
+    return new Promise((resolve, reject) => {
+        if (isToken) {
+            params = Object.assign({}, {token}, params);
+        }
+        uni.request({
+            url: apiUrl,
+            method: method.toUpperCase(),
+            data: params,
+            header: headers,
+            success(res) {
+                resolve(res);
+            },
+            fail(error) {
+                console.log(error);
+                reject(error);
+            }
+        });
+    });
 }
 
 function refreshToken(token) {
@@ -106,15 +81,6 @@ function getUrl(url) {
         apiUrl = `${config[NODE_ENV].host}${url}`;
     }
     return apiUrl;
-}
-
-function toast(title) {
-    uni.showToast({
-        title,
-        duration: 1500,
-        position: 'bottom',
-        icon: 'none'
-    });
 }
 
 export default request;

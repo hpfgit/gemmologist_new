@@ -96,10 +96,9 @@ export default {
         },
         checkLogin() {
             if (uni.getStorageSync("token")) {
-                uni.navigateTo({
+                uni.redirectTo({
                     url: "/pages/index3/index3"
                 });
-                uni.hideLoading();
             }
         },
         getUserInfo(e) {

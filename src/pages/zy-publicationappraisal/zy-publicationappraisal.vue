@@ -109,11 +109,12 @@
               >
             </text>
           </view>
-          <view @tap="isAgreeFn">
-            <image v-show="!isAgree" :src="qiniuUrl + '/未同意@2x.png'"></image>
-            <image v-show="isAgree" :src="qiniuUrl + '同意(1)@2x.png'"></image>
-            我同意《
-            <text>保价鉴定契约条款</text>
+          <view>
+            <image @tap="isAgreeFn" v-show="!isAgree" :src="qiniuUrl + '/未同意@2x.png'"></image>
+            <image @tap="isAgreeFn" v-show="isAgree" :src="qiniuUrl + '同意(1)@2x.png'"></image>
+            <text @tap="isAgreeFn">我同意</text>
+              《
+            <text @tap="baojia">保价鉴定契约条款</text>
             》
           </view>
         </view>
@@ -507,7 +508,11 @@ export default {
         this.price === "请输入保价金额，默认1000元..." ? 1000 : this.price;
     }
     console.log(is_specialty, price);
-    cost({ appr_cost: 5, appr_goods_scale: 0.03, price }).then(result => {
+    let appr_cost = 5;
+    if (type === 'clothing') {
+      appr_cost = 8;
+    }
+    cost({ appr_cost, appr_goods_scale: 0.03, price }).then(result => {
       const { cost } = result.data;
       this.cost = cost;
       uni.hideLoading();
@@ -534,6 +539,11 @@ export default {
     });
   },
   methods: {
+    baojia() {
+      uni.navigateTo({
+        url: '/pages/professionalidentificationagreement/professionalidentificationagreement'
+      })
+    },
     resetCheck() {
       uni.navigateBack({
         delta: 1
@@ -596,7 +606,7 @@ export default {
             title: message,
             icon: "none",
             success() {
-              uni.navigateTo({
+              uni.reLaunch({
                 url: "/pages/releasedsuccessfully/releasedsuccessfully"
               });
             }
@@ -677,15 +687,6 @@ export default {
           res_img.push(image);
         }
       });
-      if (res_img.length <= 2) {
-        uni.showToast({
-          title: "至少上传3张图片",
-          icon: "none",
-          mask: true
-        });
-        Promise.resolve();
-        return;
-      }
       return new Promise((resolve, reject) => {
         images.map((r, i) => {
           const path = r.image;
@@ -868,6 +869,19 @@ export default {
       } else {
         images = this.images;
       }
+      const res_img = [];
+      images.forEach(image => {
+        if (/tmp/gi.test(image.image) && !/appraiser/gi.test(image.image)) {
+          res_img.push(image);
+        }
+      });
+      if (res_img.length <= 2) {
+        uni.showToast({
+          title: "至少上传3张图片",
+          icon: "none"
+        });
+        return;
+      }
       this.uploadImgQiniu(images).then(result => {
         placeOrder({
           description: this.description,
@@ -925,7 +939,7 @@ export default {
                               icon: "none",
                               mask: true,
                               success() {
-                                uni.redirectTo({
+                                uni.reLaunch({
                                   url: "/pages/index3/index3"
                                 });
                               }
@@ -937,7 +951,7 @@ export default {
                             icon: "none",
                             mask: true,
                             success() {
-                              uni.redirectTo({
+                              uni.reLaunch({
                                 url: "/pages/index3/index3"
                               });
                             }
@@ -972,7 +986,7 @@ export default {
                                   icon: "none",
                                   mask: true,
                                   success() {
-                                    uni.redirectTo({
+                                    uni.reLaunch({
                                       url: "/pages/index3/index3"
                                     });
                                   }
@@ -984,7 +998,7 @@ export default {
                                 icon: "none",
                                 mask: true,
                                 success() {
-                                  uni.redirectTo({
+                                  uni.reLaunch({
                                     url: "/pages/index3/index3"
                                   });
                                 }
@@ -1010,7 +1024,7 @@ export default {
                               icon: "none",
                               mask: true,
                               success() {
-                                uni.redirectTo({
+                                uni.reLaunch({
                                   url: "/pages/index3/index3"
                                 });
                               }

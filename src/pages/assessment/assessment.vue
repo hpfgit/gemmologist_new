@@ -64,6 +64,7 @@
             </view>
         </view>
     </view>
+      <nodata v-if="!brand_list.length"/>
   </view>
 </template>
 
@@ -71,6 +72,7 @@
 const NODE_ENV = process.env.NODE_ENV;
 import config from "../../config";
 import { appraisal } from "../../api/gemmologist";
+import nodata from "../../component/nodata/nodata";
 
 export default {
   data() {
@@ -151,7 +153,10 @@ export default {
       //   url: '/pages/equipmentappraisal3/equipmentappraisal3'
       // });
     }
-  }
+  },
+    components: {
+      nodata
+    }
 };
 </script>
 
