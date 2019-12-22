@@ -1,10 +1,10 @@
 <template>
   <view class="container">
       <view class="header">
-          <view class="header-top"></view>
-          <view class="custom-title">我的鉴定品牌</view>
+<!--          <view class="header-top"></view>-->
+<!--          <view class="custom-title">我的鉴定品牌</view>-->
           <view class="anError" @tap="statement">考核声明</view>
-          <view class="goback" @tap="goBack"></view>
+<!--          <view class="goback" @tap="goBack"></view>-->
       </view>
     <view class="box-container">
       <view class="box" :class="'box-'+index" v-for="(item, index) in brand_list" :key="index">
@@ -221,9 +221,9 @@ export default {
 .anError {
     position: fixed;
     right: 36rpx;
-    top: 150rpx;
-    z-index: 10;
-    font-size: 24rpx;
+    top: 20rpx;
+    z-index: 999;
+    font-size: 26rpx;
 }
 
 .close-img {

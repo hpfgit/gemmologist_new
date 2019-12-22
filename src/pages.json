@@ -290,8 +290,7 @@
         {
             "path": "pages/assessment/assessment",
             "style": {
-                "navigationBarTitleText": "我的鉴定品牌",
-                "navigationStyle": "custom"
+                "navigationBarTitleText": "我的鉴定品牌"
             }
         },
         {
