@@ -565,7 +565,6 @@ export default {
                 openid: uni.getStorageSync("openid"),
                 miniapp_name: "appraisal"
             }).then(result => {
-                console.log(result);
                 const { status, message, data } = result.data;
                 const pay_no = data.pay_no;
                 this.is_accelerate = false;
@@ -663,7 +662,7 @@ export default {
                         // }
                     },
                     fail(e) {
-                        if (e.errMsg == "requestPayment:fail cancel") {
+                        if (e.errMsg === "requestPayment:fail cancel") {
                             uni.showToast({
                                 title: "支付失败",
                                 icon: "none",

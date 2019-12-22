@@ -31,10 +31,19 @@ export default {
     data() {
         return {
             qiniuUrl: config[NODE_ENV].qiniuUrl,
-            authorize: false
+            authorize: false,
+            page: '',
+            is_specialty : '',
+            brand_id: '',
+            type: ''
         };
     },
-    onLoad() {
+    onLoad(options) {
+        const {page, is_specialty, brand_id, type} = options;
+        this.is_specialty = is_specialty;
+        this.brand_id = brand_id;
+        this.type = type;
+        this.page = page;
         this.checkLogin();
     },
     methods: {
@@ -76,8 +85,12 @@ export default {
                                         );
                                         uni.hideLoading();
                                         setTimeout(() => {
+                                            let url = "/pages/index3/index3";
+                                            if (that.page) {
+                                                url = `/${that.page}?is_specialty=${that.is_specialty}&brand_id=${that.brand_id}&type=${that.type}`;
+                                            }
                                             uni.redirectTo({
-                                                url: "/pages/index3/index3"
+                                                url
                                             });
                                         }, 200);
                                     });
@@ -148,8 +161,12 @@ export default {
                                         );
                                         uni.hideLoading();
                                         setTimeout(() => {
+                                            let url = "/pages/index3/index3";
+                                            if (that.page) {
+                                                url = `/${that.page}?is_specialty=${that.is_specialty}&brand_id=${that.brand_id}&type=${that.type}`;
+                                            }
                                             uni.redirectTo({
-                                                url: "/pages/index3/index3"
+                                                url
                                             });
                                         }, 200);
                                     });

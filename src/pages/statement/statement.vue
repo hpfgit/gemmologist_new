@@ -1,9 +1,8 @@
 <template>
 	<view class="container">
 		<view class="jb">
-			<image :src="qiniuUrl+'/组12@2x.png'"></image>
 			<view class="title">关于鉴定级别</view>
-			<view class="content">按品牌划分，每一个品牌拥有四个鉴定级别，即实习鉴定师、鉴定师、高级鉴定师、鉴定顾问。</view>
+			<view class="content">鉴定师等级分为两个，鉴定师，鉴定顾问，采取考核制度升级。</view>
 		</view>
 		<view class="qx">
 			<view class="title">
@@ -16,65 +15,18 @@
 							<view>级别</view>
 							<view>鉴定内容</view>
 						</view>
-						<view class="td">实习鉴定师</view>
 						<view class="td">鉴定师</view>
-						<view class="td">高级鉴定师</view>
 						<view class="td">鉴定顾问</view>
 					</view>
 				</view>
 				<view class="tbody">
 					<view class="tr">
-						<view class="td">免费鉴定</view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-					</view>
-					<view class="tr">
-						<view class="td">专业鉴定</view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
+						<view class="td">极速鉴定</view>
 						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
 						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
 					</view>
 					<view class="tr">
-						<view class="td">
-							<view>专业鉴定-</view>
-							<view>问题商品</view>
-						</view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-					</view>
-					<view class="tr">
-						<view class="td">
-							<view>专业鉴定</view>
-							<view>(保价0-2000)</view>
-						</view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-					</view>
-					<view class="tr">
-						<view class="td">
-							<view>专业鉴定</view>
-							<view>(保价0-2000)</view>
-							<view>-问题商品</view>
-						</view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-					</view>
-					<view class="tr">
-						<view class="td">
-							<view>专业鉴定</view>
-							<view>(保价>2000)</view>
-						</view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
-						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
+						<view class="td">保价鉴定</view>
 						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
 						<view class="td"><image :src="qiniuUrl+'/对号(7)@2x.png'"></image></view>
 					</view>
@@ -99,7 +51,6 @@
 				<view>鉴定错误产生的赔偿金将从鉴定佣金中扣除例如赔偿100元，则从鉴定佣金中扣除40元（即40%）。高等级鉴定低等级若鉴定失误，则扣除鉴定佣金100元（即100%），额外扣除20元（即20%）用于鉴定失误后赔偿沟通、用户安抚、公关费用等。鉴定错误次数大于3次将自动降级，需要进行重新考核。</view>
 				<view style="margin-top: 30rpx; margin-bottom: 20rpx;">级别不同惩罚措施不同(降级)</view>
 				<view style="margin-top: 24rpx;">鉴定师 <image :src="qiniuUrl+'/降级@2x.png'"></image> 实习鉴定师 <text>(7天后可重新升级考试)</text></view>
-				<view style="margin-top: 24rpx;">高级鉴定师 <image :src="qiniuUrl+'/降级@2x.png'"></image> 鉴定师 <text>(15天后可重新升级考试)</text></view>
 				<view style="margin-top: 24rpx;">鉴定顾问 <image :src="qiniuUrl+'/降级@2x.png'"></image> 高级鉴定师 <text>(30天后可重新升级考试)</text></view>
 			</view>
 		</view>
@@ -116,12 +67,11 @@
 				<image :src="qiniuUrl+'/审核@2x_看图王.png'"></image><text>关于审核标准</text>
 			</view>
 			<view class="content">
-				<view>从学习资料库中随机抽取相应品牌已知并确认结果的鉴定贴。</view>
-				<view style="margin-top: 0;">实习鉴定师考试，每一品牌50题，需答对48题及以上；</view>
-				<view>鉴定师考试，每一品牌100题，需答对99题及以上；</view>
-				<view>高级鉴定师考试，每一品牌150题，需答对150题；</view>
-				<view>鉴定顾问考试，每一品牌200题，需答对200题；</view>
-				<view>同时需要有鉴别该品牌高危款项能力。</view>
+				<view>联系版主均可开通权限，进行品牌测试</view>
+				<view style="margin-top: 0;">鉴定师：195/200普通考试 通过后需经过版主确认，需要时再上岗</view>
+				<view>鉴定顾问：需向版主申请品牌专业高级考试</view>
+				<view>每个品牌50题，48/50即可通过，需要时上岗</view>
+				<view>更多详情请关注公众号联系版主咨询</view>
 			</view>
 		</view>
 	</view>
@@ -146,9 +96,10 @@
 	}
 	.jb {
 		width: 670rpx;
-		height: 198rpx;
 		position: relative;
-		margin: 0 auto;
+		margin: 50rpx auto 0;
+		overflow: hidden;
+		background-color: #f2f2f2;
 		padding-top: 30rpx;
 		image {
 			width: 670rpx;
@@ -170,6 +121,7 @@
 		.content {
 			width: 570rpx;
 			margin: 0 auto;
+			padding-bottom: 40rpx;
 			font-size: 26rpx;
 			line-height: 42rpx;
 			color: #000000;

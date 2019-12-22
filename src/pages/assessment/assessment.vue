@@ -1,5 +1,11 @@
 <template>
   <view class="container">
+      <view class="header">
+          <view class="header-top"></view>
+          <view class="custom-title">我的鉴定品牌</view>
+          <view class="anError" @tap="statement">考核声明</view>
+          <view class="goback" @tap="goBack"></view>
+      </view>
     <view class="box-container">
       <view class="box" :class="'box-'+index" v-for="(item, index) in brand_list" :key="index">
         <view class="left">
@@ -101,6 +107,16 @@ export default {
     });
   },
   methods: {
+      goBack() {
+          uni.navigateBack({
+              delta: 1
+          });
+      },
+      statement() {
+          uni.navigateTo({
+              url: "/pages/statement/statement"
+          })
+      },
     goToPath(index) {
         const that = this;
         if (index) {
@@ -165,6 +181,49 @@ export default {
     width: 24rpx;
     height: 23rpx;
     position: absolute;
+}
+
+.header-top {
+    height: 136rpx;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.custom-title {
+    position: absolute;
+    width: 100%;
+    top: 96rpx;
+    left: 0;
+    z-index: 3;
+    font-size: 32rpx;
+    color: #000000;
+    padding-left: 70rpx;
+}
+
+.goback {
+    position: absolute;
+    z-index: 9;
+    top: 105rpx;
+    left: 26rpx;
+    width: 12px;
+    height: 12px;
+    border-top: 1px solid #000000;
+    border-right: 1px solid #000000;
+    transform: rotate(-135deg);
+}
+
+.anError {
+    position: fixed;
+    right: 36rpx;
+    top: 150rpx;
+    z-index: 10;
+    font-size: 24rpx;
 }
 
 .close-img {
@@ -249,6 +308,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.5);
 }
 .container {
+    position: relative;
   .box-container {
     .box {
       &:last-child {
@@ -375,6 +435,7 @@ export default {
     left: 0;
     right: 0;
     margin: 0 auto;
+      z-index: 999;
     width: 250rpx;
     height: 80rpx;
     line-height: 80rpx;

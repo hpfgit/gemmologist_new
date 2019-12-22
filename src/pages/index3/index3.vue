@@ -126,12 +126,6 @@
 
         <view class="lists" v-if="lists.length">
             <view class="item" v-for="(item, index) in lists" :key="index">
-                <!-- <image
-                    v-if="item.is_specialty"
-                    class="specialty-img"
-                    :src="qiniuUrl+'费用信息@2x.png'"
-                    @tap="priceDetails(index)"
-                ></image> -->
                 <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
                 <image v-show="item.final_result === 1" class="yinz" :src="qiniuUrl+'为真拷贝2@2x.png'"></image>
                 <image v-show="item.final_result === 2" class="yinz" :src="qiniuUrl+'无法鉴定拷贝@2x.png'"></image>
@@ -235,7 +229,6 @@ export default {
     },
     onLoad() {
         this.getData();
-
     },
     onPullDownRefresh() {
         this.getData();

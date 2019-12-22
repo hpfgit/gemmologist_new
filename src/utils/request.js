@@ -31,6 +31,19 @@ function request(method = 'GET', url, params, isToken = true) {
     }
 }
 
+
+function isLoginFn() {
+    if (!uni.getStorageSync('openid') && !uni.getStorageSync('token') && !uni.getStorageSync('user_info')) {
+        uni.showToast({
+            title: '请先登录',
+            icon: 'none'
+        });
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function commonRequest(isToken, apiUrl, method, params, token, headers) {
     return new Promise((resolve, reject) => {
         if (isToken) {
@@ -49,6 +62,17 @@ function commonRequest(isToken, apiUrl, method, params, token, headers) {
                 reject(error);
             }
         });
+        if (!/login/ig.test(apiUrl) && !/bind-mobile/ig.test(apiUrl) && !/count/ig.test(apiUrl)) {
+            if (isLoginFn()) {
+                const pages = getCurrentPages();
+                const pagesData = pages[pages.length - 1];
+                const {route, options} = pagesData;
+                const {is_specialty, brand_id, type} = options;
+                uni.redirectTo({
+                    url: `/pages/login/login?page=${route}&is_specialty=${is_specialty}&brand_id=${brand_id}&type=${type}`
+                });
+            }
+        }
     });
 }
 
