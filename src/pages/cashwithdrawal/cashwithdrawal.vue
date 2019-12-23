@@ -120,7 +120,6 @@ export default {
           icon: 'none',
           mask: true
         });
-        console.log(result);
       });
     },
     getData() {

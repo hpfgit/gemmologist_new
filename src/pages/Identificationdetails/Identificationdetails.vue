@@ -424,7 +424,6 @@ export default {
             });
           }
         });
-        console.log(result);
       });
     },
     check_appr(index) {
@@ -486,7 +485,6 @@ export default {
         params.result_reason = this.markContent;
       }
       appraise(params).then(result => {
-        console.log(result);
         uni.hideLoading();
         uni.showToast({
           title: "提交成功",

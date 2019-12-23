@@ -156,9 +156,9 @@
           @change="markText($event)"
         />
       </view>
-      <view class="button" @tap="submit">
-        确认提交
-      </view>
+      <form @submit="submit" report-submit='true'>
+        <button class="button" formType="submit">确认提交</button>
+      </form>
     </view>
     <view class="handover" v-show="isHandOver">
       <view class="title">转交他人</view>
@@ -182,9 +182,9 @@
         <view class="cancel-btn" @tap="zj_close">
           取消
         </view>
-        <view class="yes-btn" @tap="sub_zj">
-          确认转交
-        </view>
+        <form @submit="sub_zj" report-submit='true'>
+          <button class="yes-btn" formType="submit">确认转交</button>
+        </form>
       </view>
     </view>
   </view>
@@ -283,7 +283,6 @@ export default {
           previewImages.push(config[NODE_ENV].qiniuUrl+image.image);
         }
       });
-      console.log(previewImages);
       this.user_info = user_info;
       this.work_order = work_order;
       this.data = data;
@@ -388,7 +387,7 @@ export default {
     zj_close() {
       this.isHandOver = false;
     },
-    sub_zj() {
+    sub_zj(e) {
       if (this.checkedNumber <= 0) {
         uni.showToast({
           title: '请选择鉴定师',
@@ -397,35 +396,57 @@ export default {
         return;
       }
       let new_appraiser_id = '';
+      let type = '';
+      if (this.data.brand_type === 0) {
+        type = 'shoes';
+      } else if (this.data.brand_type === 1) {
+        type = 'clothimg';
+      }
+      let path = '';
+      if (this.data.post_status === 11) {
+        path = '/pages/zy-publicationappraisal3/zy-publicationappraisal3?brand_id='+this.data.brand_id+'&is_specialty='+this.data.is_specialty+'&appraiser_id='+this.user_info.user_id+'&type='+type+'&id='+this.data.id
+      } else {
+        path= "/pages/Identificationdetails3/Identificationdetails3?id=" +
+                this.data.id +
+                "&type=" +
+                this.data.is_specialty +
+                '&is_appraiser=0'
+      }
       this.appraisers.forEach(appraiser => {
         if (appraiser.checked) {
           new_appraiser_id = appraiser;
         }
       });
-      changeAppraiser({
-        post_id: this.data.id,
-        new_appraiser_id
-      }).then(result => {
-        const that = this;
-        const {message, status} = result.data;
-        if (status === 401) {
+      const openid = uni.getStorageSync('openid');
+      const formid = [];
+      formid.push({formid: e.detail.formId, ts: new Date().getTime()});
+      let app = getApp();
+      app.globalData.templateMessage({formid, openid}).then(res => {
+        changeAppraiser({
+          post_id: this.data.id,
+          new_appraiser_id,
+          path
+        }).then(result => {
+          const that = this;
+          const {message, status} = result.data;
+          if (status === 401) {
+            uni.showToast({
+              title: message,
+              icon: "none"
+            });
+            return;
+          }
           uni.showToast({
             title: message,
-            icon: "none"
+            icon: "none",
+            duration: 1500,
+            success() {
+              uni.redirectTo({
+                url: '/pages/means4/means4?type=' + that.type
+              });
+            }
           });
-          return;
-        }
-        uni.showToast({
-          title: message,
-          icon: "none",
-          duration: 1500,
-          success() {
-            uni.redirectTo({
-              url: '/pages/means4/means4?type='+that.type
-            });
-          }
         });
-        console.log(result);
       });
     },
     check_appr(index) {
@@ -468,8 +489,7 @@ export default {
     bz_fw() {
       this.bzFw = !this.bzFw;
     },
-    submit() {
-      console.log(result);
+    submit(e) {
       if (this.markContent === '') {
         uni.showToast({
           title: '请输入备注',
@@ -482,27 +502,52 @@ export default {
         icon: 'none',
         mask: true
       });
+      let type = '';
+      if (this.data.brand_type === 0) {
+        type = 'shoes';
+      } else if (this.data.brand_type === 1) {
+        type = 'clothimg';
+      }
+      let path = '';
+      if (this.data.post_status === 11) {
+          path = '/pages/zy-publicationappraisal3/zy-publicationappraisal3?brand_id='+this.data.brand_id+'&is_specialty='+this.data.is_specialty+'&appraiser_id='+this.user_info.user_id+'&type='+type+'&id='+this.data.id
+      } else {
+          path= "/pages/Identificationdetails3/Identificationdetails3?id=" +
+                  this.data.id +
+                  "&type=" +
+                  this.data.is_specialty +
+                  '&is_appraiser=0'
+      }
       const that = this;
       const params = {
         result: result,
         brand_id: this.data.brand_id,
         id: this.data.id,
-        add_status: result === 10 ? 1 : 0
+        add_status: result === 10 ? 1 : 0,
+        //id=11996&type=1&is_appraiser=0
+        path
       };
       if (result === 10) {
         params.need_image = this.markContent;
       } else {
         params.result_reason = this.markContent;
       }
-      appraise(params).then(result => {
-        uni.hideLoading();
-        uni.showToast({
-          title: "提交成功",
-          success() {
-            uni.redirectTo({
-              url: '/pages/means4/means4?type='+that.type
-            });
-          }
+      const openid = uni.getStorageSync('openid');
+      const formid = [];
+      formid.push({formid: e.detail.formId, ts: new Date().getTime()});
+      let app = getApp();
+      app.globalData.templateMessage({formid, openid}).then(res => {
+        console.log(res);
+        appraise(params).then(result => {
+          uni.hideLoading();
+          uni.showToast({
+            title: "提交成功",
+            success() {
+              uni.redirectTo({
+                url: '/pages/means4/means4?type='+that.type
+              });
+            }
+          });
         });
       });
     }

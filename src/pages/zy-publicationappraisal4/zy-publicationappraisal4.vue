@@ -500,7 +500,6 @@ export default {
     appraiserDetail({
       id: appraiser_id
     }).then(result => {
-      console.log(result.data);
       const data = result.data;
       const keys = Object.keys(data);
       keys.forEach(key => {
@@ -520,7 +519,6 @@ export default {
     });
 
     post({ id }).then(result => {
-      console.log(result);
       const { images, user_info, data } = result.data;
       this.price = user_info.price;
       let price = user_info.price;
@@ -616,13 +614,11 @@ export default {
       this.isAgree = !this.isAgree;
     },
     keyboradFn(index) {
-      console.log(index);
       if (index === 9) {
         this.isPay = false;
         return;
       }
       if (index === 11) {
-        console.log(this.keyIndex);
         if (this.keyIndex <= 0) {
           return;
         }
@@ -647,7 +643,6 @@ export default {
           driver: "wallet",
           method: "miniapp"
         }).then(result => {
-          console.log(result);
           const { status, message } = result.data;
           uni.showToast({
             title: message,
@@ -661,11 +656,8 @@ export default {
           uni.hideLoading();
         });
       }
-
       this.password[this.keyIndex].number = this.keyboard[index].key;
       this.keyIndex++;
-
-      console.log(this.password);
     },
     closePay() {
       this.isPayShow = false;
@@ -735,6 +727,7 @@ export default {
         }
       });
       if (res_img.length < 1) {
+        this.flag = true;
         uni.showToast({
           title: "请上传图片",
           icon: "none"
@@ -753,10 +746,8 @@ export default {
               upload(
                 path,
                 res => {
-                  console.log(res);
                   that.uploadPicture[r.code] = res.imageURL;
                   const keys = Object.keys(that.uploadPicture);
-                  console.log(keys.length, res_img.length);
                   keys.length === res_img.length && resolve(that.uploadPicture);
                 },
                 error => {
@@ -933,7 +924,6 @@ export default {
           openid: uni.getStorageSync("openid"),
           miniapp_name: "appraisal"
         }).then(result => {
-          console.log(result);
           this.falg = true;
           const { status, message } = result.data;
           // if (status !== 200) {
@@ -948,7 +938,6 @@ export default {
             postPay({
               pay_no
             }).then(result => {
-              console.log(result);
               const { message, status } = result.data;
               uni.hideLoading();
               if (status === 201) {
@@ -985,7 +974,7 @@ export default {
             signType: pay_info.signType,
             paySign: pay_info.paySign,
             success(result) {
-              console.log(result);
+              that.flag = true;
               // if (result.errMsg == "requestPayment:ok") {
                 uni.showLoading({
                   title: "支付中...",
@@ -995,7 +984,6 @@ export default {
                 postPay({
                   pay_no: pay_no
                 }).then(result => {
-                  console.log(result);
                   const { message, status } = result.data;
                   uni.hideLoading();
                   that.falg = true;
@@ -1038,7 +1026,8 @@ export default {
               // }
             },
             fail(e) {
-              if (e.errMsg == "requestPayment:fail cancel") {
+              that.flag = true;
+              if (e.errMsg === "requestPayment:fail cancel") {
                 uni.showToast({
                   title: "支付失败",
                   icon: "none",
@@ -1070,7 +1059,10 @@ export default {
       //     }
       // });
       // if (number >= 3) {
-      this.appraisal();
+      if (this.falg) {
+        this.falg = false;
+        this.appraisal();
+      }
       // } else {
       // uni.showToast({
       //         title: '前三张主图必传',

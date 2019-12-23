@@ -47,7 +47,6 @@ export default {
                 page: this.page
             }).then(result => {
                 const {data, count} = result.data;
-                console.log(data,count);
                 if (this.page > 1) {
                     data.forEach(element => {
                         this.detailed.push(element);

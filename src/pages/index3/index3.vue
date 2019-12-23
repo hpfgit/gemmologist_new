@@ -123,7 +123,9 @@
                 </view>
             </view>
         </view>
-
+        <form @submit="handlePush" report-submit='true'>
+            <button formType="submit">推送消息</button>
+        </form>
         <view class="lists" v-if="lists.length">
             <view class="item" v-for="(item, index) in lists" :key="index">
                 <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
@@ -205,6 +207,8 @@ import { getCount, getPost, isAppraiser } from "../../api";
 import { post } from "../../api/Identificationdetails";
 import config from "../../config/index";
 const NODE_ENV = process.env.NODE_ENV;
+const app = getApp();
+console.log(app);
 
 export default {
     data() {
@@ -234,6 +238,14 @@ export default {
         this.getData();
     },
     methods: {
+        handlePush(e) {
+            const openid = uni.getStorageSync('openid');
+            const formid = [];
+            formid.push({formid: e.detail.formId, ts: 5});
+            app.globalData.templateMessage({formid, openid}).then(res => {
+                console.log(res);
+            });
+        },
         isLoginFn() {
             if (!uni.getStorageSync('openid') && !uni.getStorageSync('token') && !uni.getStorageSync('user_info')) {
                 uni.showToast({
@@ -307,7 +319,6 @@ export default {
             uni.redirectTo({
                 url: '/pages/login/login'
             });
-
         },
         goToData(index) {
             if (this.isLoginFn()) {

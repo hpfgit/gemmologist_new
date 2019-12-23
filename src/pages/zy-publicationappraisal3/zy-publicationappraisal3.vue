@@ -527,7 +527,6 @@ export default {
     });
 
     post({ id }).then(result => {
-      console.log(result);
       const { images, user_info, data } = result.data;
       this.price = user_info.price;
       let price = user_info.price;
@@ -610,13 +609,11 @@ export default {
       this.isAgree = !this.isAgree;
     },
     keyboradFn(index) {
-      console.log(index);
       if (index === 9) {
         this.isPay = false;
         return;
       }
       if (index === 11) {
-        console.log(this.keyIndex);
         if (this.keyIndex <= 0) {
           return;
         }
@@ -641,7 +638,6 @@ export default {
           driver: "wallet",
           method: "miniapp"
         }).then(result => {
-          console.log(result);
           const { status, message } = result.data;
           uni.showToast({
             title: message,
@@ -655,11 +651,8 @@ export default {
           uni.hideLoading();
         });
       }
-
       this.password[this.keyIndex].number = this.keyboard[index].key;
       this.keyIndex++;
-
-      console.log(this.password);
     },
     closePay() {
       this.isPayShow = false;
@@ -746,10 +739,8 @@ export default {
               upload(
                 path,
                 res => {
-                  console.log(res);
                   that.uploadPicture[r.code] = res.imageURL;
                   const keys = Object.keys(that.uploadPicture);
-                  console.log(keys.length, res_img.length);
                   keys.length === res_img.length && resolve(that.uploadPicture);
                 },
                 error => {
@@ -935,10 +926,6 @@ export default {
         images = this.images;
       }
       this.uploadImgQiniu(images).then(result => {
-        console.log({
-          id: this.id,
-          images: result
-        });
         // if (this.falg) {
           // this.falg = false;
           complementGraph({
@@ -947,7 +934,6 @@ export default {
           })
             .then(result => {
               this.falg = true;
-              console.log(result);
               const { status, message } = result.data;
               if (status !== 201) {
                 uni.showToast({

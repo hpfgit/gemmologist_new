@@ -154,9 +154,9 @@
           @change="markText($event)"
         />
       </view>
-      <view class="button" @tap="submit">
-        确认提交
-      </view>
+      <form @submit="submit" report-submit='true'>
+        <button class="button" formType="submit">确认提交</button>
+      </form>
     </view>
     <view class="handover" v-show="isHandOver">
       <view class="title">转交他人</view>
@@ -255,7 +255,6 @@ export default {
   },
   onLoad(options) {
     result = 1;
-    console.log(options.is_faultrecord === '1');
     const {post_status, istype, is_faultrecord} = options;
     this.is_faultrecord = is_faultrecord;
     this.istype = istype;
@@ -288,7 +287,6 @@ export default {
           previewImages.push(config[NODE_ENV].qiniuUrl+image.image);
         }
       });
-      console.log(previewImages);
       this.user_info = user_info;
       this.work_order = work_order;
       this.data = data;
@@ -430,7 +428,6 @@ export default {
             });
           }
         });
-        console.log(result);
       });
     },
     check_appr(index) {
@@ -473,87 +470,111 @@ export default {
     bz_fw() {
       this.bzFw = !this.bzFw;
     },
-    submit() {
+    submit(e) {
       uni.showLoading({
         title: '加载中...',
         icon: 'none'
       });
+      let type = '';
+      if (this.data.brand_type === 0) {
+        type = 'shoes';
+      } else if (this.data.brand_type === 1) {
+        type = 'clothimg';
+      }
+      let path = '';
+      if (this.data.post_status === 11) {
+        path = '/pages/zy-publicationappraisal3/zy-publicationappraisal3?brand_id='+this.data.brand_id+'&is_specialty='+this.data.is_specialty+'&appraiser_id='+this.user_info.user_id+'&type='+type+'&id='+this.data.id
+      } else {
+        path= "/pages/Identificationdetails3/Identificationdetails3?id=" +
+                this.data.id +
+                "&type=" +
+                this.data.is_specialty +
+                '&is_appraiser=0'
+      }
       const that = this;
       const params = {
         result: result,
         brand_id: this.data.brand_id,
         id: this.data.id,
-        add_status: result === 10 ? 1 : 0
+        add_status: result === 10 ? 1 : 0,
+        path
       };
       if (result === 10) {
         params.need_image = this.markContent;
       } else {
         params.result_reason = this.markContent;
       }
+      const openid = uni.getStorageSync('openid');
+      const formid = [];
+      console.log(e.detail);
+      formid.push({formid: e.detail.formId, ts: new Date().getTime()});
+      let app = getApp();
       if (this.post_status === '13') {
         if (this.istype === 'banzhu') {
-          banzhuAppraise(params).then(result => {
-            console.log(result);
-            uni.hideLoading();
-            const {message, status} = result.data;
-            if (status === 403) {
-              uni.showToast({
-                title: message,
-                icon: 'none'
-              });
-              return;
-            }
-            uni.showToast({
-              title: "提交成功",
-              success() {
-                uni.redirectTo({
-                  url: '/pages/means3/means3?type='+that.type+'&istype=banzhu'
+          app.globalData.templateMessage({formid, openid}).then((result) => {
+            banzhuAppraise(params).then(result => {
+              uni.hideLoading();
+              const {message, status} = result.data;
+              if (status === 403) {
+                uni.showToast({
+                  title: message,
+                  icon: 'none'
                 });
+                return;
               }
+              uni.showToast({
+                title: "提交成功",
+                success() {
+                  uni.redirectTo({
+                    url: '/pages/means3/means3?type='+that.type+'&istype=banzhu'
+                  });
+                }
+              });
             });
           });
         } else {
-          appraise(params).then(result => {
-            console.log(result);
-            const {message, status} = result.data;
-            console.log(message, status);
-            uni.hideLoading();
-            if (status === 403) {
-              uni.showToast({
-                title: message,
-                icon: 'none'
-              });
-              return;
-            }
-            uni.showToast({
-              title: "提交成功",
-              success() {
-                uni.redirectTo({
-                  url: '/pages/means2/means2?type='+that.type
+          app.globalData.templateMessage({formid, openid}).then(result => {
+            appraise(params).then(result => {
+              const {message, status} = result.data;
+              uni.hideLoading();
+              if (status === 403) {
+                uni.showToast({
+                  title: message,
+                  icon: 'none'
                 });
+                return;
               }
+              uni.showToast({
+                title: "提交成功",
+                success() {
+                  uni.redirectTo({
+                    url: '/pages/means2/means2?type='+that.type
+                  });
+                }
+              });
             });
           });
         }
       } else {
-        banzhuAppraise(params).then(result => {
-          console.log(result);
-          uni.hideLoading();
-          const {message, status} = result.data;
-          if (status === 403) {
-            uni.showToast({
-              title: message,
-              icon: 'none'
-            });
-            return;
-          }
-          uni.showToast({
-            title: "提交成功",
-            success() {
-              uni.redirectTo({
-                url: '/pages/means3/means3?type='+that.type
+        app.globalData.templateMessage({formid, openid}).then(result => {
+          banzhuAppraise(params).then(result => {
+            uni.hideLoading();
+            const {message, status} = result.data;
+            if (status === 403) {
+              uni.showToast({
+                title: message,
+                icon: 'none'
               });
+              return;
             }
+            uni.showToast({
+              title: "提交成功",
+              success() {
+                uni.redirectTo({
+                  url: '/pages/means3/means3?type=' + that.type
+                });
+              }
+            });
           });
         });
       }

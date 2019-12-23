@@ -513,7 +513,6 @@ export default {
       price =
         this.price === "请输入保价金额，默认1000元..." ? 1000 : this.price;
     }
-    console.log(is_specialty, price);
 	let appr_cost = '';
 	if (type === 'clothing') {
 		appr_cost = 8;
@@ -543,7 +542,6 @@ export default {
           });
         }
       });
-      console.log(this.appraisals);
     });
   },
   methods: {
@@ -576,13 +574,11 @@ export default {
       this.isAgree = !this.isAgree;
     },
     keyboradFn(index) {
-      console.log(index);
       if (index === 9) {
         this.isPay = false;
         return;
       }
       if (index === 11) {
-        console.log(this.keyIndex);
         if (this.keyIndex <= 0) {
           return;
         }
@@ -607,7 +603,6 @@ export default {
           driver: "wallet",
           method: "miniapp"
         }).then(result => {
-          console.log(result);
           const { status, message } = result.data;
           uni.showToast({
             title: message,
@@ -621,11 +616,8 @@ export default {
           uni.hideLoading();
         });
       }
-
       this.password[this.keyIndex].number = this.keyboard[index].key;
       this.keyIndex++;
-
-      console.log(this.password);
     },
     closePay() {
       this.isPayShow = false;
@@ -704,10 +696,8 @@ export default {
               upload(
                 path,
                 res => {
-                  console.log(res);
                   that.uploadPicture[r.code] = res.imageURL;
                   const keys = Object.keys(that.uploadPicture);
-                  console.log(keys.length, res_img.length);
                   keys.length === res_img.length && resolve(that.uploadPicture);
                 },
                 error => {
@@ -882,6 +872,7 @@ export default {
         }
       });
       if (res_img.length <= 2) {
+        this.falg = true;
         uni.showToast({
           title: "至少上传3张图片",
           icon: "none"
@@ -907,13 +898,12 @@ export default {
             appraiser_list: appraiser_id
           })
             .then(result => {
-              this.falg = true;
               const { message, status, pay_no } = result.data;
               this.pay_no = pay_no;
-              uni.showLoading({
-                title: message,
-                icon: "none",
-                success() {
+              // uni.showLoading({
+              //   title: message,
+              //   icon: "none",
+              //   success() {
                   if (status === 201) {
                     uni.showLoading({
                         title: "加载中...",
@@ -930,7 +920,6 @@ export default {
                         openid: uni.getStorageSync("openid"),
                         miniapp_name: "appraisal"
                       }).then(result => {
-                        console.log(result);
                         const { status, message } = result.data;
                         // if (status !== 200) {
                         //   uni.showToast({
@@ -940,13 +929,17 @@ export default {
                         //   });
                           // return;
                         // }
+                        uni.showLoading({
+                          title: '加载中...',
+                          icon: "none",
+                          mask: true
+                        });
                         if (message === 'Get Wechat API Error:OK该订单已支付') {
                           postPay({
                             pay_no
                           }).then(result => {
-                            console.log(result);
                             const { message, status } = result.data;
-                            uni.hideLoading();
+                            // uni.hideLoading();
                             if (status === 201) {
                               uni.showToast({
                                 title: "支付成功",
@@ -981,7 +974,7 @@ export default {
                           signType: pay_info.signType,
                           paySign: pay_info.paySign,
                           success(result) {
-                            console.log(result);
+                            that.falg = true;
                             // if (result.errMsg == "requestPayment:ok") {
                               uni.showLoading({
                                 title: "支付中...",
@@ -991,9 +984,8 @@ export default {
                               postPay({
                                 pay_no
                               }).then(result => {
-                                console.log(result);
                                 const { message, status } = result.data;
-                                uni.hideLoading();
+                                // uni.hideLoading();
                                 if (status === 201) {
                                   uni.showToast({
                                     title: "支付成功",
@@ -1032,7 +1024,8 @@ export default {
                             // }
                           },
                           fail(e) {
-                            if (e.errMsg == "requestPayment:fail cancel") {
+                            that.falg = true;
+                            if (e.errMsg === "requestPayment:fail cancel") {
                               uni.showToast({
                                 title: "支付失败",
                                 icon: "none",
@@ -1047,13 +1040,13 @@ export default {
                           }
                         });
                       });
-                      console.log(result);
-                      uni.hideLoading();
+                      // uni.hideLoading();
                     });
                     // uni.navigateTo({
                     //   url: "/pages/releasedsuccessfully/releasedsuccessfully"
                     // });
                   } else {
+                    that.falg = true;
                     uni.showLoading({
                       title: "支付失败",
                       icon: "none",
@@ -1065,14 +1058,11 @@ export default {
                       }
                     });
                   }
-                }
-              });
+              //   }
+              // });
             })
             .catch(error => {
-              // this.falg = true;
-              pay({}).then(result => {
-                console.log(result);
-              });
+              that.falg = true;
               console.log(error);
             });
         // }
@@ -1093,7 +1083,10 @@ export default {
       //     }
       // });
       // if (number >= 3) {
-      this.appraisal();
+      if (this.falg) {
+        this.falg = false;
+        this.appraisal();
+      }
       // } else {
       // uni.showToast({
       //         title: '前三张主图必传',

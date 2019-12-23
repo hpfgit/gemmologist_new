@@ -19,11 +19,11 @@
                     <view class="img">
                         <image
                             v-if="mold === '0'"
-                            :src="qiniuUrl + '/免费鉴定@2x.png'"
+                            :src="qiniuUrl + '/极速鉴定@2x.png'"
                         ></image>
                         <image
                             v-if="mold === '1'"
-                            :src="qiniuUrl + '/专业鉴定@2x.png'"
+                            :src="qiniuUrl + '/保价鉴定@2x.png'"
                         ></image>
                     </view>
                     <view class="bj">
@@ -150,8 +150,8 @@
                         {{ data.description ? data.description : "暂无备注" }}
                     </view>
                 </div>
-                <image v-if="data.is_quicken_pay === 0 && data.post_status === 10 && data.is_show === 1" @tap="accelerate" :src="qiniuUrl+'加速鉴定@2x.png'"></image>
-                <view class="accelerate_yes" v-if="data.is_quicken_pay === 1 && data.post_status !== 13">
+                <image v-if="data.is_quicken_pay === 0 && data.post_status === 10 && data.is_show === 1 && is_my_post === 1" @tap="accelerate" :src="qiniuUrl+'加速鉴定@2x.png'"></image>
+                <view class="accelerate_yes" v-if="data.is_quicken_pay === 1 && data.post_status !== 13 && is_my_post === 1">
                     <image class="accelerate_icon" :src="qiniuUrl+'加速鉴定中@2x.png'"></image>
                     <view class="accelerate_text">加速鉴定中</view>
                 </view>
@@ -355,6 +355,7 @@ export default {
             imgUrl: config[NODE_ENV].imgUrl,
             details: {},
             markContent: "",
+            is_my_post: 0,
             checks: [
                 {
                     text: "真",
@@ -425,7 +426,6 @@ export default {
         }).then(result => {
             const {path} = result.data;
             this.qr_code = this.imgUrl + '/' + path;
-            console.log(result);
         });
         getCount().then(result => {
             const { count, fail } = result.data;
@@ -440,15 +440,12 @@ export default {
                 data,
                 hint_bottom,
                 hint_top,
-                operation_name
+                operation_name,
+                is_my_post
             } = result2.data;
-            console.log(result2);
-            if (work_order.length > 0) {
-                this.order_show = false;
-            } else {
-                this.order_show = true;
-            }
+            this.order_show = work_order.length <= 0;
             this.images = images;
+            this.is_my_post = is_my_post;
             previewImages = [];
             images.forEach(image => {
                 if (image.path) {
@@ -483,7 +480,6 @@ export default {
                     arr.push(data.appraiser[key]);
                 }
             });
-            console.log(arr);
             this.appraiser = arr;
             uni.hideLoading();
         });
@@ -573,7 +569,6 @@ export default {
                         pay_no: pay_no,
                         pay_type: 0
                     }).then(result => {
-                        console.log(result);
                         const { message, status } = result.data;
                         uni.hideLoading();
                         if (status === 201) {
@@ -610,7 +605,6 @@ export default {
                     signType: pay_info.signType,
                     paySign: pay_info.paySign,
                     success(result) {
-                        console.log(result);
                         // if (result.errMsg == "requestPayment:ok") {
                         uni.showLoading({
                             title: "支付中...",
@@ -621,7 +615,6 @@ export default {
                             pay_no: pay_no,
                             pay_type: 0
                         }).then(result => {
-                            console.log(result);
                             const { message, status } = result.data;
                             uni.hideLoading();
                             if (status === 201) {
@@ -721,7 +714,6 @@ export default {
                         });
                     }
                 });
-                console.log(result);
             });
         },
         check_appr(index) {
@@ -788,7 +780,6 @@ export default {
                 params.result_reason = this.markContent;
             }
             appraise(params).then(result => {
-                console.log(result);
                 uni.hideLoading();
                 uni.showToast({
                     title: "提交成功",
