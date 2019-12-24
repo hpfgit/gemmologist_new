@@ -72,12 +72,13 @@ export default {
                                         user_info,
                                         mobile_info
                                     }).then(result => {
-                                        const { data } = result.data;
+                                        const { data, openid } = result.data;
                                         const { token, user_info } = data;
                                         uni.setStorageSync(
                                             "token_start_time",
                                             new Date().getTime()
                                         );
+                                        uni.setStorageSync('openid', openid);
                                         that.$store.dispatch("setToken", token);
                                         that.$store.dispatch(
                                             "setUserInfo",
@@ -108,7 +109,7 @@ export default {
             });
         },
         checkLogin() {
-            if (uni.getStorageSync("token")) {
+            if (uni.getStorageSync('openid') && uni.getStorageSync('token') && uni.getStorageSync('user_info')) {
                 uni.redirectTo({
                     url: "/pages/index3/index3"
                 });

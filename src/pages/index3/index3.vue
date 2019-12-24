@@ -247,18 +247,18 @@ export default {
             });
         },
         isLoginFn() {
-            if (!uni.getStorageSync('openid') && !uni.getStorageSync('token') && !uni.getStorageSync('user_info')) {
+            if (uni.getStorageSync('openid') && uni.getStorageSync('token') && uni.getStorageSync('user_info')) {
+                return true;
+            } else {
                 uni.showToast({
                     title: '请先登录',
                     icon: 'none'
                 });
-                return true;
-            } else {
                 return false;
             }
         },
         goToPay(item) {
-            if (this.isLoginFn()) {
+            if (!this.isLoginFn()) {
                 return;
             }
             let type = '';
@@ -321,7 +321,7 @@ export default {
             });
         },
         goToData(index) {
-            if (this.isLoginFn()) {
+            if (!this.isLoginFn()) {
                 return;
             }
             if (index) {
@@ -335,7 +335,7 @@ export default {
             }
         },
         goTeam() {
-            if (this.isLoginFn()) {
+            if (!this.isLoginFn()) {
                 return;
             }
             uni.navigateTo({
@@ -366,7 +366,7 @@ export default {
             this.jdID = e.target.value;
         },
         searchTo() {
-            if (this.isLoginFn()) {
+            if (!this.isLoginFn()) {
                 return;
             }
             const that = this;
@@ -395,14 +395,14 @@ export default {
             this.is_bar_mask = false;
         },
         goTo(index) {
-            if (this.isLoginFn()) {
+            if (!this.isLoginFn()) {
                 return;
             }
             this.isShow = true;
             this.is_specialty = index;
         },
         goToPath(index) {
-            if (this.isLoginFn()) {
+            if (!this.isLoginFn()) {
                 return;
             }
             const that = this;
@@ -432,7 +432,7 @@ export default {
                     url: '/pages/professionalidentificationagreement/professionalidentificationagreement'
                 });
             } else {
-                if (this.isLoginFn()) {
+                if (!this.isLoginFn()) {
                     return;
                 }
                 uni.navigateTo({
@@ -444,7 +444,7 @@ export default {
             this.isShow = false;
         },
         goToDetail(item) {
-            if (this.isLoginFn()) {
+            if (!this.isLoginFn()) {
                 return;
             }
             let type = '';

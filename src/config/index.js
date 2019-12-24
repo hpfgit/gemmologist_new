@@ -12,5 +12,4 @@ const config = {
         qiniuUrl: "http://static-stg.tosneaker.com/image/appraisal/"
     }
 };
-
 export default config;

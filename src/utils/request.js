@@ -31,15 +31,14 @@ function request(method = 'GET', url, params, isToken = true) {
     }
 }
 
-
 function isLoginFn() {
-    if (!uni.getStorageSync('openid') && !uni.getStorageSync('token') && !uni.getStorageSync('user_info')) {
+    if (uni.getStorageSync('openid') && uni.getStorageSync('token') && uni.getStorageSync('user_info')) {
+        return true;
+    } else {
         uni.showToast({
             title: '请先登录',
             icon: 'none'
         });
-        return true;
-    } else {
         return false;
     }
 }
@@ -63,7 +62,7 @@ function commonRequest(isToken, apiUrl, method, params, token, headers) {
             }
         });
         if (!/login/ig.test(apiUrl) && !/bind-mobile/ig.test(apiUrl) && !/count/ig.test(apiUrl)) {
-            if (isLoginFn()) {
+            if (!isLoginFn()) {
                 const pages = getCurrentPages();
                 const pagesData = pages[pages.length - 1];
                 const {route, options} = pagesData;
