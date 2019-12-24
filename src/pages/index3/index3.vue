@@ -123,9 +123,9 @@
                 </view>
             </view>
         </view>
-        <form @submit="handlePush" report-submit='true'>
-            <button formType="submit">推送消息</button>
-        </form>
+<!--        <form @submit="handlePush" report-submit='true'>-->
+<!--            <button formType="submit">推送消息</button>-->
+<!--        </form>-->
         <view class="lists" v-if="lists.length">
             <view class="item" v-for="(item, index) in lists" :key="index">
                 <image v-show="item.final_result === 0" class="yinz" :src="qiniuUrl+'为假@2x.png'"></image>
