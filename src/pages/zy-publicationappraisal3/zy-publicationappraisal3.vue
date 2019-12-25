@@ -4,12 +4,6 @@
       <view class="check">
         <view class="title">
           <view class="left">已选鉴定师</view>
-          <!-- <view class="right" @tap="resetCheck"
-                        >重新选择
-                        <image
-                            class="arrow"
-                            :src="qiniuUrl+'矩形1@2x.png'"
-                        ></image></view> -->
         </view>
         <view class="lists">
           <view class="list" v-for="(item, index) in appraisals" :key="index">
@@ -527,10 +521,10 @@ export default {
     });
 
     post({ id }).then(result => {
-      const { images, user_info, data } = result.data;
+      const { images, user_info, data, hint_top } = result.data;
       this.price = user_info.price;
       let price = user_info.price;
-      this.markText = data.result;
+      this.markText = hint_top;
       cost({ appr_cost: 5, appr_goods_scale: 0.03, price }).then(result => {
         const { cost } = result.data;
         this.cost = cost;

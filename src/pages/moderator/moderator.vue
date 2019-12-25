@@ -161,11 +161,9 @@ export default {
     this.istype = istype;
     this.getData();
     const userinfo = uni.getStorageSync("user_info");
-    console.log(userinfo);
     appraiserDetail({
       id: userinfo.id
     }).then(result => {
-      console.log(result);
       const obj = {};
       const keys = Object.keys(result.data);
       keys.forEach(key => {
@@ -188,11 +186,9 @@ export default {
   onPullDownRefresh() {
     this.getData();
     const userinfo = uni.getStorageSync("user_info");
-    console.log(userinfo);
     appraiserDetail({
       id: userinfo.id
     }).then(result => {
-      console.log(result);
       const obj = {};
       const keys = Object.keys(result.data);
       keys.forEach(key => {
@@ -231,7 +227,6 @@ export default {
       changeOnline({
         is_online: this.banzhu.is_online
       }).then(result => {
-        console.log(result);
         const {message} = result.data;
         uni.showToast({
           title: message,
@@ -261,7 +256,6 @@ export default {
         this.djd_1 = djd_1;
         this.djd_6 = djd_6;
         this.wt = wt;
-        console.log(result);
         uni.hideLoading();
         uni.stopPullDownRefresh();
       });

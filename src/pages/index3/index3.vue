@@ -208,7 +208,6 @@ import { post } from "../../api/Identificationdetails";
 import config from "../../config/index";
 const NODE_ENV = process.env.NODE_ENV;
 const app = getApp();
-console.log(app);
 
 export default {
     data() {
@@ -468,7 +467,7 @@ export default {
             if (item.brand_type === 0) {
                 type = 'shoes';
             } else if (item.brand_type === 1) {
-                type = 'clothimg';
+                type = 'clothing';
             }
             if (item.post_status === 11) {
                 uni.navigateTo({
