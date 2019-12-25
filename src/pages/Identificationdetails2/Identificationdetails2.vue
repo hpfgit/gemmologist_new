@@ -201,6 +201,10 @@ let previewImages = [];
 export default {
   data() {
     return {
+      share: {
+        title: '鉴定贴详情',
+        path: '/pages/Identificationdetails2/Identificationdetails2?id='+this.id+'&type='+this.type+'&isJD=true&post_status='+this.post_status,
+      },
       qiniuUrl: config[NODE_ENV].qiniuUrl,
       details: {},
       markContent: "",
@@ -330,23 +334,6 @@ export default {
         uni.hideLoading();
       });
     });
-  },
-  onShareAppMessage(result) {
-    if (result.from === 'button') {
-      console.log(result.target);
-    }
-    return {
-      title: '鉴定贴详情',
-      path: '/pages/Identificationdetails2/Identificationdetails2?id='+this.id+'&type='+this.type+'&isJD=true&post_status='+this.post_status,
-      imageUrl: '',
-      desc: '',
-      success() {
-        uni.showToast({
-          title: '分享成功',
-          icon: 'none'
-        });
-      }
-    }
   },
   computed: {
     checkedNumber() {

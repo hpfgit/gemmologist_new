@@ -20,7 +20,7 @@
                 <image :src="qiniuUrl+'首页logo@2x.png'"></image>
                 <view class="user-info">
                     <view class="username">BAN鉴定服务</view>
-                    <view class="userinfo">只为提供最公正的鉴定结果</view>
+                    <view class="userinfo">高端鉴定服务开创者</view>
                 </view>
             </view>
             <view class="right">
@@ -233,6 +233,23 @@ export default {
     },
     onLoad() {
         this.getData();
+    },
+    onShareAppMessage(result) {
+        if (result.from === "button") {
+            console.log(result.target);
+        }
+        return {
+            title: "BAN鉴定服务小程序",
+            path: "/pages/index3/index3",
+            imageUrl: "",
+            desc: "",
+            success() {
+                uni.showToast({
+                    title: "分享成功",
+                    icon: "none"
+                });
+            }
+        };
     },
     onPullDownRefresh() {
         this.getData();
