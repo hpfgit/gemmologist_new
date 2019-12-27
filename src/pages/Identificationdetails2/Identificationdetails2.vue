@@ -401,7 +401,7 @@ export default {
       }
       this.appraisers.forEach(appraiser => {
         if (appraiser.checked) {
-          new_appraiser_id = appraiser;
+          new_appraiser_id = appraiser.appr_id;
         }
       });
       const openid = uni.getStorageSync('openid');
