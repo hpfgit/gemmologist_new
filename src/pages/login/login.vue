@@ -117,74 +117,68 @@ export default {
         },
         getUserInfo(e) {
             const that = this;
-            uni.requestSubscribeMessage({
-                tmplIds: ['KVMsZ3xeGVkxz4DLw4poSX77Zy0SCFoKOFuP91NY9q0'],
+            uni.showLoading({
+                title: "登录中...",
+                icon: "none"
+            });
+            uni.getProvider({
+                service: "oauth",
                 success(res) {
-                    console.log(res);
-                    // uni.showLoading({
-                    //     title: "登录中...",
-                    //     icon: "none"
-                    // });
-                    // uni.getProvider({
-                    //     service: "oauth",
-                    //     success(res) {
-                    //         const { provider } = res;
-                    //         uni.login({
-                    //             provider: provider[0],
-                    //             success(loginRes) {
-                    //                 uni.getUserInfo({
-                    //                     success(user_info) {
-                    //                         const { code } = loginRes;
-                    //                         const js_code = code;
-                    //                         const miniapp_name = "appraisal";
-                    //                         request(
-                    //                             "POST",
-                    //                             "/api/wechat/ma/auth/login",
-                    //                             {
-                    //                                 miniapp_name,
-                    //                                 js_code,
-                    //                                 user_info
-                    //                             }
-                    //                         ).then(result => {
-                    //                             const { status } = result.data;
-                    //                             if (status === 401) {
-                    //                                 uni.hideLoading();
-                    //                                 that.authorize = true;
-                    //                                 return;
-                    //                             }
-                    //                             const { data, openid } = result.data;
-                    //                             const { token, user_info } = data;
-                    //                             uni.setStorageSync(
-                    //                                 "token_start_time",
-                    //                                 new Date().getTime()
-                    //                             );
-                    //                             uni.setStorageSync('openid', openid);
-                    //                             that.$store.dispatch("setToken", token);
-                    //                             that.$store.dispatch(
-                    //                                 "setUserInfo",
-                    //                                 user_info
-                    //                             );
-                    //                             uni.hideLoading();
-                    //                             setTimeout(() => {
-                    //                                 let url = "/pages/index3/index3";
-                    //                                 if (that.page) {
-                    //                                     url = `/${that.page}?is_specialty=${that.is_specialty}&brand_id=${that.brand_id}&type=${that.type}`;
-                    //                                 }
-                    //                                 uni.redirectTo({
-                    //                                     url
-                    //                                 });
-                    //                             }, 200);
-                    //                         });
-                    //                     }
-                    //                 });
-                    //             },
-                    //             fail(error) {
-                    //                 console.log(error);
-                    //                 uni.hideLoading();
-                    //             }
-                    //         });
-                    //     }
-                    // });
+                    const { provider } = res;
+                    uni.login({
+                        provider: provider[0],
+                        success(loginRes) {
+                            uni.getUserInfo({
+                                success(user_info) {
+                                    const { code } = loginRes;
+                                    const js_code = code;
+                                    const miniapp_name = "appraisal";
+                                    request(
+                                        "POST",
+                                        "/api/wechat/ma/auth/login",
+                                        {
+                                            miniapp_name,
+                                            js_code,
+                                            user_info
+                                        }
+                                    ).then(result => {
+                                        const { status } = result.data;
+                                        if (status === 401) {
+                                            uni.hideLoading();
+                                            that.authorize = true;
+                                            return;
+                                        }
+                                        const { data, openid } = result.data;
+                                        const { token, user_info } = data;
+                                        uni.setStorageSync(
+                                            "token_start_time",
+                                            new Date().getTime()
+                                        );
+                                        uni.setStorageSync('openid', openid);
+                                        that.$store.dispatch("setToken", token);
+                                        that.$store.dispatch(
+                                            "setUserInfo",
+                                            user_info
+                                        );
+                                        uni.hideLoading();
+                                        setTimeout(() => {
+                                            let url = "/pages/index3/index3";
+                                            if (that.page) {
+                                                url = `/${that.page}?is_specialty=${that.is_specialty}&brand_id=${that.brand_id}&type=${that.type}`;
+                                            }
+                                            uni.redirectTo({
+                                                url
+                                            });
+                                        }, 200);
+                                    });
+                                }
+                            });
+                        },
+                        fail(error) {
+                            console.log(error);
+                            uni.hideLoading();
+                        }
+                    });
                 }
             });
         }

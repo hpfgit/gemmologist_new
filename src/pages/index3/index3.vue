@@ -81,6 +81,15 @@
             <view class="cont">鉴定贴不存在，请检查鉴定ID是否正确</view>
             <view class="btn-yes" @tap="closeBarMask">确定</view>
         </view>
+        <view class="subscribe">
+            <view class="inner">
+                <view class="title">微信消息订阅</view>
+                <view class="right" @tap="subscribe">
+                    <view class="text">开启</view>
+                    <image :src="qiniuUrl+'向右2@2x.png'"></image>
+                </view>
+            </view>
+        </view>
         <view class="selector-end" :class="{hide: !isAppraiser && !is_appraisal_admin, block: isAppraiser || is_appraisal_admin}">
             <view class="inner">
                 <view class="left" @tap="goToData(0)" :class="{hide: !isAppraiser, block: isAppraiser}">
@@ -254,6 +263,17 @@ export default {
         this.getData();
     },
     methods: {
+        subscribe() {
+            uni.requestSubscribeMessage({
+                tmplIds: ['KVMsZ3xeGVkxz4DLw4poSX77Zy0SCFoKOFuP91NY9q0'],
+                success() {
+                    console.log('订阅消息');
+                },
+                fail() {
+                    console.log('订阅失败');
+                }
+            });
+        },
         handlePush(e) {
             const openid = uni.getStorageSync('openid');
             const formid = [];
@@ -587,6 +607,48 @@ export default {
             height: 56rpx;
             margin-bottom: 24rpx;
         }
+    }
+}
+
+.subscribe {
+    background-color: #fff;
+    padding-bottom: 20rpx;
+
+    .inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 690rpx;
+        height: 70rpx;
+        margin: 0 auto;
+        background-color: #f4f3f9;
+        border-radius: 16rpx;
+        padding-left: 40rpx;
+        padding-right: 40rpx;
+    }
+
+    .title {
+        color: #000;
+        font-size: 26rpx;
+    }
+    .right {
+        display: flex;
+        align-items: center;
+        .text {
+            width: 84rpx;
+            height: 32rpx;
+            line-height: 32rpx;
+            text-align: center;
+            background-color: rgba($color: #160b1b, $alpha: .5);
+            border-radius: 16rpx;
+            font-size: 22rpx;
+            color: #fff;
+        }
+    }
+    image {
+        width: 14rpx;
+        height: 24rpx;
+        margin-left: 16rpx;
     }
 }
 
