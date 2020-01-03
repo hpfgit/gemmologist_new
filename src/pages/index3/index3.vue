@@ -207,7 +207,7 @@
                 <view class="tip">*无法鉴定情况下费用会退还至账户余额，可随时提现。</view>
             </view>
         </view>
-        <view class="mask" v-show="isShow || is_bar_mask"></view>
+        <view class="mask" v-show="isShow || is_bar_mask" @tap="mask"></view>
     </view>
 </template>
 
@@ -263,6 +263,9 @@ export default {
         this.getData();
     },
     methods: {
+        mask() {
+            this.isShow = !this.isShow;
+        },
         subscribe() {
             uni.requestSubscribeMessage({
                 tmplIds: ['KVMsZ3xeGVkxz4DLw4poSX77Zy0SCFoKOFuP91NY9q0'],

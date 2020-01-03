@@ -496,7 +496,8 @@ export default {
         type = 'clothimg';
       }
       let path = '';
-      if (this.data.post_status === 11) {
+      // brand_id=2&is_specialty=1&appraiser_id=111628&type=shoes&id=12012
+      if (result === 10) {
           path = '/pages/zy-publicationappraisal3/zy-publicationappraisal3?brand_id='+this.data.brand_id+'&is_specialty='+this.data.is_specialty+'&appraiser_id='+this.user_info.user_id+'&type='+type+'&id='+this.data.id
       } else {
           path= "/pages/Identificationdetails3/Identificationdetails3?id=" +
@@ -505,6 +506,7 @@ export default {
                   this.data.is_specialty +
                   '&is_appraiser=0'
       }
+      console.log(path, result);
       const that = this;
       const params = {
         result: result,

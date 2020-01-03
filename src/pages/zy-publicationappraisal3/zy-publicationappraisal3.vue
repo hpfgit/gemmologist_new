@@ -110,9 +110,11 @@
             》
           </view>
         </view>
-        <view class="btn-info-right" @tap="submission">
-          提交补图
-        </view>
+        <form report-submit="true" @tap="submission">
+          <button class="btn-info-right" form-type="submit">
+            提交补图
+          </button>
+        </form>
       </view>
       <view class="mark" v-if="isPay"></view>
       <view class="mark" v-if="isPopup"></view>
@@ -485,7 +487,8 @@ export default {
       bjPrice: 1000,
       type: "",
       falg: true,
-      id: ""
+      id: "",
+      data: {}
     };
   },
   onLoad(options) {
@@ -522,6 +525,7 @@ export default {
 
     post({ id }).then(result => {
       const { images, user_info, data, hint_top } = result.data;
+      this.data = data;
       this.price = user_info.price;
       let price = user_info.price;
       this.markText = hint_top;
@@ -907,7 +911,7 @@ export default {
       });
       this.isPopup = false;
     },
-    appraisal() {
+    appraisal(path) {
       uni.showLoading({
         title: "加载中...",
         icon: "none"
@@ -924,7 +928,8 @@ export default {
           // this.falg = false;
           complementGraph({
             id: this.id,
-            images: result
+            images: result,
+            path
           })
             .then(result => {
               this.falg = true;
@@ -955,7 +960,7 @@ export default {
         // }
       });
     },
-    submission() {
+    submission(e) {
       if (!this.isAgree) {
         uni.showToast({
           title: "请勾选同意条款",
@@ -970,7 +975,25 @@ export default {
       //     }
       // });
       // if (number >= 3) {
-      this.appraisal();
+      // brand_id=2&is_specialty=1&appraiser_id=111628&type=shoes&id=12010
+      let path = '';
+      if (this.data.post_status === 11) {
+        path = '/pages/zy-publicationappraisal3/zy-publicationappraisal3?brand_id='+this.brand_id+'&is_specialty='+this.is_specialty+'&appraiser_id='+this.appraiser_id+'&type='+this.type+'&id='+this.id
+      } else {
+        path= "/pages/Identificationdetails3/Identificationdetails3?id=" +
+                this.id +
+                "&type=" +
+                this.is_specialty +
+                '&is_appraiser=0'
+      }
+      const openid = uni.getStorageSync('openid');
+      const formid = [];
+      console.log(e.detail);
+      formid.push({formid: e.detail.formId, ts: new Date().getTime()});
+      let app = getApp();
+      app.globalData.templateMessage({formid, openid}).then(result => {
+        this.appraisal(path);
+      });
       // } else {
       // uni.showToast({
       //         title: '前三张主图必传',
